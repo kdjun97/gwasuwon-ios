@@ -14,9 +14,9 @@ public extension ConfigurationName {
 
 public extension Configuration {
     static let defaultSettings: [Configuration] = [
-        .debug(name: .dev, xcconfig: .relativeToRoot("Configurations/DEV.xcconfig")),
-        .debug(name: .prod, xcconfig: .relativeToRoot("Configurations/PROD.xcconfig")),
+        .debug(name: .dev, xcconfig: .relativeToRoot("XCConfig/DEV.xcconfig")),
+        .debug(name: .prod, xcconfig: .relativeToRoot("XCConfig/PROD.xcconfig")),
         .release(name: .release, xcconfig: .relativeToRoot(
-        "Configurations/RELEASE.xcconfig"))
+        "XCConfig/RELEASE.xcconfig"))
     ]
 }

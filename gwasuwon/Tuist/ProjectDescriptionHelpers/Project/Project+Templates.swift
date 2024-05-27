@@ -29,7 +29,7 @@ public extension Project {
             settings: .settings(configurations: Configuration.defaultSettings, defaultSettings: defaultSettings),
             targets: .app,
             schemes: .app,
-            additionalFiles: ["../../Configurations/Shared.xcconfig"]
+            additionalFiles: ["../../XCConfig/Shared.xcconfig"]
         )
     }
     
