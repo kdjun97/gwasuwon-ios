@@ -35,8 +35,7 @@ public extension Project {
     
     static func module(
         name: String,
-        options: Options = customOptions,
-        hasExample: Bool = false
+        options: Options = customOptions
     ) -> Project {
         return Project(
             name: name,
