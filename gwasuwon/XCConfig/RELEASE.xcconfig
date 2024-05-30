@@ -1,0 +1,4 @@
+#include "./Shared.xcconfig"
+
+BUNDLE_IDENTIFIER = com.team8.gwasuwon
+BUNDLE_NAME = Gwasuwon
