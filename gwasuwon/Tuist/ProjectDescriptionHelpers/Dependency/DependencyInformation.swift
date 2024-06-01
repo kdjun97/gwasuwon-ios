@@ -8,7 +8,7 @@
 import Foundation
 
 let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
-    .App : [.RootFeature],
+    .App : [],
 ]
 
 public enum DependencyInformation: String {
