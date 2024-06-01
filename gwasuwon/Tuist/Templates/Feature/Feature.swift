@@ -39,7 +39,7 @@ private let template = Template(
         ),
         .file(
             path: "\(path)/Tests/Support/Info.plist",
-            templatePath: "../Common/InfoPlist.stencil"
+            templatePath: "../InfoPlist.stencil"
         )
     ]
 )
