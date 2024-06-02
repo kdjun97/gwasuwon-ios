@@ -8,11 +8,13 @@
 import Foundation
 
 let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
-    .App : [.RootFeature],
+    .App: [.RootFeature],
+    .RootFeature: [.DesignSystem]
 ]
 
 public enum DependencyInformation: String {
     case App = "App"
     case RootFeature = "RootFeature"
     case ComposableArchitecture = "ComposableArchitecture"
+    case DesignSystem = "DesignSystem"
 }
