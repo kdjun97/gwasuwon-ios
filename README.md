@@ -9,6 +9,7 @@ Minimum Deployments: iOS `16.0`
 Xcode Version: `15.0.1`  
 Tuist Version: `4.12.1`  
 mise Version: `2024.3.9 macos-x64`  
+git Version: `2.39.3 (Apple Git-145)`  
 
 ---  
 
