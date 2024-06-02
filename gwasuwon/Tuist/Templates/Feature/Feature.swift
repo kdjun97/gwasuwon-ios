@@ -30,7 +30,7 @@ private let template = Template(
             templatePath: "./Source/ViewTemplateCode.swift"
         ),
         .file(
-            path: "\(path)/Sources/\(nameAttribute)Feature.swift",
+            path: "\(path)/Sources/\(nameAttribute).swift",
             templatePath: "./Source/FeatureTemplateCode.swift"
         ),
         .string(
