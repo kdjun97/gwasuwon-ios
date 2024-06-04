@@ -1,0 +1,40 @@
+//
+//  {{ feature }}View.swift
+//  {{ feature }}
+//
+//  Created by 김동준 
+//
+
+import SwiftUI
+import ComposableArchitecture
+
+public struct TemplateView: View {
+    let store: StoreOf<TemplateFeature>
+    @ObservedObject var viewStore: ViewStoreOf<TemplateFeature>
+
+    public init(store: StoreOf<TemplateFeature>) {
+        self.store = store
+        self.viewStore = ViewStore(store, observe: { $0 })
+    }
+    
+    public var body: some View {
+        TemplateBody(viewStore: viewStore)
+        .onAppear {
+            viewStore.send(.onAppear)
+        }
+    }
+}
+
+private struct TemplateBody: View {
+    @ObservedObject private var viewStore: ViewStoreOf<TemplateFeature>
+    
+    fileprivate init(viewStore: ViewStoreOf<TemplateFeature>) {
+        self.viewStore = viewStore
+    }
+    
+    fileprivate var body: some View {
+        ZStack {
+            Text("Template View!!!")
+        }
+    }
+}
