@@ -12,7 +12,8 @@ let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
     .RootFeature: [.SignInFeature, .SignUpFeature, .HomeFeature, .ComposableArchitecture, .TCACoordinators],
     .SignInFeature: [.DesignSystem, .ComposableArchitecture],
     .SignUpFeature: [.DesignSystem, .ComposableArchitecture],
-    .HomeFeature: [.DesignSystem, .ComposableArchitecture]
+    .HomeFeature: [.DesignSystem, .ComposableArchitecture],
+    .Domain: []
 ]
 
 public enum DependencyInformation: String {
@@ -24,4 +25,5 @@ public enum DependencyInformation: String {
     case ComposableArchitecture = "ComposableArchitecture"
     case DesignSystem = "DesignSystem"
     case TCACoordinators = "TCACoordinators"
+    case Domain = "Domain"
 }
