@@ -8,9 +8,10 @@
 import Foundation
 
 let externalDependency: [DependencyInformation] = [
-    .ComposableArchitecture
+    .ComposableArchitecture, .TCACoordinators
 ]
 
 fileprivate enum ExternalDependencyInformation: String {
     case ComposableArchitecture = "ComposableArchitecture"
+    case TCACoordinators = "TCACoordinators"
 }
