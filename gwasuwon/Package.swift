@@ -21,7 +21,7 @@ import PackageDescription
 #endif
 
 let package = Package(
-    name: "PackageName",
+    name: "GwasuwonPackage",
     dependencies: [
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", exact: "1.8.0"),
         .package(url: "https://github.com/johnpatrickmorgan/TCACoordinators.git", exact: "0.8.0"),
