@@ -1,6 +1,6 @@
 //
-//  {{ feature }}Feature.swift
-//  {{ feature }}
+//  SignUpFeature.swift
+//  SignUp
 //
 //  Created by 김동준
 //
@@ -8,7 +8,7 @@
 import ComposableArchitecture
 
 @Reducer
-public struct {{ feature }}Feature {
+public struct SignUpFeature {
     public init() {}
 
     public struct State: Equatable {
@@ -19,7 +19,7 @@ public struct {{ feature }}Feature {
         case onAppear
     }
 
-    public var body: some ReducerOf<{{ feature }}Feature> {
+    public var body: some ReducerOf<SignUpFeature> {
         Reduce { _, action in
             switch action {
             case .onAppear:
