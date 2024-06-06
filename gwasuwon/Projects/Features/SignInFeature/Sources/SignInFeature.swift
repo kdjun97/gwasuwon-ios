@@ -16,12 +16,15 @@ public struct SignInFeature: Reducer {
 
     public enum Action {
         case onAppear
+        case navigateToSignUp
     }
 
     public var body: some ReducerOf<SignInFeature> {
         Reduce { _, action in
             switch action {
             case .onAppear:
+                break
+            case .navigateToSignUp:
                 break
             }
             return .none
