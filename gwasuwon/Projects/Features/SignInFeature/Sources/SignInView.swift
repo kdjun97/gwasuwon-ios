@@ -33,8 +33,13 @@ private struct SignInBody: View {
     }
     
     fileprivate var body: some View {
-        ZStack {
+        VStack {
             Text("SignIn View!!!")
+            Button {
+                viewStore.send(.navigateToSignUp)
+            } label: {
+                Text("Navigate To SignUp")
+            }
         }
     }
 }
