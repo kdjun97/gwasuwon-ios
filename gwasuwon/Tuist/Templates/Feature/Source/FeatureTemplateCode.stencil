@@ -7,7 +7,7 @@
 
 import ComposableArchitecture
 
-public struct TemplateFeature: Reducer {
+public struct {{ feature }}Feature: Reducer {
     public init() {}
 
     public struct State: Equatable {
@@ -18,7 +18,7 @@ public struct TemplateFeature: Reducer {
         case onAppear
     }
 
-    public var body: some ReducerOf<TemplateFeature> {
+    public var body: some ReducerOf<{{ feature }}Feature> {
         Reduce { _, action in
             switch action {
             case .onAppear:
