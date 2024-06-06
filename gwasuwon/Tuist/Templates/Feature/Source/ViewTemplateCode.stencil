@@ -8,33 +8,33 @@
 import SwiftUI
 import ComposableArchitecture
 
-public struct TemplateView: View {
-    let store: StoreOf<TemplateFeature>
-    @ObservedObject var viewStore: ViewStoreOf<TemplateFeature>
+public struct {{ feature }}View: View {
+    let store: StoreOf<{{ feature }}Feature>
+    @ObservedObject var viewStore: ViewStoreOf<{{ feature }}Feature>
 
-    public init(store: StoreOf<TemplateFeature>) {
+    public init(store: StoreOf<{{ feature }}Feature>) {
         self.store = store
         self.viewStore = ViewStore(store, observe: { $0 })
     }
     
     public var body: some View {
-        TemplateBody(viewStore: viewStore)
+        {{ feature }}Body(viewStore: viewStore)
         .onAppear {
             viewStore.send(.onAppear)
         }
     }
 }
 
-private struct TemplateBody: View {
-    @ObservedObject private var viewStore: ViewStoreOf<TemplateFeature>
+private struct {{ feature }}Body: View {
+    @ObservedObject private var viewStore: ViewStoreOf<{{ feature }}Feature>
     
-    fileprivate init(viewStore: ViewStoreOf<TemplateFeature>) {
+    fileprivate init(viewStore: ViewStoreOf<{{ feature }}Feature>) {
         self.viewStore = viewStore
     }
     
     fileprivate var body: some View {
         ZStack {
-            Text("Template View!!!")
+            Text("{{ feature }} View!!!")
         }
     }
 }
