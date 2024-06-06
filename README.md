@@ -22,3 +22,5 @@ git Version: `2.39.3 (Apple Git-145)`
 ### External Dependency  
 
 - [TCA 1.5.0](https://github.com/pointfreeco/swift-composable-architecture)  
+- [TCACoordinators 0.8.0](https://github.com/johnpatrickmorgan/TCACoordinators)  
+- [FlowStacks 0.4.0](https://github.com/johnpatrickmorgan/FlowStacks)  
