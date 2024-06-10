@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-struct ResultMapper<T: Codable> {
+struct ResultMapper<T: Decodable> {
     func toMap(_ result: Result<Data, NetworkError>) -> Result<T, NetworkError> {
         switch result {
         case let .success(data):
