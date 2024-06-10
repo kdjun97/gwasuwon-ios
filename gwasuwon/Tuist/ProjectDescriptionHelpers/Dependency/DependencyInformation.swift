@@ -10,10 +10,10 @@ import Foundation
 let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
     .App: [.RootFeature, .DI, .Data],
     .RootFeature: [.SignInFeature, .SignUpFeature, .HomeFeature, .ComposableArchitecture, .TCACoordinators],
-    .SignInFeature: [.DesignSystem, .ComposableArchitecture],
+    .SignInFeature: [.DesignSystem, .ComposableArchitecture, .Domain],
     .SignUpFeature: [.DesignSystem, .ComposableArchitecture],
     .HomeFeature: [.DesignSystem, .ComposableArchitecture],
-    .Domain: [.DI],
+    .Domain: [.DI, .Dependencies],
     .Data: [.Domain],
     .DI: [.Swinject]
 ]
@@ -31,4 +31,6 @@ public enum DependencyInformation: String {
     case Data = "Data"
     case DI = "DI"
     case Swinject = "Swinject"
+    case Dependencies = "Dependencies"
+    case Util = "Util"
 }

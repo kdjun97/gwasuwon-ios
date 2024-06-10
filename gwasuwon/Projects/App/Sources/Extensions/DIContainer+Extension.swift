@@ -6,9 +6,18 @@
 //
 
 import DI
+import Domain
+import Data
 
 extension DIContainer {
     func register() {
+        container.register(ApiService.self) { _ in
+            ApiService()
+        }
         
+        container.register(AccountRepositoryProtocol.self) { resolver in
+            let apiService: ApiService = resolver.resolve()
+            return AccountRepository(apiService: apiService)
+        }
     }
 }
