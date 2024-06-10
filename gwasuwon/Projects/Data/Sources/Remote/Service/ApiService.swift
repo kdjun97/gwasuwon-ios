@@ -77,9 +77,6 @@ extension ApiService {
         return  [
             "Authorization": "",
             "Content-Type": "application/json; charset=utf-8",
-            "Origin": "https://stage.qommand.qcells.com",
-            "X-API-VERSION": "300",
-            "X-API-CHANNEL": "APP",
             "Accept-Charset": "UTF-8"
         ]
     }
