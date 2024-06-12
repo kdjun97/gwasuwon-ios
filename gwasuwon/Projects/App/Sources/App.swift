@@ -11,6 +11,8 @@ import ComposableArchitecture
 
 @main
 struct RootApp: App {
+    @UIApplicationDelegateAdaptor var delegate: AppDelegate
+
     var body: some Scene {
         WindowGroup {
             RootCoordinatorView(
