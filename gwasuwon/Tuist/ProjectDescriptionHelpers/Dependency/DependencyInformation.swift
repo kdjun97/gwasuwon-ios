@@ -13,7 +13,7 @@ let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
     .SignInFeature: [.DesignSystem, .ComposableArchitecture],
     .SignUpFeature: [.DesignSystem, .ComposableArchitecture],
     .HomeFeature: [.DesignSystem, .ComposableArchitecture],
-    .Domain: [.DI],
+    .Domain: [.DI, .Dependencies],
     .Data: [.Domain],
     .DI: [.Swinject]
 ]
@@ -31,4 +31,5 @@ public enum DependencyInformation: String {
     case Data = "Data"
     case DI = "DI"
     case Swinject = "Swinject"
+    case Dependencies = "Dependencies"
 }
