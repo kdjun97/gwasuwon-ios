@@ -19,11 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         Font.registerFont()
         DIContainer.shared.register()
-        for fontFamily in UIFont.familyNames {
-            for fontName in UIFont.fontNames(forFamilyName: fontFamily) {
-                print(fontName)
-            }
-        }
         return true
     }
 
