@@ -52,14 +52,22 @@ public extension Project {
             ]
         )
     }
+}
+
+public extension Project {
+    static let fontFamilys: [Plist.Value] = [
+        .string("Pretendard_Bold.otf"),
+        .string("Pretendard_Light.otf"),
+        .string("Pretendard_Medium.otf"),
+        .string("Pretendard_Regular.otf"),
+        .string("Pretendard_SemiBold.otf"),
+        .string("Pretendard_Thin.otf")
+    ]
     
     static func designSystemModule(
         name: String,
         options: Options = .options()
     ) -> Project {
-        let fontFamilys: [Plist.Value] = [
-            
-        ]
         let infoPlists: InfoPlist = .extendingDefault(with: ["UIAppFonts": .array(fontFamilys)])
         let implements = Target.implements(name: name, product: .staticFramework, resources: ["Resources/**"], dependencies: .dependencies(of: name), infoPlist: infoPlists)
         let tests = Target.tests(name: name, dependencies: [.target(implements)])
