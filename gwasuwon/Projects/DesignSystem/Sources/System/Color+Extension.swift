@@ -37,6 +37,8 @@ public extension Color {
     static let blue20 = GColor.blue20.swiftUIColor
     static let blue90 = GColor.blue90.swiftUIColor
     
+    static let red90 = GColor.red90.swiftUIColor
+    
     static let statusPositive = GColor.statusPositive.swiftUIColor
     static let statusCautionary = GColor.statusCautionary.swiftUIColor
     static let statusNegative = GColor.statusNegative.swiftUIColor
