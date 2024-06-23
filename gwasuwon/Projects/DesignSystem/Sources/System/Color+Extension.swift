@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-public typealias GColor = DesignSystemAsset
+public typealias GColor = DesignSystemAsset.Colors
 
 public extension Color {
     static let primaryNormal = GColor.primaryNormal.swiftUIColor
