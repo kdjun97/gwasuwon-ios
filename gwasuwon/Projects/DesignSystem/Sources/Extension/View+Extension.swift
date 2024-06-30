@@ -27,4 +27,8 @@ public extension View {
     func vPadding(_ verticalPadding: CGFloat) -> some View {
         padding(.vertical, verticalPadding)
     }
+    
+    func frame(_ width: CGFloat, _ height: CGFloat, _ alignment: Alignment = .center) -> some View {
+        frame(width: width, height: height, alignment: alignment)
+    }
 }
