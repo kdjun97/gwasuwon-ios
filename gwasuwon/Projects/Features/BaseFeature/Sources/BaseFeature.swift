@@ -1,13 +1,13 @@
 //
-//  {{ feature }}Feature.swift
-//  {{ feature }}
+//  BaseFeature.swift
+//  Base
 //
 //  Created by 김동준
 //
 
 import ComposableArchitecture
 
-public struct {{ feature }}Feature: Reducer {
+public struct BaseFeature: Reducer {
     public init() {}
 
     public struct State: Equatable {
@@ -18,8 +18,8 @@ public struct {{ feature }}Feature: Reducer {
         case onAppear
     }
 
-    public var body: some ReducerOf<{{ feature }}Feature> {
-        Reduce { state, action in
+    public var body: some ReducerOf<BaseFeature> {
+        Reduce { _, action in
             switch action {
             case .onAppear:
                 break
