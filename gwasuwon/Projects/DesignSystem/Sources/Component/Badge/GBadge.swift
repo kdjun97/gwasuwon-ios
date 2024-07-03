@@ -1,5 +1,5 @@
 //
-//  GChips.swift
+//  GBadge.swift
 //  DesignSystem
 //
 //  Created by 김동준 on 6/30/24
@@ -7,15 +7,15 @@
 
 import SwiftUI
 
-public struct GChips: View {
+public struct GBadge: View {
     let title: String
     let fontColor: Color
-    let style: GChipsStyle
+    let style: GBadgeStyle
     
     public init(
         title: String,
         fontColor: Color = .staticWhite,
-        style: GChipsStyle = .positive
+        style: GBadgeStyle = .positive
     ) {
         self.title = title
         self.fontColor = fontColor
@@ -46,7 +46,7 @@ public struct GChips: View {
     }
 }
 
-public enum GChipsStyle {
+public enum GBadgeStyle {
     case positive
     case cautionary
 }
