@@ -77,6 +77,7 @@ extension GAlert {
             }
             .greedyWidth()
             .background(Color.backgroundRegularAlternative)
+            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.lineRegularNormal, lineWidth: 1.0))
             .cornerRadius(8)
             Button {
                 trailingButtonAction()
