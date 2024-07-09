@@ -11,6 +11,7 @@ import ComposableArchitecture
 import SwiftUI
 import SignInFeature
 import SignUpFeature
+import HomeFeature
 
 public struct RootCoordinatorView: View {
     let store: StoreOf<RootCoordinator>
@@ -27,6 +28,8 @@ public struct RootCoordinatorView: View {
                     CaseLet(/RootScreen.State.signIn, action: RootScreen.Action.signIn, then: SignInView.init)
                 case .signUp:
                     CaseLet(/RootScreen.State.signUp, action: RootScreen.Action.signUp, then: SignUpView.init)
+                case .home:
+                    CaseLet(/RootScreen.State.home, action: RootScreen.Action.home, then: HomeView.init)
                 }
             }
         }

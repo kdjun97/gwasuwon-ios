@@ -18,6 +18,8 @@ public struct SignInFeature: Reducer {
         case onAppear
         case kakaoButtonTapped
         case appleButtonTapped
+        case navigateToHome
+        case navigateToSignUp
     }
 
     public var body: some ReducerOf<SignInFeature> {
@@ -26,8 +28,10 @@ public struct SignInFeature: Reducer {
             case .onAppear:
                 break
             case .kakaoButtonTapped:
-                break
+                return .send(.navigateToSignUp)
             case .appleButtonTapped:
+                return .send(.navigateToHome)
+            case .navigateToHome, .navigateToSignUp:
                 break
             }
             return .none
