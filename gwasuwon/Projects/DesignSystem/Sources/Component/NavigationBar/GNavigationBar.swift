@@ -34,11 +34,13 @@ public struct GNavigationBar: View {
                     leadingIcon.resizedToFit(20, 20)
                 }
                 .padding(.trailing, 8)
+            } else {
+                Spacer().frame(width: 14)
             }
             GText(
                 title,
                 fontStyle: .Heading_1_B,
-                color: .staticBlack
+                color: .labelNormal
             )
             .greedyWidth(.leading)
             .vPadding(8)

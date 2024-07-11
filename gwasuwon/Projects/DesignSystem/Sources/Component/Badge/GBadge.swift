@@ -26,7 +26,7 @@ public struct GBadge: View {
         HStack(spacing: 0) {
             GText(
                 title,
-                fontStyle: .Lable_2_R,
+                fontStyle: .Label_2_R,
                 color: fontColor
             )
             .vPadding(4)
