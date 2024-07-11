@@ -25,17 +25,18 @@ public struct GButton: View {
     
     public var body: some View {
         Button {
-            buttonAction()
+            if (style != .disabled) {                
+                buttonAction()
+            }
         } label: {
             GText(
                 title,
                 fontStyle: .Body_1_Normal_B,
                 color: getButtonTextColor(),
                 alignment: .center
-            )
+            ).greedyWidth()
             .vPadding(12)
         }
-        .greedyWidth()
         .background(getButtonBackgroundColor())
         .overlay(RoundedRectangle(cornerRadius: 8).stroke(getBorderStorkeColor(), lineWidth: 1.0))
         .cornerRadius(8)
