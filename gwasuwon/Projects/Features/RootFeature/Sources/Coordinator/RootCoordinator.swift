@@ -27,6 +27,8 @@ public struct RootCoordinator {
             switch action {
             case let .routeAction(_, action: .signIn(signInAction)):
                 signInNavigationHandler(signInAction, state: &state)
+            case let .routeAction(_, action: .signUp(signUpAction)):
+                signUpNavigationHandler(signUpAction, state: &state)
             default:
                 break
             }
