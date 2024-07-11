@@ -19,5 +19,10 @@ extension DIContainer {
             let apiService: ApiService = resolver.resolve()
             return AccountRepository(apiService: apiService)
         }
+        
+        container.register(ClassRepositoryProtocol.self) { resolver in
+            let apiService: ApiService = resolver.resolve()
+            return ClassRepository(apiService: apiService)
+        }
     }
 }

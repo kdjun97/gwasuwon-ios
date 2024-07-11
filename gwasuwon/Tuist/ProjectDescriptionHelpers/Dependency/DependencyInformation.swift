@@ -13,7 +13,7 @@ let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
     .BaseFeature: [.ComposableArchitecture],
     .SignInFeature: [.DesignSystem, .ComposableArchitecture, .BaseFeature],
     .SignUpFeature: [.DesignSystem, .ComposableArchitecture],
-    .HomeFeature: [.DesignSystem, .ComposableArchitecture],
+    .HomeFeature: [.DesignSystem, .ComposableArchitecture, .BaseFeature, .Domain],
     .Domain: [.DI, .Dependencies],
     .Data: [.Domain],
     .DI: [.Swinject]
