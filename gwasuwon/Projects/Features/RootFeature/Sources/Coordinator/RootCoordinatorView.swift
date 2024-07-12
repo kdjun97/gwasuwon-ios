@@ -32,6 +32,8 @@ public struct RootCoordinatorView: View {
                     CaseLet(/RootScreen.State.home, action: RootScreen.Action.home, then: HomeView.init)
                 case .signUpRole:
                     CaseLet(/RootScreen.State.signUpRole, action: RootScreen.Action.signUpRole, then: SignUpRoleView.init)
+                case .signUpComplete:
+                    CaseLet(/RootScreen.State.signUpComplete, action: RootScreen.Action.signUpComplete, then: SignUpCompleteView.init)
                 case .addClass:
                     CaseLet(/RootScreen.State.addClass, action: RootScreen.Action.addClass, then: AddClassView.init)
                 }

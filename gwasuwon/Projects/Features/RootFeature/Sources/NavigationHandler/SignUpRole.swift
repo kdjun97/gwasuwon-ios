@@ -12,7 +12,7 @@ extension RootCoordinator {
     func signUpRoleNavigationHandler(_ action: SignUpRoleFeature.Action, state: inout RootCoordinator.State) {
         switch action {
         case .teacherButtonTapped:
-            state.routes = [.root(.home(.init()), embedInNavigationView: true)]
+            state.routes.push(.signUpComplete(.init()))
         default:
             break
         }
