@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Domain
 
 @Reducer
 public struct HomeFeature {
@@ -13,10 +14,14 @@ public struct HomeFeature {
 
     public struct State: Equatable {
         public init() {}
+        
+        var role: AuthRole = .teacher
+        public var teacherState = TeacherFeature.State()
     }
 
     public enum Action {
         case onAppear
+        case teacherAction(TeacherFeature.Action)
     }
 
     public var body: some ReducerOf<HomeFeature> {
@@ -24,8 +29,13 @@ public struct HomeFeature {
             switch action {
             case .onAppear:
                 break
+            case .teacherAction:
+                break
             }
             return .none
         }
+        Scope(state: \.teacherState, action: /Action.teacherAction, child: {
+            TeacherFeature()
+        })
     }
 }

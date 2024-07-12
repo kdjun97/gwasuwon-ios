@@ -40,7 +40,6 @@ public struct GButton: View {
         .background(getButtonBackgroundColor())
         .overlay(RoundedRectangle(cornerRadius: 8).stroke(getBorderStorkeColor(), lineWidth: 1.0))
         .cornerRadius(8)
-        .hPadding(16)
     }
     
     private func getButtonBackgroundColor() -> Color {

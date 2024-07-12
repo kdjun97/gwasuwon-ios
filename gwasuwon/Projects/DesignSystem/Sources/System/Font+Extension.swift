@@ -40,7 +40,7 @@ public extension Font {
         case Label_1_Normal_B, Label_1_Normal_R
         case Label_1_Reading_B ,Label_1_Reading_R
         
-        case Lable_2_B, Lable_2_R
+        case Label_2_B, Label_2_R
         
         case Caption_1_B, Caption_1_R
         case Caption_2_B, Caption_2_R
@@ -112,9 +112,9 @@ public extension Font {
             .custom(PretendardWeight.bold.rawValue, size: 14)
         case .Label_1_Reading_R:
             .custom(PretendardWeight.regular.rawValue, size: 14)
-        case .Lable_2_B:
+        case .Label_2_B:
             .custom(PretendardWeight.bold.rawValue, size: 13)
-        case .Lable_2_R:
+        case .Label_2_R:
             .custom(PretendardWeight.regular.rawValue, size: 13)
         case .Caption_1_B:
             .custom(PretendardWeight.bold.rawValue, size: 12)

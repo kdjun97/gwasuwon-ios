@@ -11,8 +11,10 @@ import ComposableArchitecture
 extension RootCoordinator {
     func signInNavigationHandler(_ action: SignInFeature.Action, state: inout RootCoordinator.State) {
         switch action {
+        case .navigateToHome:
+            state.routes = [.root(.home(.init()), embedInNavigationView: true)]
         case .navigateToSignUp:
-            state.routes.push(.signUp(.init()))
+            state.routes = [.root(.signUp(.init()), embedInNavigationView: true)]
         default:
             break
         }

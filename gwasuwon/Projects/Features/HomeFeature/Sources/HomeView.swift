@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ComposableArchitecture
+import DesignSystem
 
 public struct HomeView: View {
     let store: StoreOf<HomeFeature>
@@ -18,7 +19,7 @@ public struct HomeView: View {
     }
     
     public var body: some View {
-        HomeBody(viewStore: viewStore)
+        HomeBody(store: store, viewStore: viewStore)
         .onAppear {
             viewStore.send(.onAppear)
         }
@@ -26,15 +27,21 @@ public struct HomeView: View {
 }
 
 private struct HomeBody: View {
+    private var store: StoreOf<HomeFeature>
     @ObservedObject private var viewStore: ViewStoreOf<HomeFeature>
     
-    fileprivate init(viewStore: ViewStoreOf<HomeFeature>) {
+    fileprivate init(store: StoreOf<HomeFeature>, viewStore: ViewStoreOf<HomeFeature>) {
+        self.store = store
         self.viewStore = viewStore
     }
     
     fileprivate var body: some View {
         ZStack {
-            Text("Home View!!!")
+            if (viewStore.role == .teacher) {
+                TeacherView(store: store.scope(state: \.teacherState, action: \.teacherAction))
+            } else {
+                StudentView()
+            }
         }
     }
 }
