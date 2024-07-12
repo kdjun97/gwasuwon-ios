@@ -44,6 +44,6 @@ public struct GNavigationBar: View {
             )
             .greedyWidth(.leading)
             .vPadding(8)
-        }
+        }.navigationBarBackButtonHidden(true)
     }
 }
