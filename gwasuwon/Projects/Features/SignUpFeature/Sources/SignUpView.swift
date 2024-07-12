@@ -39,7 +39,7 @@ private struct SignUpBody: View {
             Spacer()
             SignUpAgreementView(viewStore: viewStore).padding(.bottom, 16)
             SignUpBottomButton(viewStore: viewStore)
-        }
+        }.hPadding(16)
     }
 }
 
@@ -59,7 +59,6 @@ private struct SignUpContentsView: View {
                 lineLimit: 2
             )
         }
-        .hPadding(16)
         .greedyWidth(.leading)
     }
 }

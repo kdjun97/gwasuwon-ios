@@ -17,6 +17,7 @@ public struct RootScreen {
         case signUp(SignUpFeature.State)
         case home(HomeFeature.State)
         case signUpRole(SignUpRoleFeature.State)
+        case addClass(AddClassFeature.State)
     }
 
     public enum Action {
@@ -24,6 +25,7 @@ public struct RootScreen {
         case signUp(SignUpFeature.Action)
         case home(HomeFeature.Action)
         case signUpRole(SignUpRoleFeature.Action)
+        case addClass(AddClassFeature.Action)
     }
 
     public init() {}
@@ -39,6 +41,9 @@ public struct RootScreen {
         }
         Scope(state: \.signUpRole, action: \.signUpRole) {
             SignUpRoleFeature()
+        }
+        Scope(state: \.addClass, action: \.addClass) {
+            AddClassFeature()
         }
     }
 }
