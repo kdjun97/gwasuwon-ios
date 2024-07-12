@@ -17,6 +17,7 @@ public struct RootScreen {
         case signUp(SignUpFeature.State)
         case home(HomeFeature.State)
         case signUpRole(SignUpRoleFeature.State)
+        case signUpComplete(SignUpCompleteFeature.State)
         case addClass(AddClassFeature.State)
     }
 
@@ -25,6 +26,7 @@ public struct RootScreen {
         case signUp(SignUpFeature.Action)
         case home(HomeFeature.Action)
         case signUpRole(SignUpRoleFeature.Action)
+        case signUpComplete(SignUpCompleteFeature.Action)
         case addClass(AddClassFeature.Action)
     }
 
@@ -41,6 +43,9 @@ public struct RootScreen {
         }
         Scope(state: \.signUpRole, action: \.signUpRole) {
             SignUpRoleFeature()
+        }
+        Scope(state: \.signUpComplete, action: \.signUpComplete) {
+            SignUpCompleteFeature()
         }
         Scope(state: \.addClass, action: \.addClass) {
             AddClassFeature()
