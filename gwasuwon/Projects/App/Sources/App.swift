@@ -21,6 +21,7 @@ struct RootApp: App {
                     reducer: { RootCoordinator() }
                 )
             )
+            .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
         }
     }
 }
