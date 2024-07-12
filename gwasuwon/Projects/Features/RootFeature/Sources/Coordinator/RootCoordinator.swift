@@ -31,6 +31,10 @@ public struct RootCoordinator {
                 signUpNavigationHandler(signUpAction, state: &state)
             case let .routeAction(_, action: .signUpRole(signUpRoleAction)):
                 signUpRoleNavigationHandler(signUpRoleAction, state: &state)
+            case let .routeAction(_, action: .home(homeAction)):
+                homeNavigationHandler(homeAction, state: &state)
+            case let .routeAction(_, action: .addClass(addClassAction)):
+                addClassNavigationHandler(addClassAction, state: &state)
             default:
                 break
             }
