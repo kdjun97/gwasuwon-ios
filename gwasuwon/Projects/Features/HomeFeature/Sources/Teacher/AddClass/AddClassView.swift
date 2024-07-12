@@ -42,9 +42,14 @@ private struct AddClassBodyView: View {
                     viewStore.send(.navigateToBack)
                 }
             )
-            ScrollView {
-                
-            }
+            GText(
+                "기본 정보",
+                fontStyle: .Headline_1_B,
+                color: .labelNormal
+            )
+            .greedyWidth(.leading)
+            .vPadding(24)
+            StudentInformationView(viewStore: viewStore)
             Spacer()
             GButton(
                 title: "다음",
@@ -52,5 +57,19 @@ private struct AddClassBodyView: View {
                 buttonAction: {}
             )
         }.hPadding(16)
+    }
+}
+
+private struct StudentInformationView: View {
+    @ObservedObject var viewStore: ViewStoreOf<AddClassFeature>
+    
+    fileprivate init(viewStore: ViewStoreOf<AddClassFeature>) {
+        self.viewStore = viewStore
+    }
+    
+    fileprivate var body: some View {
+        ScrollView {
+            // TODO: Add TextField 
+        }
     }
 }

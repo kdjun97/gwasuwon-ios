@@ -40,6 +40,7 @@ public struct TeacherFeature {
             case .noAction:
                 break
             case let .setClassInformation(classInformationList):
+//                state.classInformationList = []
                 state.classInformationList = classInformationList
             }
             return .none
@@ -54,7 +55,7 @@ extension TeacherFeature {
         switch response {
         case let .success(classInformationList):
             return .setClassInformation(classInformationList)
-        case let .failure(networkError):
+        case .failure:
             return .noAction
         }
     }
