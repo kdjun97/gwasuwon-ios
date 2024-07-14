@@ -93,7 +93,11 @@ private struct ClassNormalView: View {
         VStack(spacing: 0) {
             GNavigationBar(title: "수업 목록").padding(.bottom, 24)
             ForEach(viewStore.classInformationList, id: \.self) { item in
-                ClassItem(item: item).padding(.bottom, 16)
+                Button {
+                    viewStore.send(.navigateToClassDetail(item.id))
+                } label: {
+                    ClassItem(item: item)
+                }.padding(.bottom, 16)
             }
             GLeadingStrokeButton(
                 title: "수업 추가하기",

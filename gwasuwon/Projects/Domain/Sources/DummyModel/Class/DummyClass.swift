@@ -9,6 +9,7 @@
 struct DummyClass {
     static let classList: [ClassInformation] = [
         ClassInformation(
+            id: "1",
             className: "수학",
             studentName: "김철수",
             studentAge: "고2",
