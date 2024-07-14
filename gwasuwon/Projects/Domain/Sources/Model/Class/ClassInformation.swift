@@ -6,6 +6,7 @@
 //
 
 public struct ClassInformation: Hashable {
+    public let id: String
     public let className: String
     public let studentName: String
     public let studentAge: String
