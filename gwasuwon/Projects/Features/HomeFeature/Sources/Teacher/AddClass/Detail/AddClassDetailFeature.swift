@@ -41,7 +41,7 @@ public struct AddClassDetailFeature {
         var addClassDetailAlertCase: AddClassDetailAlertCase = .none
         var isShowClassDelayInfo: Bool = false
         
-        var isNextButtonEnabled: Bool {
+        var isCreateClassButtonEnabled: Bool {
             selectedSubject != .none
             && selectedClassTime != .none
             && classDayList.filter { $0.isSelected }.count != 0
@@ -63,7 +63,7 @@ public struct AddClassDetailFeature {
         case showClassDelayInfo
         case addClassDetailAlertAction(AlertFeature.Action)
         case showAlert(AddClassDetailAlertCase)
-        case nextButtonTapped
+        case createClassButtonTapped
     }
 
     public var body: some ReducerOf<AddClassDetailFeature> {
@@ -98,7 +98,7 @@ public struct AddClassDetailFeature {
                 state.selectedClassDelayCount = ClassDelayCount(rawValue: value) ?? .none
             case .showClassDelayInfo:
                 return .send(.showAlert(.delayCountInfo))
-            case .nextButtonTapped:
+            case .createClassButtonTapped:
                 break
             }
             return .none

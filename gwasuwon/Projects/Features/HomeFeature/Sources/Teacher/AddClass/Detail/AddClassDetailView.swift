@@ -60,10 +60,10 @@ private struct AddClassDetailBodyView: View {
             }
             Spacer()
             GButton(
-                title: "다음",
-                style: viewStore.isNextButtonEnabled ? .enabled : .disabled,
+                title: "수업 생성",
+                style: viewStore.isCreateClassButtonEnabled ? .enabled : .disabled,
                 buttonAction: {
-                    viewStore.send(.nextButtonTapped)
+                    viewStore.send(.createClassButtonTapped)
                 }
             ).hPadding(16)
         }
