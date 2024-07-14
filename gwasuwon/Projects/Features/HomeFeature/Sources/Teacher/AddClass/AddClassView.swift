@@ -53,8 +53,8 @@ private struct AddClassBodyView: View {
             Spacer()
             GButton(
                 title: "다음",
-                style: .disabled,
-                buttonAction: {}
+                style: viewStore.isNextButtonEnabled ? .enabled : .disabled,
+                buttonAction: { viewStore.send(.nextButtonTapped) }
             )
         }.hPadding(16)
     }
@@ -69,7 +69,23 @@ private struct StudentInformationView: View {
     
     fileprivate var body: some View {
         ScrollView {
-            // TODO: Add TextField 
+            VStack(spacing: 40) {
+                GTextField(
+                    label: "학생 이름",
+                    hintText: "ex) 김철수",
+                    text: viewStore.$studentName
+                )
+                GTextField(
+                    label: "학년",
+                    hintText: "ex) 고등학교 2학년",
+                    text: viewStore.$grade
+                )
+                GTextField(
+                    label: "한줄 메모",
+                    hintText: "ex) 확통 특히 어려워 함",
+                    text: viewStore.$memo
+                )
+            }
         }
     }
 }

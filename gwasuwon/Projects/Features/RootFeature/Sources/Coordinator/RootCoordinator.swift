@@ -37,6 +37,8 @@ public struct RootCoordinator {
                 homeNavigationHandler(homeAction, state: &state)
             case let .routeAction(_, action: .addClass(addClassAction)):
                 addClassNavigationHandler(addClassAction, state: &state)
+            case let .routeAction(_, action: .addClassDetail(addClassDetailAction)):
+                addClassDetailNavigationHandler(addClassDetailAction, state: &state)
             default:
                 break
             }
