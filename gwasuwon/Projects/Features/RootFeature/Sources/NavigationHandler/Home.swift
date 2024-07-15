@@ -25,8 +25,7 @@ extension RootCoordinator {
         case .addClassButtonTapped:
             state.routes.push(.addClass(.init()))
         case let .navigateToClassDetail(id):
-            // TODO: 디테일 페이지로 연결 + id 넘겨주기
-            break
+            state.routes.push(.detailClass(.init(id: id)))
         default:
             break
         }
