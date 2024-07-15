@@ -6,7 +6,6 @@
 //
 
 import ComposableArchitecture
-import UIKit
 import BaseFeature
 
 @Reducer
@@ -16,6 +15,7 @@ public struct AddClassDoneFeature {
     public struct State: Equatable {
         public init() {}
         @BindingState var addClassDoneAlertState: AlertFeature.State = .init()
+        var tempId: String = "123123"
     }
 
     public enum Action: BindableAction, Equatable {
@@ -38,7 +38,6 @@ public struct AddClassDoneFeature {
             case .addClassDoneAlertAction:
                 break
             case .sendContractButtonTapped:
-                UIPasteboard.general.string = "복사된 텍스트"
                 return .send(.showAlert)
             case .showClassInfoButtonTapped:
                 break

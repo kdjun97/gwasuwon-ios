@@ -111,6 +111,7 @@ private struct AddClassDoneButtonView: View {
                 title: "과외 계약서 보내기",
                 style: .enabled,
                 buttonAction: {
+                    UIPasteboard.general.string = "복사된 텍스트+\(viewStore.tempId)"
                     viewStore.send(.sendContractButtonTapped)
                 }
             )
