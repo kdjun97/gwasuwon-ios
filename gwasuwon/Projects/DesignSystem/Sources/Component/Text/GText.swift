@@ -39,5 +39,30 @@ public struct GText: View {
             .multilineTextAlignment(alignment)
             .lineLimit(lineLimit)
             .kerning(letterSpace)
+            .lineSpacing(getLineSpacing(fontStyle))
+            .vPadding(getLineSpacing(fontStyle)/2)
+    }
+    
+    private func getLineSpacing(_ fontStyle: Font.FontStyle) -> Double {
+        switch fontStyle {
+        case .Display_1_B, .Display_1_R: return 16
+        case .Display_2_B, .Display_2_R: return 12
+        case .Title_1_B, .Title_1_R: return 12
+        case .Title_2_B, .Title_2_R: return 10
+        case .Title_3_B, .Title_3_R: return 8
+        case .Heading_1_B, .Heading_1_R: return 8
+        case .Heading_2_B, .Heading_2_R: return 8
+        case .Headline_1_B, .Headline_1_R: return 8
+        case .Headline_2_B, .Headline_2_R: return 7
+        case .Body_1_Normal_B, .Body_1_Normal_R: return 8
+        case .Body_1_Reading_B, .Body_1_Reading_R: return 10
+        case .Body_2_Normal_B, .Body_2_Normal_R: return 7
+        case .Body_2_Reading_B, .Body_2_Reading_R: return 9
+        case .Label_1_Normal_B, .Label_1_Normal_R: return 6
+        case .Label_1_Reading_B, .Label_1_Reading_R: return 8
+        case .Label_2_B, .Label_2_R: return 5
+        case .Caption_1_B, .Caption_1_R: return 4
+        case .Caption_2_B, .Caption_2_R: return 3
+        }
     }
 }
