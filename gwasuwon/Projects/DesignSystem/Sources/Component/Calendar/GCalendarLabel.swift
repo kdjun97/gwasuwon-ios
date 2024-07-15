@@ -31,7 +31,6 @@ public struct GCalendarLabel: View {
             .fill(fillColor)
             .frame(width: 12, height: 12)
             .modifier(GCalendarLabelModifier(isUseStroke: isUseStroke, strokeColor: strokeColor ?? .primaryNormal))
-            .vPadding(1)
             GText(
                 title,
                 fontStyle: .Caption_2_R,
