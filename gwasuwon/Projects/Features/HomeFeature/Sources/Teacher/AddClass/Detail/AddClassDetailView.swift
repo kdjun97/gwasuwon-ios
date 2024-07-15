@@ -231,9 +231,6 @@ private struct ClassStartDayView: View {
                             : .labelNormal
                         )
                         Spacer()
-                        viewStore.isClassStartDateExpanded
-                            ? GImage.icUp.swiftUIImage.resizedToFit(20, 20)
-                            : GImage.icDown.swiftUIImage.resizedToFit(20, 20)
                     }
                     .vPadding(12)
                     .hPadding(16)
