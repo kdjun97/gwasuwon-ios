@@ -7,4 +7,5 @@
 
 public protocol ClassRepositoryProtocol {
     func getClassList() async -> Result<[ClassInformation], NetworkError>
+    func getDetailClass() async -> Result<ClassInformation, NetworkError>
 }

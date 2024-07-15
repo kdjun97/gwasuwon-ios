@@ -18,4 +18,9 @@ public struct ClassRepository: ClassRepositoryProtocol {
         // TODO: Implement this api call
         return .failure(.badRequest)
     }
+    
+    public func getDetailClass() async -> Result<ClassInformation, NetworkError> {
+        // TODO: Implement this api call
+        return .failure(.badRequest)
+    }
 }
