@@ -1,25 +1,25 @@
 //
-//  Module.swift
-//  gwasuwonManifests
+//  Util.swift
+//  Templates
 //
-//  Created by 김동준 on 5/12/24
+//  Created by 김동준 on 7/15/24
 //
 
 import ProjectDescription
 
-private let moduleNameAttribute = Template.Attribute.required("name")
-private let path = "Projects/\(moduleNameAttribute)"
+private let utilNameAttribute = Template.Attribute.required("name")
+private let path = "Projects/Utils/\(utilNameAttribute)"
 
 private let projectContents = """
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.module(name: \"\(moduleNameAttribute)\")
+let project = Project.module(name: \"\(utilNameAttribute)\")
 """
 
 private let template = Template(
     description: "A template for a new module",
-    attributes: [moduleNameAttribute],
+    attributes: [utilNameAttribute],
     items: [
         .string(
             path: "\(path)/Project.swift",

@@ -25,3 +25,6 @@ module:
 	else \
 		tuist scaffold Module --name $(name); \
 	fi
+
+util:
+	tuist scaffold Util --name $(name)
