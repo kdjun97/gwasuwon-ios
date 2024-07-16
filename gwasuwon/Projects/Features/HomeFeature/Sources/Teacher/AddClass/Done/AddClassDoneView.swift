@@ -119,7 +119,7 @@ private struct AddClassDoneButtonView: View {
                 title: "수업 정보 보기",
                 style: .outline,
                 buttonAction: {
-                    viewStore.send(.showClassInfoButtonTapped)
+                    viewStore.send(.showClassInfoButtonTapped(viewStore.tempId))
                 }
             )
         }.hPadding(16)
