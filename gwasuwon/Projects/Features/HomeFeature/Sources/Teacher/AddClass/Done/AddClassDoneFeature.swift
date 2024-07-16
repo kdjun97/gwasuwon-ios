@@ -23,7 +23,7 @@ public struct AddClassDoneFeature {
         case binding(BindingAction<State>)
         case addClassDoneAlertAction(AlertFeature.Action)
         case sendContractButtonTapped
-        case showClassInfoButtonTapped
+        case showClassInfoButtonTapped(String)
         case showAlert
     }
 
@@ -39,7 +39,7 @@ public struct AddClassDoneFeature {
                 break
             case .sendContractButtonTapped:
                 return .send(.showAlert)
-            case .showClassInfoButtonTapped:
+            case let .showClassInfoButtonTapped(id):
                 break
             case .showAlert:
                 return .send(.addClassDoneAlertAction(.present))
