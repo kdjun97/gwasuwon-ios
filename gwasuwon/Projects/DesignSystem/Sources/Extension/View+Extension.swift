@@ -32,3 +32,28 @@ public extension View {
         frame(width: width, height: height, alignment: alignment)
     }
 }
+
+public extension View {
+    func gLoading(isPresent: Binding<Bool>) -> some View {
+        modifier(GLoadingModifier(isPresent: isPresent))
+    }
+}
+
+private struct GLoadingModifier: ViewModifier {
+    @Binding var isPresent: Bool
+    
+    fileprivate init(isPresent: Binding<Bool>) {
+        self._isPresent = isPresent
+    }
+    
+    func body(content: Content) -> some View {
+        ZStack {
+            content
+            if (isPresent) {
+                ZStack {
+                    ProgressView().controlSize(.large)
+                }.greedyFrame().background(GColor.staticBlack.swiftUIColor.opacity(0.5))
+            }
+        }
+    }
+}
