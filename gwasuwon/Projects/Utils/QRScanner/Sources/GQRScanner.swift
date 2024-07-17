@@ -9,26 +9,21 @@ import UIKit
 import SwiftUI
 import Foundation
 
-public struct QRScanner: UIViewControllerRepresentable {
+public struct GQRScanner: UIViewControllerRepresentable {
     @Binding var result: String
-    private var isFullScreen: Bool
 
-    public init(
-        result: Binding<String>,
-        isFullScreen: Bool = false
-    ) {
+    public init(result: Binding<String>) {
         _result = result
-        self.isFullScreen = isFullScreen
     }
 
-    public func makeUIViewController(context: Context) -> QRScannerController {
-        let controller = QRScannerController()
+    public func makeUIViewController(context: Context) -> GQRScannerController {
+        let controller = GQRScannerController()
         controller.delegate = context.coordinator
 
         return controller
     }
 
-    public func updateUIViewController(_ uiViewController: QRScannerController, context: Context) {
+    public func updateUIViewController(_ uiViewController: GQRScannerController, context: Context) {
     }
 
     public func makeCoordinator() -> Coordinator {

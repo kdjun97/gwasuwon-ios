@@ -9,7 +9,7 @@ import UIKit
 import AVFoundation
 import SwiftUI
 
-public final class QRScannerController: UIViewController {
+public final class GQRScannerController: UIViewController {
     var captureSession = AVCaptureSession()
     var captureDevice: AVCaptureDevice?
     var delegate: AVCaptureMetadataOutputObjectsDelegate?
@@ -72,7 +72,7 @@ public class Coordinator: NSObject, AVCaptureMetadataOutputObjectsDelegate {
 
     public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         if metadataObjects.count == 0 {
-            scanResult = "No QR code detected"
+            scanResult = ""
             return
         }
 

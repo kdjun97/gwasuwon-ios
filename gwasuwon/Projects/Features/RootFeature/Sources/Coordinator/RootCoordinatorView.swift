@@ -42,6 +42,8 @@ public struct RootCoordinatorView: View {
                     CaseLet(/RootScreen.State.addClassDone, action: RootScreen.Action.addClassDone, then: AddClassDoneView.init)
                 case .detailClass:
                     CaseLet(/RootScreen.State.detailClass, action: RootScreen.Action.detailClass, then: DetailClassView.init)
+                case .qrCode:
+                    CaseLet(/RootScreen.State.qrCode, action: RootScreen.Action.qrCode, then: QRView.init)
                 }
             }
         }
