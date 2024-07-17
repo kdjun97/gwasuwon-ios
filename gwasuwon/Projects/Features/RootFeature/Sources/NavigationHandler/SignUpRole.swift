@@ -13,6 +13,8 @@ extension RootCoordinator {
         switch action {
         case .teacherButtonTapped:
             state.routes.push(.signUpComplete(.init()))
+        case .studentButtonTapped:
+            state.routes.push(.signUpComplete(.init()))
         default:
             break
         }

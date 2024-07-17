@@ -15,13 +15,15 @@ public struct HomeFeature {
     public struct State: Equatable {
         public init() {}
         
-        var role: AuthRole = .teacher
+        var role: AuthRole = .student
         public var teacherState = TeacherFeature.State()
+        public var studentState = StudentFeature.State()
     }
 
     public enum Action {
         case onAppear
         case teacherAction(TeacherFeature.Action)
+        case studentAction(StudentFeature.Action)
     }
 
     public var body: some ReducerOf<HomeFeature> {
@@ -31,11 +33,16 @@ public struct HomeFeature {
                 break
             case .teacherAction:
                 break
+            case .studentAction:
+                break
             }
             return .none
         }
         Scope(state: \.teacherState, action: /Action.teacherAction, child: {
             TeacherFeature()
+        })
+        Scope(state: \.studentState, action: /Action.studentAction, child: {
+            StudentFeature()
         })
     }
 }
