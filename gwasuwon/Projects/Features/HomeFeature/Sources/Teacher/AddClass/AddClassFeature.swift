@@ -14,20 +14,32 @@ public struct AddClassFeature {
 
     public struct State: Equatable {
         public init() {}
-        
+        @BindingState var studentName: String = ""
+        @BindingState var grade: String = ""
+        @BindingState var memo: String = ""
+        var isNextButtonEnabled: Bool {
+            !(studentName.isEmpty) && !(grade.isEmpty) && !(memo.isEmpty)
+        }
     }
 
-    public enum Action {
+    public enum Action: BindableAction, Equatable {
         case onAppear
         case navigateToBack
+        case binding(BindingAction<State>)
+        case nextButtonTapped
     }
 
     public var body: some ReducerOf<AddClassFeature> {
+        BindingReducer()
         Reduce { state, action in
             switch action {
             case .onAppear:
                 break
             case .navigateToBack:
+                break
+            case .binding:
+                break
+            case .nextButtonTapped:
                 break
             }
             return .none

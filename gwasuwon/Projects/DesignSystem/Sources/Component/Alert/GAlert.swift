@@ -8,32 +8,40 @@
 import SwiftUI
 
 public struct GAlert: View {
+    let type: GAlertType
     let title: String
     let contents: String
-    let leadingButtonTitle: String
-    let leadingButtonAction: () -> Void
-    let trailingButtonTitle: String
-    let trailingButtonAction: () -> Void
+    let defaultButtonTitle: String?
+    let defaultButtonAction: (() -> Void)?
+    let extraButtonTitle: String?
+    let extraButtonAction: (() -> Void)?
     
     public init(
+        type: GAlertType = .includeIcon,
         title: String,
         contents: String,
-        leadingButtonTitle: String,
-        leadingButtonAction: @escaping () -> Void,
-        trailingButtonTitle: String,
-        trailingButtonAction: @escaping () -> Void
+        defaultButtonTitle: String? = nil,
+        defaultButtonAction: (() -> Void)? = nil,
+        extraButtonTitle: String? = nil,
+        extraButtonAction: (() -> Void)? = nil
     ) {
+        self.type = type
         self.title = title
         self.contents = contents
-        self.leadingButtonTitle = leadingButtonTitle
-        self.leadingButtonAction = leadingButtonAction
-        self.trailingButtonTitle = trailingButtonTitle
-        self.trailingButtonAction = trailingButtonAction
+        self.defaultButtonTitle = defaultButtonTitle
+        self.defaultButtonAction = defaultButtonAction
+        self.extraButtonTitle = extraButtonTitle
+        self.extraButtonAction = extraButtonAction
     }
     
     public var body: some View {
         VStack(spacing: 0) {
-            GAlertBodyView.padding(.bottom, 32)
+            GAlertBodyView
+            if (type == .includeIcon) {
+                Spacer().frame(height: 32)
+            } else {
+                Spacer().frame(height: 24)
+            }
             GAlertButtonView
         }
         .hPadding(16)
@@ -48,7 +56,9 @@ public struct GAlert: View {
 extension GAlert {
     private var GAlertBodyView: some View {
         VStack(spacing: 0) {
-            GImage.icError.swiftUIImage.padding(.bottom, 16)
+            if (type == .includeIcon) {
+                GImage.icError.swiftUIImage.padding(.bottom, 16)
+            }
             GText(
                 title,
                 fontStyle: .Heading_1_B,
@@ -58,7 +68,7 @@ extension GAlert {
                 contents,
                 fontStyle: .Label_1_Normal_R,
                 color: .labelNeutral,
-                lineLimit: 2
+                lineLimit: 4
             )
         }
         .greedyWidth()
@@ -66,32 +76,61 @@ extension GAlert {
     
     private var GAlertButtonView: some View {
         HStack(spacing: 8) {
-            Button {
-                leadingButtonAction()
-            } label: {
-                GText(
-                    leadingButtonTitle,
-                    fontStyle: .Label_1_Normal_B,
-                    color: .labelNormal
-                ).vPadding(8)
+            if let defaultButtonTitle = defaultButtonTitle, let defaultButtonAction = defaultButtonAction {
+                Button {
+                    defaultButtonAction()
+                } label: {
+                    GText(
+                        defaultButtonTitle,
+                        fontStyle: .Label_1_Normal_B,
+                        color: type == .includeIcon ? .labelNormal : .staticWhite
+                    )
+                    .vPadding(8)
+                    .greedyWidth()
+                }
+                .greedyWidth()
+                .background(type == .includeIcon ? Color.backgroundRegularAlternative : .primaryNormal)
+                .modifier(GAlertButtonStrokeModifier(type: type))
+                .cornerRadius(8)
             }
-            .greedyWidth()
-            .background(Color.backgroundRegularAlternative)
-            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.lineRegularNormal, lineWidth: 1.0))
-            .cornerRadius(8)
-            Button {
-                trailingButtonAction()
-            } label: {
-                GText(
-                    trailingButtonTitle,
-                    fontStyle: .Label_1_Normal_B,
-                    color: .staticWhite
-                ).vPadding(8)
+            if let extraButtonTitle = extraButtonTitle, let extraButtonAction = extraButtonAction {
+                Button {
+                    extraButtonAction()
+                } label: {
+                    GText(
+                        extraButtonTitle,
+                        fontStyle: .Label_1_Normal_B,
+                        color: .staticWhite
+                    )
+                    .vPadding(8)
+                    .greedyWidth()
+                }
+                .greedyWidth()
+                .background(Color.statusNegative)
+                .cornerRadius(8)
             }
-            .greedyWidth()
-            .background(Color.statusNegative)
-            .cornerRadius(8)
         }
         .greedyWidth()
     }
+}
+
+private struct GAlertButtonStrokeModifier: ViewModifier {
+    let type: GAlertType
+    
+    func body(content: Content) -> some View {
+        switch type {
+        case .includeIcon:
+            content
+                .overlay(RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.lineRegularNormal, lineWidth: 1.0))
+        case .onlyContents:
+            content
+        }
+    }
+}
+
+
+public enum GAlertType {
+    case includeIcon
+    case onlyContents
 }

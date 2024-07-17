@@ -25,6 +25,7 @@ public struct TeacherFeature {
         case addClassButtonTapped
         case noAction
         case setClassInformation([ClassInformation])
+        case navigateToClassDetail(String)
     }
 
     public var body: some ReducerOf<TeacherFeature> {
@@ -42,6 +43,8 @@ public struct TeacherFeature {
             case let .setClassInformation(classInformationList):
 //                state.classInformationList = []
                 state.classInformationList = classInformationList
+            case let .navigateToClassDetail(id):
+                break
             }
             return .none
         }

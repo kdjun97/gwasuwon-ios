@@ -17,7 +17,12 @@ public struct RootScreen {
         case signUp(SignUpFeature.State)
         case home(HomeFeature.State)
         case signUpRole(SignUpRoleFeature.State)
+        case signUpComplete(SignUpCompleteFeature.State)
         case addClass(AddClassFeature.State)
+        case addClassDetail(AddClassDetailFeature.State)
+        case addClassDone(AddClassDoneFeature.State)
+        case detailClass(DetailClassFeature.State)
+        case qrCode(QRFeature.State)
     }
 
     public enum Action {
@@ -25,7 +30,12 @@ public struct RootScreen {
         case signUp(SignUpFeature.Action)
         case home(HomeFeature.Action)
         case signUpRole(SignUpRoleFeature.Action)
+        case signUpComplete(SignUpCompleteFeature.Action)
         case addClass(AddClassFeature.Action)
+        case addClassDetail(AddClassDetailFeature.Action)
+        case addClassDone(AddClassDoneFeature.Action)
+        case detailClass(DetailClassFeature.Action)
+        case qrCode(QRFeature.Action)
     }
 
     public init() {}
@@ -42,8 +52,23 @@ public struct RootScreen {
         Scope(state: \.signUpRole, action: \.signUpRole) {
             SignUpRoleFeature()
         }
+        Scope(state: \.signUpComplete, action: \.signUpComplete) {
+            SignUpCompleteFeature()
+        }
         Scope(state: \.addClass, action: \.addClass) {
             AddClassFeature()
+        }
+        Scope(state: \.addClassDetail, action: \.addClassDetail) {
+            AddClassDetailFeature()
+        }
+        Scope(state: \.addClassDone, action: \.addClassDone) {
+            AddClassDoneFeature()
+        }
+        Scope(state: \.detailClass, action: \.detailClass) {
+            DetailClassFeature()
+        }
+        Scope(state: \.qrCode, action: \.qrCode) {
+            QRFeature()
         }
     }
 }

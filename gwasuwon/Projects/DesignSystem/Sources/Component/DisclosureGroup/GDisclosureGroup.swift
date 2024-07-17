@@ -8,17 +8,20 @@
 import SwiftUI
 
 public struct GDisclosureGroup: View {
+    let placeHolder: String
     let isExpanded: Binding<Bool>
-    let selectedItem: Binding<String>
+    let selectedItem: String
     let items: [String]
     let onClickAction: (String) -> Void
     
     public init(
+        placeHolder: String,
         isExpanded: Binding<Bool>,
-        selectedItem: Binding<String>,
+        selectedItem: String,
         items: [String],
         onClickAction: @escaping (String) -> Void
     ) {
+        self.placeHolder = placeHolder
         self.isExpanded = isExpanded
         self.selectedItem = selectedItem
         self.items = items
@@ -50,7 +53,11 @@ public struct GDisclosureGroup: View {
                 }
             },
             label: {
-                DisclosureGroupLabel(isExpanded: isExpanded, selectedItem: selectedItem)
+                DisclosureGroupLabel(
+                    placeHolder: placeHolder,
+                    isExpanded: isExpanded,
+                    selectedItem: selectedItem
+                )
             }
         )
         .disclosureGroupStyle(GDisclosureGroupStyle())
@@ -59,18 +66,20 @@ public struct GDisclosureGroup: View {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(Color.lineRegularAlternative, lineWidth: 1.0)
         )
-        .hPadding(16)
     }
 }
 
 private struct DisclosureGroupLabel: View  {
+    let placeHolder: String
     let isExpanded: Binding<Bool>
-    let selectedItem: Binding<String>
+    let selectedItem: String
     
     fileprivate init(
+        placeHolder: String,
         isExpanded: Binding<Bool>,
-        selectedItem: Binding<String>
+        selectedItem: String
     ) {
+        self.placeHolder = placeHolder
         self.isExpanded = isExpanded
         self.selectedItem = selectedItem
     }
@@ -81,19 +90,19 @@ private struct DisclosureGroupLabel: View  {
         } label: {
             HStack(spacing: 0) {
                 GText(
-                    selectedItem.wrappedValue.isEmpty
-                    ? "과목 선택"
-                    : selectedItem.wrappedValue,
+                    selectedItem.isEmpty
+                    ? placeHolder
+                    : selectedItem,
                     fontStyle: .Body_1_Normal_R,
-                    color: selectedItem.wrappedValue.isEmpty
+                    color: selectedItem.isEmpty
                     ? .labelAssistive
                     : .labelNormal
                             
                 )
                 Spacer()
                 isExpanded.wrappedValue
-                    ? GImage.icDown.swiftUIImage.resizedToFit(20, 20)
-                    : GImage.icUp.swiftUIImage.resizedToFit(20, 20)
+                    ? GImage.icUp.swiftUIImage.resizedToFit(20, 20)
+                    : GImage.icDown.swiftUIImage.resizedToFit(20, 20)
             }
             .vPadding(12)
             .hPadding(16)

@@ -7,19 +7,19 @@
 
 import ProjectDescription
 
-private let nameAttribute = Template.Attribute.required("name")
-private let path = "Projects/\(nameAttribute)"
+private let moduleNameAttribute = Template.Attribute.required("name")
+private let path = "Projects/\(moduleNameAttribute)"
 
 private let projectContents = """
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.module(name: \"\(nameAttribute)\")
+let project = Project.module(name: \"\(moduleNameAttribute)\")
 """
 
 private let template = Template(
     description: "A template for a new module",
-    attributes: [nameAttribute],
+    attributes: [moduleNameAttribute],
     items: [
         .string(
             path: "\(path)/Project.swift",

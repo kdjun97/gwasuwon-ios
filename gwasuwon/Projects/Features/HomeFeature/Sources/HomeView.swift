@@ -40,7 +40,7 @@ private struct HomeBody: View {
             if (viewStore.role == .teacher) {
                 TeacherView(store: store.scope(state: \.teacherState, action: \.teacherAction))
             } else {
-                StudentView()
+                StudentView(store: store.scope(state: \.studentState, action: \.studentAction))
             }
         }
     }
