@@ -16,11 +16,16 @@ public struct StudentFeature {
         public init() {}
         
         var isCameraPermissionGranted: Bool = false
+        var qrResult: String = ""
+        var isInviteDone: Bool = false
     }
 
     public enum Action {
         case qrScanButtonTapped
         case setCameraPermissionIsGranted(Bool)
+        case setQRResult(String)
+        case inviteClassDone
+        case navigateToStudentDetail
     }
 
     public var body: some ReducerOf<StudentFeature> {
@@ -30,6 +35,13 @@ public struct StudentFeature {
                 break
             case let .setCameraPermissionIsGranted(value):
                 state.isCameraPermissionGranted = value
+            case let .setQRResult(data):
+                state.qrResult = data
+                return .send(.inviteClassDone)
+            case .inviteClassDone:
+                state.isInviteDone = true
+            case .navigateToStudentDetail:
+                break
             }
             return .none
         }

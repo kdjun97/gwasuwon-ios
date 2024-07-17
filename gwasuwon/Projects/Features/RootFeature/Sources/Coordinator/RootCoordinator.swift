@@ -7,6 +7,7 @@
 
 import TCACoordinators
 import ComposableArchitecture
+import HomeFeature
 
 @Reducer
 public struct RootCoordinator {
@@ -43,6 +44,8 @@ public struct RootCoordinator {
                 addClassDoneNavigationHandler(addClassDoneAction, state: &state)
             case let .routeAction(_, action: .detailClass(detailClassAction)):
                 detailClassNavigationHandler(detailClassAction, state: &state)
+            case let .routeAction(id, action: .qrCode(qrAction)):
+                return qrCodeNavigationHandler(qrAction, state: &state, id: id)
             default:
                 break
             }
