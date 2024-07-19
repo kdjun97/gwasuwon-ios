@@ -11,7 +11,8 @@ let externalDependency: [DependencyInformation] = [
     .ComposableArchitecture, 
     .TCACoordinators,
     .Swinject,
-    .Dependencies
+    .Dependencies,
+    .KakaoSDKUser
 ]
 
 fileprivate enum ExternalDependencyInformation: String {
@@ -19,4 +20,5 @@ fileprivate enum ExternalDependencyInformation: String {
     case TCACoordinators = "TCACoordinators"
     case Swinject = "Swinject"
     case Dependencies = "Dependencies"
+    case KakaoSDKUser = "KakaoSDKUser"
 }

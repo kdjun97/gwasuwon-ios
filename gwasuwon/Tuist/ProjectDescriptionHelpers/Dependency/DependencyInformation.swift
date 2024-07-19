@@ -8,14 +8,14 @@
 import Foundation
 
 let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
-    .App: [.RootFeature, .DI, .Data],
+    .App: [.RootFeature, .DI, .Data, .KakaoSDKUser],
     .RootFeature: [.SignInFeature, .SignUpFeature, .HomeFeature, .ComposableArchitecture, .TCACoordinators],
     .BaseFeature: [.ComposableArchitecture],
     .SignInFeature: [.DesignSystem, .ComposableArchitecture, .BaseFeature],
     .SignUpFeature: [.DesignSystem, .ComposableArchitecture],
     .HomeFeature: [.DesignSystem, .ComposableArchitecture, .BaseFeature, .Domain, .QRScanner],
     .Domain: [.DI, .Dependencies],
-    .Data: [.Domain],
+    .Data: [.Domain, .KakaoSDKUser],
     .DI: [.Swinject],
     .QRScanner: []
 ]
@@ -36,6 +36,7 @@ public enum DependencyInformation: String {
     case Swinject = "Swinject"
     case Dependencies = "Dependencies"
     case QRScanner = "QRScanner"
+    case KakaoSDKUser = "KakaoSDKUser"
 }
 
 public enum UtilsDependencyInformation: String, CaseIterable {

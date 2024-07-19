@@ -23,6 +23,7 @@ public struct SignInView: View {
         .onAppear {
             viewStore.send(.onAppear)
         }
+        .gLoading(isPresent: viewStore.$isLoading)
     }
 }
 
