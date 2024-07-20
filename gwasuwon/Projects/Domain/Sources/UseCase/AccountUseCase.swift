@@ -9,15 +9,15 @@ import Dependencies
 import DI
 
 public struct AccountUseCase {
-    public let getTestApi: () async -> Result<Bool, NetworkError>
+    public let signIn: @Sendable (_ provider: String, _ thirdPartyAccessToken: String) async -> Result<SignInResult, NetworkError>
 }
 
 extension AccountUseCase: DependencyKey {
     public static var liveValue: AccountUseCase = {
         let repository: AccountRepositoryProtocol = DIContainer.shared.resolve()
         return AccountUseCase(
-            getTestApi: {
-                await repository.getApiTest()
+            signIn: { provider, thirdPartyAccessToken in
+                await repository.postSignIn(provider: provider, thirdPartyAccessToken: thirdPartyAccessToken)
             }
         )
     }()

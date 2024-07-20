@@ -33,7 +33,7 @@ public struct ApiService {
             
             var urlRequest = URLRequest(url: url)
             urlRequest.httpMethod = httpMethod.rawValue
-            urlRequest.timeoutInterval = 10
+            urlRequest.timeoutInterval = 60
             urlRequest.allHTTPHeaderFields = getHeaders()
             
             if let body = body {

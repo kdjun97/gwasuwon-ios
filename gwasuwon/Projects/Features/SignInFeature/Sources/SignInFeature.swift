@@ -10,9 +10,10 @@ import Domain
 
 public struct SignInFeature: Reducer {
     @Dependency(\.socialUseCase) var socialUseCase
+    @Dependency(\.accountUseCase) var accountUseCase
 
     public init() {}
-
+    
     public struct State: Equatable {
         public init() {}
         @BindingState var isLoading = false
@@ -25,8 +26,10 @@ public struct SignInFeature: Reducer {
         case appleButtonTapped
         case navigateToHome
         case navigateToSignUp
-        case successToGetKakaoAccessToken
-        case failureToGetKakaoAccessToken
+        case successToGetKakaoAccessToken(String)
+        case failureToGetKakaoAccessToken(NetworkError)
+        case signInSuccess(SignInResult)
+        case signInError(NetworkError)
     }
 
     public var body: some ReducerOf<SignInFeature> {
@@ -46,15 +49,33 @@ public struct SignInFeature: Reducer {
                 return .send(.navigateToHome)
             case .navigateToHome, .navigateToSignUp:
                 break
-            case .successToGetKakaoAccessToken:
+            case let .successToGetKakaoAccessToken(thirdPartyAccessToken):
+                return .run { [provider = SignInProvider.kakao.rawValue] send in
+                    await send(signIn(provider: provider, thirdPartyAccessToken: thirdPartyAccessToken))
+                }
+            case let .failureToGetKakaoAccessToken(error):
                 state.isLoading = false
-                break
-            case .failureToGetKakaoAccessToken:
+            case let .signInSuccess(signInResult):
                 state.isLoading = false
-                break
+                if (signInResult.status == SignInStatus.needSignUp.rawValue) {
+                    // TODO: Need To Go to signUp View
+                } else {
+                    // TODO: Go to Home
+                }
+            case let .signInError(error):
+                state.isLoading = false
             }
             return .none
         }
+    }
+    
+    private enum SignInStatus: String {
+        case needSignUp = "PENDING"
+        case success
+    }
+    
+    private enum SignInProvider: String {
+        case kakao = "kakao"
     }
 }
 
@@ -63,9 +84,19 @@ extension SignInFeature {
         let response = await socialUseCase.signInWithKakao()
         switch response {
         case let .success(result):
-            return .successToGetKakaoAccessToken
+            return .successToGetKakaoAccessToken(result)
         case let .failure(error):
-            return .failureToGetKakaoAccessToken
+            return .failureToGetKakaoAccessToken(error)
+        }
+    }
+    
+    private func signIn(provider: String, thirdPartyAccessToken: String) async -> Action {
+        let response = await accountUseCase.signIn(provider, thirdPartyAccessToken)
+        switch response {
+        case let .success(result):
+            return .signInSuccess(result)
+        case let .failure(error):
+            return .signInError(error)
         }
     }
 }

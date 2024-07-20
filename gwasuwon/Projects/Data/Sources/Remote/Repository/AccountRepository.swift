@@ -14,16 +14,17 @@ public struct AccountRepository: AccountRepositoryProtocol {
         self.apiService = apiService
     }
     
-    public func getApiTest() async -> Result<Bool, NetworkError> {
+    public func postSignIn(provider: String, thirdPartyAccessToken: String) async -> Result<SignInResult, NetworkError> {
         let responseData = await apiService.callApiService(
             httpMethod: .POST,
-            endPoint: AccountEndPoint.signIn.rawValue
+            endPoint: AccountEndPoint.signIn(provider).url,
+            body: SignInRequest(accessToken: thirdPartyAccessToken)
         )
-        let entityDataResult = ResultMapper<Bool>().toMap(responseData)
+        let entityDataResult = ResultMapper<SignInResponse>().toMap(responseData)
         
         switch entityDataResult {
-        case .success:
-            return .success(true)
+        case let .success(response):
+            return .success(AuthMapper.toSignInResult(response: response))
         case let .failure(errorCase):
             return .failure(errorCase)
         }

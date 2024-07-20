@@ -7,6 +7,13 @@
 
 import Foundation
 
-enum AccountEndPoint: String {
-    case signIn = "/authentication/apis/v1/login"
+enum AccountEndPoint {
+    case signIn(String)
+    
+    var url: String {
+        switch self {
+        case .signIn(let provider):
+            "/api/v1/auth/login/\(provider)"
+        }
+    }
 }
