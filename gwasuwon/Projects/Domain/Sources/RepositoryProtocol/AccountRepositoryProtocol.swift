@@ -6,5 +6,5 @@
 //
 
 public protocol AccountRepositoryProtocol {
-    func getApiTest() async -> Result<Bool, NetworkError>
+    func postSignIn(provider: String, thirdPartyAccessToken: String) async -> Result<SignInResult, NetworkError>
 }
