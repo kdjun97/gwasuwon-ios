@@ -39,17 +39,19 @@ private struct DetailClassBodyView: View {
     
     fileprivate var body: some View {
         VStack(spacing: 0) {
-            DetailClassNavigationBar(viewStore: viewStore)
-            GCalendar().padding(.bottom, 16)
-            CalendarLabelView().padding(.bottom, 24)
-            CalendarInfoView(viewStore: viewStore)
+            DetailClassNavigationBar(viewStore: viewStore).hPadding(16)
+            ScrollView {
+                GCalendar(viewStore: viewStore).padding(.bottom, 16).hPadding(16)
+                CalendarLabelView().padding(.bottom, 24).hPadding(16)
+                CalendarInfoView(viewStore: viewStore).hPadding(16)
+            }
             Spacer()
             GButton(
                 title: "학생 초대 QR",
                 style: .enabled,
                 buttonAction: {}
-            )
-        }.hPadding(16)
+            ).hPadding(16)
+        }
     }
 }
 
@@ -91,10 +93,18 @@ private struct DetailClassNavigationBar: View {
 }
 
 private struct GCalendar: View {
+    @ObservedObject var viewStore: ViewStoreOf<DetailClassFeature>
+    
+    fileprivate init(viewStore: ViewStoreOf<DetailClassFeature>) {
+        self.viewStore = viewStore
+    }
+    
     fileprivate var body: some View {
         VStack {
-            
-        }.greedyWidth().frame(height: 288).background(.pink)
+            GCalenderView(clickedCurrentMonthDates: viewStore.date) { newValue in
+                // TODO: Implement logic
+            }
+        }.greedyWidth()
     }
 }
 
