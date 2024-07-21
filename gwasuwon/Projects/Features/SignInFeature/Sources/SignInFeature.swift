@@ -60,7 +60,8 @@ public struct SignInFeature: Reducer {
                 if (signInResult.status == SignInStatus.needSignUp.rawValue) {
                     return .send(.navigateToSignUp(signInResult))
                 } else {
-                    // TODO: Go to Home
+                    UserManager.shared.setUserInfo(id: signInResult.id, email: signInResult.email, role: signInResult.role)
+                    return .send(.navigateToHome)
                 }
             case let .signInError(error):
                 state.isLoading = false
