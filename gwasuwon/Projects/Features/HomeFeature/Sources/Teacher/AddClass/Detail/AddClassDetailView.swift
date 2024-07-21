@@ -9,6 +9,7 @@ import ComposableArchitecture
 import DesignSystem
 import SwiftUI
 import BaseFeature
+import Util
 
 public struct AddClassDetailView: View {
     let store: StoreOf<AddClassDetailFeature>
