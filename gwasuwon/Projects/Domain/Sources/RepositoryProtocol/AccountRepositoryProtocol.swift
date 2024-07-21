@@ -7,4 +7,5 @@
 
 public protocol AccountRepositoryProtocol {
     func postSignIn(provider: String, thirdPartyAccessToken: String) async -> Result<SignInResult, NetworkError>
+    func postSignUp(accessToken: String, type: String) async -> Result<SignUpResult, NetworkError>
 }

@@ -24,7 +24,30 @@ public struct AccountRepository: AccountRepositoryProtocol {
         
         switch entityDataResult {
         case let .success(response):
+            KeyChainStorage.save(key: KeyStorageKeys.REFRESH_TOKEN, data: response.refreshToken)
             return .success(AuthMapper.toSignInResult(response: response))
+        case let .failure(errorCase):
+            return .failure(errorCase)
+        }
+    }
+    
+    public func postSignUp(accessToken: String, type: String) async -> Result<SignUpResult, NetworkError> {
+        KeyChainStorage.save(key: KeyStorageKeys.ACCESS_TOKEN, data: accessToken)
+        let responseData = await apiService.callApiService(
+            httpMethod: .POST,
+            endPoint: AccountEndPoint.signUp.url,
+            body: SignUpRequest(
+                privacyPolicyAgreement: true,
+                termsOfServiceAgreement: true,
+                role: type
+            )
+        )
+
+        let entityDataResult = ResultMapper<SignUpResponse>().toMap(responseData)
+        
+        switch entityDataResult {
+        case let .success(response):
+            return .success(AuthMapper.toSignUpResult(response: response))
         case let .failure(errorCase):
             return .failure(errorCase)
         }

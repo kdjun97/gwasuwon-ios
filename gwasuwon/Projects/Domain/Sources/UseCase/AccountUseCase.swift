@@ -10,6 +10,7 @@ import DI
 
 public struct AccountUseCase {
     public let signIn: @Sendable (_ provider: String, _ thirdPartyAccessToken: String) async -> Result<SignInResult, NetworkError>
+    public let signUp: @Sendable (_ accessToken: String, _ type: String) async -> Result<SignUpResult, NetworkError>
 }
 
 extension AccountUseCase: DependencyKey {
@@ -18,6 +19,9 @@ extension AccountUseCase: DependencyKey {
         return AccountUseCase(
             signIn: { provider, thirdPartyAccessToken in
                 await repository.postSignIn(provider: provider, thirdPartyAccessToken: thirdPartyAccessToken)
+            },
+            signUp: { accessToken, type in
+                await repository.postSignUp(accessToken: accessToken, type: type)
             }
         )
     }()
