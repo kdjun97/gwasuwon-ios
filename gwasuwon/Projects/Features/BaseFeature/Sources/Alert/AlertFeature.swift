@@ -16,7 +16,7 @@ public struct AlertFeature {
         internal var scrimOpacity: CGFloat
         internal var contentAllowsHitTesting: Bool
         public internal(set) var isPresented: Bool
-        public var endScrimOpacity: CGFloat = 0.5
+        public var endScrimOpacity: CGFloat = 0.75
         public var dismissOnScrimTap: Bool
 
         public init(dismissOnScrimTap: Bool = true) {
@@ -40,7 +40,7 @@ public struct AlertFeature {
             case .present:
                 state.isPresented = true
                 state.contentAllowsHitTesting = false
-                return .send(.scrimOpacityChanged(opacity: 1))
+                return .send(.scrimOpacityChanged(opacity: 0.75))
 
             case .dismiss:
                 state.isPresented = false

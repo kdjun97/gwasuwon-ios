@@ -5,7 +5,7 @@
 //  Created by 김동준 on 7/20/24
 //
 
-public struct SignInResult {
+public struct SignInResult: Equatable {
     public let id: Int
     public let email: String
     public let accessToken: String

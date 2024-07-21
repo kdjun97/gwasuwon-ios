@@ -8,7 +8,7 @@
 import Foundation
 import Security
 
-class KeyChain {
+class KeyChainStorage {
     class func save(key: String, data: String) {
         let query: NSDictionary = [
             kSecClass: kSecClassGenericPassword,
@@ -20,7 +20,7 @@ class KeyChain {
         let status = SecItemAdd(query, nil)
         assert(status == noErr, "failed to save data")
     }
-    
+
     class func read(key: String) -> String? {
         let query: NSDictionary = [
             kSecClass: kSecClassGenericPassword,
@@ -28,10 +28,10 @@ class KeyChain {
             kSecReturnData: true,
             kSecMatchLimit: kSecMatchLimitOne
         ]
-        
+
         var dataTypeRef: AnyObject?
         let status = SecItemCopyMatching(query, &dataTypeRef)
-        
+
         if status == errSecSuccess {
             if let retrievedData: Data = dataTypeRef as? Data {
                 let value = String(data: retrievedData, encoding: String.Encoding.utf8)
@@ -43,6 +43,11 @@ class KeyChain {
         }
     }
     
+    class func update(key: String, data: String) {
+        delete(key: key)
+        save(key: key, data: data)
+    }
+
     class func delete(key: String) {
         let query: NSDictionary = [
             kSecClass: kSecClassGenericPassword,

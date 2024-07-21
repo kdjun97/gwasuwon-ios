@@ -6,13 +6,17 @@
 //
 
 import ComposableArchitecture
+import Domain
 
 @Reducer
 public struct SignUpFeature {
     public init() {}
 
     public struct State: Equatable {
-        public init() {}
+        public init(signInResult: SignInResult) {
+            self.signInResult = signInResult
+        }
+        
         var isAllAgreementChecked: Bool {
             get {
                 isPersonalInformationChecked && isGwasuwonTermsChecked
@@ -25,6 +29,8 @@ public struct SignUpFeature {
         }
         @BindingState var isPersonalInformationChecked: Bool = false
         @BindingState var isGwasuwonTermsChecked: Bool = false
+        
+        var signInResult: SignInResult
     }
 
     public enum Action: BindableAction, Equatable {
@@ -34,6 +40,7 @@ public struct SignUpFeature {
         case togglePersonalInformation
         case toggleGwasuwonTerms
         case nextButtonTapped
+        case navigateToSignUpRole(SignInResult)
     }
 
     public var body: some ReducerOf<SignUpFeature> {
@@ -51,6 +58,8 @@ public struct SignUpFeature {
             case .toggleGwasuwonTerms:
                 state.isGwasuwonTermsChecked.toggle()
             case .nextButtonTapped:
+                return .send(.navigateToSignUpRole(state.signInResult))
+            case let .navigateToSignUpRole(signInResult):
                 break
             }
             return .none

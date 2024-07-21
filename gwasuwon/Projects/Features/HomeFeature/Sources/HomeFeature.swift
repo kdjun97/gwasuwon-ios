@@ -15,7 +15,7 @@ public struct HomeFeature {
     public struct State: Equatable {
         public init() {}
         
-        var role: AuthRole = .student
+        var role: AuthRole = AuthRole(rawValue: UserManager.shared.role) ?? .teacher
         public var teacherState = TeacherFeature.State()
         public var studentState = StudentFeature.State()
     }

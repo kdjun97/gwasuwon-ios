@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import ComposableArchitecture
+import DesignSystem
 
 public extension View {
     @ViewBuilder
@@ -41,7 +42,7 @@ private struct AlertViewModifier<AlertContent>: ViewModifier where AlertContent:
             content
                 .allowsHitTesting(viewStore.contentAllowsHitTesting)
             
-            Color.black
+            GColor.staticBlack.swiftUIColor
                 .opacity(viewStore.scrimOpacity)
                 .opacity(viewStore.endScrimOpacity)
                 .edgesIgnoringSafeArea(.all)

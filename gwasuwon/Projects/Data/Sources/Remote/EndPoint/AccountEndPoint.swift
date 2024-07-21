@@ -9,11 +9,17 @@ import Foundation
 
 enum AccountEndPoint {
     case signIn(String)
+    case signUp
+    case refreshToken
     
     var url: String {
         switch self {
         case .signIn(let provider):
             "/api/v1/auth/login/\(provider)"
+        case .signUp:
+            "/api/v1/users/activation"
+        case .refreshToken:
+            "/api/v1/auth/token/refresh"
         }
     }
 }

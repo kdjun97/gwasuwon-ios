@@ -13,8 +13,8 @@ extension RootCoordinator {
         switch action {
         case .navigateToHome:
             state.routes = [.root(.home(.init()), embedInNavigationView: true)]
-        case .navigateToSignUp:
-            state.routes = [.root(.signUp(.init()), embedInNavigationView: true)]
+        case let .navigateToSignUp(signInResult):
+            state.routes = [.root(.signUp(.init(signInResult: signInResult)), embedInNavigationView: true)]
         default:
             break
         }

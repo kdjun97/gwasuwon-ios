@@ -8,6 +8,7 @@
 import SwiftUI
 import ComposableArchitecture
 import DesignSystem
+import BaseFeature
 
 public struct SignUpRoleView: View {
     let store: StoreOf<SignUpRoleFeature>
@@ -23,6 +24,18 @@ public struct SignUpRoleView: View {
         .navigationBarBackButtonHidden(true)
         .onAppear {
             viewStore.send(.onAppear)
+        }
+        .gLoading(isPresent: viewStore.$isLoading)
+        .gAlert(self.store.scope(state: \.alertState, action: \.alertAction)) {
+            GAlert(
+                type: .includeIcon,
+                title: "에러",
+                contents: "회원 가입 실패",
+                extraButtonTitle: "확인",
+                extraButtonAction: {
+                    viewStore.send(.alertAction(.dismiss))
+                }
+            )
         }
     }
 }

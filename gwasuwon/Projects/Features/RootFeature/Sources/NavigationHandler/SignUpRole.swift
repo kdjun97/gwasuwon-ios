@@ -11,9 +11,7 @@ import SignUpFeature
 extension RootCoordinator {
     func signUpRoleNavigationHandler(_ action: SignUpRoleFeature.Action, state: inout RootCoordinator.State) {
         switch action {
-        case .teacherButtonTapped:
-            state.routes.push(.signUpComplete(.init()))
-        case .studentButtonTapped:
+        case .navigateToSignUpComplete:
             state.routes.push(.signUpComplete(.init()))
         default:
             break

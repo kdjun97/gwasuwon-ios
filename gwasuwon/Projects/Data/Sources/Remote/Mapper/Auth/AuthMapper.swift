@@ -18,4 +18,13 @@ class AuthMapper {
             role: response.role
         )
     }
+    
+    static func toSignUpResult(response: SignUpResponse) -> SignUpResult {
+        return SignUpResult(
+            id: response.id,
+            email: response.email,
+            role: response.role,
+            status: response.status
+        )
+    }
 }
