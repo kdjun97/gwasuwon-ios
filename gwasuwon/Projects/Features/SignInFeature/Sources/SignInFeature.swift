@@ -25,7 +25,7 @@ public struct SignInFeature: Reducer {
         case kakaoButtonTapped
         case appleButtonTapped
         case navigateToHome
-        case navigateToSignUp
+        case navigateToSignUp(SignInResult)
         case successToGetKakaoAccessToken(String)
         case failureToGetKakaoAccessToken(NetworkError)
         case signInSuccess(SignInResult)
@@ -58,7 +58,7 @@ public struct SignInFeature: Reducer {
             case let .signInSuccess(signInResult):
                 state.isLoading = false
                 if (signInResult.status == SignInStatus.needSignUp.rawValue) {
-                    // TODO: Need To Go to signUp View
+                    return .send(.navigateToSignUp(signInResult))
                 } else {
                     // TODO: Go to Home
                 }
