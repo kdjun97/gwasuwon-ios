@@ -8,6 +8,7 @@
 import ComposableArchitecture
 import BaseFeature
 import Domain
+import Foundation
 
 @Reducer
 public struct DetailClassFeature {
@@ -23,6 +24,7 @@ public struct DetailClassFeature {
         
         var classId: String
         var classInformation: ClassInformation? = nil
+        @BindingState var date: Date? = nil
     }
 
     public enum Action: BindableAction, Equatable {
@@ -46,6 +48,8 @@ public struct DetailClassFeature {
                 return .run { [classId = state.classId] send in
                     await send(getDetailClass(classId: classId))
                 }
+            case .binding(\.$date):
+                print("DONGJUN \(state.date)")
             case .binding:
                 break
             case .detailClassAlertAction:
