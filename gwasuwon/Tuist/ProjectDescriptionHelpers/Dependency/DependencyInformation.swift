@@ -11,11 +11,11 @@ let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
     .App: [.RootFeature, .DI, .Data, .KakaoSDKUser],
     .RootFeature: [.SignInFeature, .SignUpFeature, .HomeFeature, .ComposableArchitecture, .TCACoordinators],
     .BaseFeature: [.ComposableArchitecture],
-    .SignInFeature: [.DesignSystem, .ComposableArchitecture, .BaseFeature],
-    .SignUpFeature: [.DesignSystem, .ComposableArchitecture],
+    .SignInFeature: [.DesignSystem, .ComposableArchitecture, .BaseFeature, .Domain],
+    .SignUpFeature: [.DesignSystem, .ComposableArchitecture, .BaseFeature, .Domain],
     .HomeFeature: [.DesignSystem, .ComposableArchitecture, .BaseFeature, .Domain, .QRScanner],
     .Domain: [.DI, .Dependencies],
-    .Data: [.Domain, .KakaoSDKUser, .KeyChainStorage],
+    .Data: [.Domain, .KakaoSDKUser],
     .DI: [.Swinject],
     .QRScanner: []
 ]
@@ -37,10 +37,8 @@ public enum DependencyInformation: String {
     case Dependencies = "Dependencies"
     case QRScanner = "QRScanner"
     case KakaoSDKUser = "KakaoSDKUser"
-    case KeyChainStorage = "KeyChainStorage"
 }
 
 public enum UtilsDependencyInformation: String, CaseIterable {
     case QRScanner = "QRScanner"
-    case KeyChainStorage = "KeyChainStorage"
 }
