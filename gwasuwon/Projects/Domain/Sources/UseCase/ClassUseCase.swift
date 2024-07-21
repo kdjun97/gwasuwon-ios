@@ -9,7 +9,7 @@ import Dependencies
 import DI
 
 public struct ClassUseCase {
-    public let getClassList: () async -> Result<[ClassInformation], NetworkError>
+    public let getClassList: () async -> Result<ClassInformation, NetworkError>
     public let getDetailClass: (_ id: String) async -> Result<ClassInformation, NetworkError>
 }
 
@@ -18,9 +18,8 @@ extension ClassUseCase: DependencyKey {
         let repository: ClassRepositoryProtocol = DIContainer.shared.resolve()
         return ClassUseCase(
             getClassList: {
-                // await repository.getClassList() -> API Call 아직 미구현
-                return .success(DummyClass.classList)
-            }, 
+                 await repository.getClassList()
+            },
             getDetailClass: { id in
                 // await repository.getDetailClass() -> API Call 아직 미구현
                 return .success(DummyClass.detailClass)

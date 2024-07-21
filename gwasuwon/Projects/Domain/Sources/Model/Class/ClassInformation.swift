@@ -6,14 +6,47 @@
 //
 
 public struct ClassInformation: Hashable {
-    public let id: String
-    public let className: String
+    public let classCount: Int
+    public let classInformationItems: [ClassInformationItem]
+    
+    public init(
+        classCount: Int,
+        classInformationItems: [ClassInformationItem]
+    ) {
+        self.classCount = classCount
+        self.classInformationItems = classInformationItems
+    }
+}
+
+public struct ClassInformationItem: Hashable {
+    public let id: Int
+    public let subject: String
     public let studentName: String
-    public let studentAge: String
+    public let grade: String
     public let days: [String]
-    public let time: Int
+    public let sessionDuration: String
     public let maxNumOfClass: Int
     public let currentNumOfClass: Int
+    
+    public init(
+        id: Int,
+        subject: String,
+        studentName: String,
+        grade: String,
+        days: [String],
+        sessionDuration: String,
+        maxNumOfClass: Int,
+        currentNumOfClass: Int
+    ) {
+        self.id = id
+        self.subject = subject
+        self.studentName = studentName
+        self.grade = grade
+        self.days = days
+        self.sessionDuration = sessionDuration
+        self.maxNumOfClass = maxNumOfClass
+        self.currentNumOfClass = currentNumOfClass
+    }
 }
 
 public enum SubjectType: String, CaseIterable {

@@ -15,7 +15,7 @@ public struct AddClassDoneFeature {
     public struct State: Equatable {
         public init() {}
         @BindingState var addClassDoneAlertState: AlertFeature.State = .init()
-        var tempId: String = "123123"
+        var tempId: Int = 123123
     }
 
     public enum Action: BindableAction, Equatable {
@@ -23,7 +23,7 @@ public struct AddClassDoneFeature {
         case binding(BindingAction<State>)
         case addClassDoneAlertAction(AlertFeature.Action)
         case sendContractButtonTapped
-        case showClassInfoButtonTapped(String)
+        case showClassInfoButtonTapped(Int)
         case showAlert
     }
 

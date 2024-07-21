@@ -8,26 +8,26 @@
 
 struct DummyClass {
     static let classList: [ClassInformation] = [
-        ClassInformation(
-            id: "1",
-            className: "수학",
-            studentName: "김철수",
-            studentAge: "고2",
-            days: ["수", "금"],
-            time: 2,
+        .init(classCount: 1, classInformationItems: [.init(
+            id: 1,
+            subject: "수학",
+            studentName: "김한동",
+            grade: "고1",
+            days: ["월", "수", "금"],
+            sessionDuration: "PT1H30M",
             maxNumOfClass: 8,
-            currentNumOfClass: 0
-        )
+            currentNumOfClass: 1)
+        ])
     ]
     
-    static let detailClass: ClassInformation = ClassInformation(
-        id: "1",
-        className: "수학",
-        studentName: "김철수",
-        studentAge: "고2",
-        days: ["수", "금"],
-        time: 2,
+    static let detailClass: ClassInformation = ClassInformation(classCount: 1, classInformationItems: [.init(
+        id: 1,
+        subject: "수학",
+        studentName: "김한동",
+        grade: "고1",
+        days: ["월", "수", "금"],
+        sessionDuration: "PT1H30M",
         maxNumOfClass: 8,
-        currentNumOfClass: 0
-    )
+        currentNumOfClass: 1)
+    ])
 }
