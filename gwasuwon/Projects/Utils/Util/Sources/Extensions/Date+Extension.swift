@@ -1,8 +1,8 @@
 //
 //  Date+Extension.swift
-//  BaseFeature
+//  Util
 //
-//  Created by 김동준 on 7/13/24
+//  Created by 김동준 on 7/21/24
 //
 
 import Foundation
@@ -15,4 +15,3 @@ extension Date {
         return dateFormat
     }
 }
-
