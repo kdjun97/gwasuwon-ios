@@ -101,7 +101,7 @@ private struct GCalendar: View {
     
     fileprivate var body: some View {
         VStack {
-            GCalenderView(clickedCurrentMonthDates: viewStore.date) { newValue in
+            GCalenderView() { newValue in
                 // TODO: Implement logic
             }
         }.greedyWidth()
