@@ -25,6 +25,7 @@ struct TeacherView: View {
         .onAppear {
             viewStore.send(.onAppear)
         }
+        .gLoading(isPresent: viewStore.$isLoading)
     }
 }
 
@@ -36,7 +37,7 @@ private struct TeacherBodyView: View {
     }
     
     fileprivate var body: some View {
-        if viewStore.classInformationList.isEmpty {
+        if (viewStore.classInformation?.classCount ?? 0) == 0 {
             ClassEmptyView(viewStore: viewStore)
         } else {
             ClassNormalView(viewStore: viewStore)
@@ -92,12 +93,14 @@ private struct ClassNormalView: View {
     fileprivate var body: some View {
         VStack(spacing: 0) {
             GNavigationBar(title: "수업 목록").padding(.bottom, 24)
-            ForEach(viewStore.classInformationList, id: \.self) { item in
-                Button {
-                    viewStore.send(.navigateToClassDetail(item.id))
-                } label: {
-                    ClassItem(item: item)
-                }.padding(.bottom, 16)
+            if let classInfo = viewStore.classInformation {
+                ForEach(classInfo.classInformationItems, id: \.self) { item in
+                    Button {
+                        viewStore.send(.navigateToClassDetail(item.id))
+                    } label: {
+                        ClassItem(item: item)
+                    }.padding(.bottom, 16)
+                }
             }
             GLeadingStrokeButton(
                 title: "수업 추가하기",
@@ -112,9 +115,9 @@ private struct ClassNormalView: View {
 }
 
 private struct ClassItem: View {
-    let item: ClassInformation
+    let item: ClassInformationItem
     
-    fileprivate init(item: ClassInformation) {
+    fileprivate init(item: ClassInformationItem) {
         self.item = item
     }
     
@@ -127,7 +130,7 @@ private struct ClassItem: View {
                     color: .labelNormal
                 )
                 GText(
-                    item.studentAge + " / " + item.className,
+                    item.grade + " / " + item.subject.name,
                     fontStyle: .Caption_1_R,
                     color: .labelNormal
                 )
@@ -135,12 +138,12 @@ private struct ClassItem: View {
             }.greedyWidth(.leading)
             HStack(spacing: 0) {
                 GBadge(
-                    title: item.days.joined(separator: ","),
+                    title: item.days.map{ $0.name }.joined(separator: ","),
                     fontColor: .staticWhite,
                     style: .positive
                 ).padding(.trailing, 4)
                 GBadge(
-                    title: "\(item.time)시간",
+                    title: "\(item.sessionDuration.convertISO8601TimeToString)",
                     fontColor: .staticWhite,
                     style: .cautionary
                 )

@@ -65,7 +65,7 @@ private struct DetailClassNavigationBar: View {
     fileprivate var body: some View {
         HStack(spacing: 0) {
             GNavigationBar(
-                title: "\(viewStore.classInformation?.studentName ?? "") 학생",
+                title: "수업 목록",
                 leadingIcon: GImage.icBack.swiftUIImage,
                 leadingIconAction: {
                     viewStore.send(.navigateToBack)
@@ -101,7 +101,7 @@ private struct GCalendar: View {
     
     fileprivate var body: some View {
         VStack {
-            GCalenderView(clickedCurrentMonthDates: viewStore.date) { newValue in
+            GCalenderView() { newValue in
                 // TODO: Implement logic
             }
         }.greedyWidth()

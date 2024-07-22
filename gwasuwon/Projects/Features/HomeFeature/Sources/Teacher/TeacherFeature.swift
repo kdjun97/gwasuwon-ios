@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Domain
+import BaseFeature
 
 @Reducer
 public struct TeacherFeature {
@@ -16,38 +17,58 @@ public struct TeacherFeature {
     public struct State: Equatable {
         public init() {}
         
-        var role: AuthRole = .teacher
-        var classInformationList: [ClassInformation] = [] // TODO: type 수업 모델로 변경
+        enum AlertCase {
+            case none
+            case failure
+        }
+        
+        var role: AuthRole = AuthRole(rawValue: UserManager.shared.role) ?? .teacher
+        var classInformation: ClassInformation? = nil
+        @BindingState var isLoading = false
+        @BindingState var alertState: AlertFeature.State = .init()
+        var alertCase: AlertCase = .none
     }
 
-    public enum Action {
+    public enum Action: BindableAction {
+        case binding(BindingAction<State>)
+        case alertAction(AlertFeature.Action)
         case onAppear
         case addClassButtonTapped
         case noAction
-        case setClassInformation([ClassInformation])
-        case navigateToClassDetail(String)
+        case setClassInformation(ClassInformation)
+        case navigateToClassDetail(Int)
     }
 
     public var body: some ReducerOf<TeacherFeature> {
+        BindingReducer()
         Reduce { state, action in
             switch action {
             case .onAppear:
-                // TODO: Loading 처리
+                state.isLoading = true
                 return .run { send in
                     await send(getClassList())
                 }
+            case .binding:
+                break
             case .addClassButtonTapped:
                 break
             case .noAction:
+                state.isLoading = false
                 break
-            case let .setClassInformation(classInformationList):
-//                state.classInformationList = []
-                state.classInformationList = classInformationList
+            case let .setClassInformation(classInformation):
+                state.isLoading = false
+                print("dONGJUN -> classInformation \(classInformation)")
+                state.classInformation = classInformation
             case let .navigateToClassDetail(id):
+                break
+            case .alertAction:
                 break
             }
             return .none
         }
+        Scope(state: \.alertState, action: \.alertAction, child: {
+            AlertFeature()
+        })
     }
 }
 

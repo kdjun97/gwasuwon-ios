@@ -16,15 +16,14 @@ public struct DetailClassFeature {
     @Dependency(\.classUseCase) var classUseCase
 
     public struct State: Equatable {
-        public init(id: String) {
+        public init(id: Int) {
             classId = id
         }
         @BindingState var detailClassAlertState: AlertFeature.State = .init()
         var detailClassAlertCase: DetailClassAlertCase = .none
         
-        var classId: String
+        var classId: Int
         var classInformation: ClassInformation? = nil
-        @BindingState var date: Date? = nil
     }
 
     public enum Action: BindableAction, Equatable {
@@ -48,8 +47,6 @@ public struct DetailClassFeature {
                 return .run { [classId = state.classId] send in
                     await send(getDetailClass(classId: classId))
                 }
-            case .binding(\.$date):
-                print("DONGJUN \(state.date)")
             case .binding:
                 break
             case .detailClassAlertAction:
@@ -79,8 +76,8 @@ public struct DetailClassFeature {
 }
 
 extension DetailClassFeature {
-    private func getDetailClass(classId: String) async -> Action {
-        let response = await classUseCase.getDetailClass(classId)
+    private func getDetailClass(classId: Int) async -> Action {
+        let response = await classUseCase.getDetailClass("\(classId)")
         
         switch response {
         case let .success(classInformation):
