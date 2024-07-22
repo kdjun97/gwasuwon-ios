@@ -10,11 +10,11 @@ struct DummyClass {
     static let classList: [ClassInformation] = [
         .init(classCount: 1, classInformationItems: [.init(
             id: 1,
-            subject: "수학",
+            subject: .math,
             studentName: "김한동",
             grade: "고1",
-            days: ["월", "수", "금"],
-            sessionDuration: "PT1H30M",
+            days: [.mon, .wed, .fri],
+            sessionDuration: .oneHalf,
             maxNumOfClass: 8,
             currentNumOfClass: 1)
         ])
@@ -22,11 +22,11 @@ struct DummyClass {
     
     static let detailClass: ClassInformation = ClassInformation(classCount: 1, classInformationItems: [.init(
         id: 1,
-        subject: "수학",
+        subject: .math,
         studentName: "김한동",
         grade: "고1",
-        days: ["월", "수", "금"],
-        sessionDuration: "PT1H30M",
+        days: [.mon, .wed, .fri],
+        sessionDuration: .oneHalf,
         maxNumOfClass: 8,
         currentNumOfClass: 1)
     ])

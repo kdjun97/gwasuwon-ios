@@ -130,7 +130,7 @@ private struct ClassItem: View {
                     color: .labelNormal
                 )
                 GText(
-                    item.grade + " / " + item.subject,
+                    item.grade + " / " + item.subject.name,
                     fontStyle: .Caption_1_R,
                     color: .labelNormal
                 )
@@ -138,12 +138,12 @@ private struct ClassItem: View {
             }.greedyWidth(.leading)
             HStack(spacing: 0) {
                 GBadge(
-                    title: item.days.joined(separator: ","),
+                    title: item.days.map{ $0.name }.joined(separator: ","),
                     fontColor: .staticWhite,
                     style: .positive
                 ).padding(.trailing, 4)
                 GBadge(
-                    title: "\(item.sessionDuration)시간",
+                    title: "\(item.sessionDuration.convertISO8601TimeToString)",
                     fontColor: .staticWhite,
                     style: .cautionary
                 )

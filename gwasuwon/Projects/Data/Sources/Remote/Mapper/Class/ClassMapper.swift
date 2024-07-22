@@ -14,11 +14,11 @@ class ClassMapper {
             classInformationItems: response.content.map { item in
                 ClassInformationItem(
                     id: item.id,
-                    subject: item.subject,
+                    subject: SubjectType(rawValue: item.subject) ?? .none,
                     studentName: item.studentName,
                     grade: item.grade,
-                    days: item.classDays,
-                    sessionDuration: "",// item.sessionDuration,
+                    days: item.classDays.map { ClassDayType(rawValue: $0) ?? .mon },
+                    sessionDuration: .one, // SessionDurationType(rawValue: item.sessionDuration) ?? .one,
                     maxNumOfClass: item.numberOfSessions,
                     currentNumOfClass: item.numberOfSessionsCompleted
                 )
