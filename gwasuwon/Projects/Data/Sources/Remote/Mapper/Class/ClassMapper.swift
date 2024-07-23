@@ -18,8 +18,8 @@ class ClassMapper {
                     studentName: item.studentName,
                     grade: item.grade,
                     days: item.classDays.map { ClassDayType(rawValue: $0) ?? .mon },
-                    sessionDuration: .one, // SessionDurationType(rawValue: item.sessionDuration) ?? .one,
-                    maxNumOfClass: item.numberOfSessions,
+                    sessionDuration: SessionDurationType(rawValue: item.sessionDuration) ?? .none,
+                    numberOfSessions: item.numberOfSessions,
                     currentNumOfClass: item.numberOfSessionsCompleted
                 )
                 

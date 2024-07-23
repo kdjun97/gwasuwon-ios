@@ -25,6 +25,7 @@ public struct AddClassDetailView: View {
         .onAppear {
             viewStore.send(.onAppear)
         }
+        .gLoading(isPresent: viewStore.$isLoading)
         .gAlert(self.store.scope(state: \.addClassDetailAlertState, action: \.addClassDetailAlertAction)) {
             GAlert(
                 type: .onlyContents,
@@ -90,8 +91,8 @@ private struct AdditionalInformationView: View {
             GDisclosureGroup(
                 placeHolder: "과목 선택",
                 isExpanded: viewStore.$isSubjectExpanded,
-                selectedItem: viewStore.selectedSubject.rawValue,
-                items: viewStore.subjectList.map {$0.rawValue},
+                selectedItem: viewStore.selectedSubject.name,
+                items: viewStore.subjectList.map {$0.name},
                 onClickAction: { value in
                     viewStore.send(.selectSubject(value))
                 }
@@ -116,15 +117,15 @@ private struct ClassScheduleView: View {
             )
             .greedyWidth(.leading)
             .padding(.bottom, 24)
+            ClassStartDayView(viewStore: viewStore)
             ClassTimeView(viewStore: viewStore)
             ClassProgressDaysView(viewStore: viewStore).padding(.bottom, 24)
             GTextField(
                 label: "진행 횟수",
                 hintText: "ex) 8",
-                text: viewStore.$classProgressCount,
+                text: viewStore.$numberOfSessions,
                 keyboardType: .numberPad
             ).padding(.bottom, 24)
-            ClassStartDayView(viewStore: viewStore)
             ClassDelayCountView(viewStore: viewStore)
         }
     }
@@ -147,11 +148,11 @@ private struct ClassTimeView: View {
         .greedyWidth(.leading)
         GDisclosureGroup(
             placeHolder: "진행 시간",
-            isExpanded: viewStore.$isClassTimeExpanded,
-            selectedItem: viewStore.selectedClassTime.rawValue,
-            items: viewStore.classTimeList.map {$0.rawValue},
+            isExpanded: viewStore.$isSessionDurationExpanded,
+            selectedItem: viewStore.selectedSessionDurationType.convertISO8601TimeToString,
+            items: viewStore.sessionDurationList.map {$0.convertISO8601TimeToString},
             onClickAction: { value in
-                viewStore.send(.selectClassTime(value))
+                viewStore.send(.selectSessionDuration(value))
             }
         )
         .padding(.bottom, 24)
@@ -181,7 +182,7 @@ private struct ClassProgressDaysView: View {
                         viewStore.send(.selectClassDay(index))
                     } label: {
                         GText(
-                            item.classDay.rawValue,
+                            item.classDay.name,
                             fontStyle: .Body_1_Normal_B,
                             color: item.isSelected ? .staticWhite : .labelNormal
                         )
@@ -281,7 +282,7 @@ private struct ClassDelayCountView: View {
             GDisclosureGroup(
                 placeHolder: "미루기 횟수",
                 isExpanded: viewStore.$isClassDelayCountExpanded,
-                selectedItem: viewStore.selectedClassDelayCount.rawValue,
+                selectedItem: viewStore.selectedRescheduleCount.rawValue,
                 items: viewStore.classDelayCountList.map {$0.rawValue},
                 onClickAction: { value in
                     viewStore.send(.selectClassDelayCount(value))

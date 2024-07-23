@@ -13,8 +13,16 @@ extension RootCoordinator {
         switch action {
         case .navigateToBack:
             state.routes.goBack()
-        case .nextButtonTapped:
-            state.routes.push(.addClassDetail(.init()))
+        case let .navigateToAddClassDetail(studentName, grade, memo):
+            state.routes.push(
+                .addClassDetail(
+                    .init(
+                        studentName: studentName,
+                        grade: grade,
+                        memo: memo
+                    )
+                )
+            )
         default:
             break
         }

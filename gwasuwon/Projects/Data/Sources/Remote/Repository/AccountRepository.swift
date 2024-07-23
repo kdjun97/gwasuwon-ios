@@ -24,6 +24,7 @@ public struct AccountRepository: AccountRepositoryProtocol {
         
         switch entityDataResult {
         case let .success(response):
+            KeyChainStorage.save(key: KeyStorageKeys.ACCESS_TOKEN, data: response.accessToken)
             KeyChainStorage.save(key: KeyStorageKeys.REFRESH_TOKEN, data: response.refreshToken)
             return .success(AuthMapper.toSignInResult(response: response))
         case let .failure(errorCase):

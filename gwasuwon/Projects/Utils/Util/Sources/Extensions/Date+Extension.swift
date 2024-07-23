@@ -14,4 +14,11 @@ extension Date {
         let dateFormat = dateFormmater.string(from: self)
         return dateFormat
     }
+    
+    public func toEpochMilliseconds() -> Int {
+        let timeInterval = self.timeIntervalSince1970
+        let epochMilliseconds = Int(timeInterval * 1000)
+        
+        return epochMilliseconds
+    }
 }

@@ -8,4 +8,15 @@
 public protocol ClassRepositoryProtocol {
     func getClassList() async -> Result<ClassInformation, NetworkError>
     func getDetailClass() async -> Result<ClassInformation, NetworkError>
+    func postCreateClass(
+        _ studentName: String,
+        _ grade: String,
+        _ memo: String,
+        _ subject: SubjectType,
+        _ sessionDuration: SessionDurationType,
+        _ classDays: [String],
+        _ numberOfSessions: Int,
+        _ startDate: Int,
+        _ rescheduleCount: Int
+    ) async -> Result<Int, NetworkError>
 }
