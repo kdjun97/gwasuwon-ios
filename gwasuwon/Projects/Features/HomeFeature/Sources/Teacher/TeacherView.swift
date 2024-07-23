@@ -37,10 +37,14 @@ private struct TeacherBodyView: View {
     }
     
     fileprivate var body: some View {
-        if (viewStore.classInformation?.classCount ?? 0) == 0 {
-            ClassEmptyView(viewStore: viewStore)
+        if let classInformation = viewStore.classInformation {
+            if (classInformation.classCount == 0) {
+                ClassEmptyView(viewStore: viewStore)
+            } else {
+                ClassNormalView(viewStore: viewStore)
+            }
         } else {
-            ClassNormalView(viewStore: viewStore)
+            ZStack{}
         }
     }
 }

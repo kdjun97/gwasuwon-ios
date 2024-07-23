@@ -27,6 +27,7 @@ public struct AddClassFeature {
         case navigateToBack
         case binding(BindingAction<State>)
         case nextButtonTapped
+        case navigateToAddClassDetail(String, String, String)
     }
 
     public var body: some ReducerOf<AddClassFeature> {
@@ -40,6 +41,8 @@ public struct AddClassFeature {
             case .binding:
                 break
             case .nextButtonTapped:
+                return .send(.navigateToAddClassDetail(state.studentName, state.grade, state.memo))
+            case let .navigateToAddClassDetail(studentName, grade, memo):
                 break
             }
             return .none

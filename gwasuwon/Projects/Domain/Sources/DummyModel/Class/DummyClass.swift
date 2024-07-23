@@ -15,7 +15,7 @@ struct DummyClass {
             grade: "고1",
             days: [.mon, .wed, .fri],
             sessionDuration: .oneHalf,
-            maxNumOfClass: 8,
+            numberOfSessions: 8,
             currentNumOfClass: 1)
         ])
     ]
@@ -27,7 +27,7 @@ struct DummyClass {
         grade: "고1",
         days: [.mon, .wed, .fri],
         sessionDuration: .oneHalf,
-        maxNumOfClass: 8,
+        numberOfSessions: 8,
         currentNumOfClass: 1)
     ])
 }
