@@ -81,8 +81,8 @@ public struct AddClassDetailFeature {
         case addClassDetailAlertAction(AlertFeature.Action)
         case showAlert(AddClassDetailAlertCase)
         case createClassButtonTapped
-        case navigateToAddClassDone
-        case createClassSuccess
+        case navigateToAddClassDone(Int)
+        case createClassSuccess(Int)
         case createClassFailure(NetworkError)
     }
 
@@ -133,13 +133,14 @@ public struct AddClassDetailFeature {
                 ] send in
                     await send(createClass(studentName, grade, memo, subject, sessionDuration, classDays, numberOfSessions, startDate, rescheduleCount))
                 }
-            case .navigateToAddClassDone:
+            case let .navigateToAddClassDone(id):
                 break
-            case .createClassSuccess:
+            case let .createClassSuccess(id):
                 state.isLoading = false
-                return .send(.navigateToAddClassDone)
+                return .send(.navigateToAddClassDone(id))
             case let .createClassFailure(error):
                 state.isLoading = false
+                return .send(.showAlert(.createClassFailure))
             }
             return .none
         }
@@ -157,6 +158,7 @@ public struct ClassProgressDay: Hashable {
 public enum AddClassDetailAlertCase {
     case none
     case delayCountInfo
+    case createClassFailure
 }
 
 extension AddClassDetailFeature {
@@ -174,8 +176,7 @@ extension AddClassDetailFeature {
         let response = await classUseCase.postCreateClass(studentName, grade, memo, subject, sessionDuration, classDays, numberOfSessions, startDate, rescheduleCount)
         switch response {
         case let .success(id):
-            print(id)
-            return .navigateToAddClassDone
+            return .createClassSuccess(id)
         case let .failure(error):
             return .createClassFailure(error)
         }

@@ -27,15 +27,35 @@ public struct AddClassDetailView: View {
         }
         .gLoading(isPresent: viewStore.$isLoading)
         .gAlert(self.store.scope(state: \.addClassDetailAlertState, action: \.addClassDetailAlertAction)) {
-            GAlert(
-                type: .onlyContents,
-                title: "미루기 횟수",
-                contents: "수업을 미룰 수 있는 횟수를 설정할 수 있습니다. 출석 미체크 시 횟수가 1회 차감되며 횟수가 0이 되면 수업이 연장되지 않고 종료됩니다.",
-                defaultButtonTitle: "확인",
-                defaultButtonAction: {
-                    viewStore.send(.addClassDetailAlertAction(.dismiss))
-                }
-            )
+            AlertView
+        }
+    }
+    
+    private var AlertView: some View {
+        Group {
+            switch viewStore.addClassDetailAlertCase {
+            case .none: EmptyView()
+            case .delayCountInfo:
+                GAlert(
+                    type: .onlyContents,
+                    title: "미루기 횟수",
+                    contents: "수업을 미룰 수 있는 횟수를 설정할 수 있습니다. 출석 미체크 시 횟수가 1회 차감되며 횟수가 0이 되면 수업이 연장되지 않고 종료됩니다.",
+                    defaultButtonTitle: "확인",
+                    defaultButtonAction: {
+                        viewStore.send(.addClassDetailAlertAction(.dismiss))
+                    }
+                )
+            case .createClassFailure:
+                GAlert(
+                    type: .onlyContents,
+                    title: "에러",
+                    contents: "수업 생성 에러",
+                    defaultButtonTitle: "확인",
+                    defaultButtonAction: {
+                        viewStore.send(.addClassDetailAlertAction(.dismiss))
+                    }
+                )
+            }
         }
     }
 }

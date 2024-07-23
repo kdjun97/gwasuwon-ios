@@ -57,7 +57,6 @@ public struct TeacherFeature {
                 break
             case let .setClassInformation(classInformation):
                 state.isLoading = false
-                print("dONGJUN -> classInformation \(classInformation)")
                 state.classInformation = classInformation
             case let .navigateToClassDetail(id):
                 break

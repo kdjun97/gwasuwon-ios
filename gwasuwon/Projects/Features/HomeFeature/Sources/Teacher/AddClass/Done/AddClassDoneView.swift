@@ -111,7 +111,7 @@ private struct AddClassDoneButtonView: View {
                 title: "과외 계약서 보내기",
                 style: .enabled,
                 buttonAction: {
-                    UIPasteboard.general.string = "복사된 텍스트+\(viewStore.tempId)"
+                    UIPasteboard.general.string = "https://forms.gle/zgmR5rEEu5BkNJoX7"
                     viewStore.send(.sendContractButtonTapped)
                 }
             )
@@ -119,7 +119,7 @@ private struct AddClassDoneButtonView: View {
                 title: "수업 정보 보기",
                 style: .outline,
                 buttonAction: {
-                    viewStore.send(.showClassInfoButtonTapped(viewStore.tempId))
+                    viewStore.send(.showClassInfoButtonTapped)
                 }
             )
         }.hPadding(16)

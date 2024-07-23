@@ -13,8 +13,8 @@ extension RootCoordinator {
         switch action {
         case .navigateToBack:
             state.routes.goBack()
-        case .navigateToAddClassDone:
-            state.routes.push(.addClassDone(.init()))
+        case let .navigateToAddClassDone(id):
+            state.routes.push(.addClassDone(.init(id: id)))
         default:
             break
         }
