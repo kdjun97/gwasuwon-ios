@@ -9,11 +9,14 @@ import Foundation
 
 enum ClassEndPoint {
     case classList
+    case classDetail(String)
     
     var url: String {
         switch self {
         case .classList:
             "/api/v1/classes"
+        case let .classDetail(id):
+            "/api/v1/classes/\(id)"
         }
     }
 }

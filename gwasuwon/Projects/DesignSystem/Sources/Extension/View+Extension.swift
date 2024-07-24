@@ -51,8 +51,8 @@ private struct GLoadingModifier: ViewModifier {
             content
             if (isPresent) {
                 ZStack {
-                    ProgressView().controlSize(.large)
-                }.greedyFrame().background(GColor.staticBlack.swiftUIColor.opacity(0.75))
+                    ProgressView().controlSize(.large).tint(.primaryNormal)
+                }.greedyFrame().background(GColor.staticBlack.swiftUIColor.opacity(0.45))
             }
         }
     }

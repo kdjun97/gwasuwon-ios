@@ -21,9 +21,10 @@ public struct DetailClassFeature {
         }
         @BindingState var detailClassAlertState: AlertFeature.State = .init()
         var detailClassAlertCase: DetailClassAlertCase = .none
+        @BindingState var isLoading = false
         
         var classId: Int
-        var classInformation: ClassInformation? = nil
+        var classDetail: ClassDetail? = nil
     }
 
     public enum Action: BindableAction, Equatable {
@@ -32,11 +33,12 @@ public struct DetailClassFeature {
         case detailClassAlertAction(AlertFeature.Action)
         case showAlert(DetailClassAlertCase)
         case noAction
-        case setClassInformation(ClassInformation)
+        case setClassDetail(ClassDetail)
         case navigateToBack
         case classMenuInformationButtonTapped
         case classMenuDeleteButtonTapped
         case alertDeleteButtonTapped
+        case fetchClassDetailFailure(NetworkError)
     }
 
     public var body: some ReducerOf<DetailClassFeature> {
@@ -44,6 +46,7 @@ public struct DetailClassFeature {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                state.isLoading = true
                 return .run { [classId = state.classId] send in
                     await send(getDetailClass(classId: classId))
                 }
@@ -56,16 +59,21 @@ public struct DetailClassFeature {
                 return .send(.detailClassAlertAction(.present))
             case .noAction:
                 break
-            case let .setClassInformation(classInformation):
-                state.classInformation = classInformation
+            case let .setClassDetail(classDetail):
+                state.isLoading = false
+                state.classDetail = classDetail
             case .navigateToBack:
                 break
             case .classMenuInformationButtonTapped:
                 break
             case .classMenuDeleteButtonTapped:
-                break
+                return .send(.showAlert(.delete))
             case .alertDeleteButtonTapped:
-                break
+                // TODO: Implement class delete logic
+                return .send(.detailClassAlertAction(.dismiss))
+            case let .fetchClassDetailFailure(error):
+                state.isLoading = false
+                return .send(.showAlert(.fetchClassDetailFailure))
             }
             return .none
         }
@@ -80,10 +88,10 @@ extension DetailClassFeature {
         let response = await classUseCase.getDetailClass("\(classId)")
         
         switch response {
-        case let .success(classInformation):
-            return .setClassInformation(classInformation)
-        case .failure:
-            return .noAction
+        case let .success(classDetail):
+            return .setClassDetail(classDetail)
+        case let .failure(error):
+            return .fetchClassDetailFailure(error)
         }
     }
 }
@@ -91,4 +99,5 @@ extension DetailClassFeature {
 public enum DetailClassAlertCase {
     case none
     case delete
+    case fetchClassDetailFailure
 }
