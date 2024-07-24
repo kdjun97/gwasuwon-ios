@@ -24,6 +24,7 @@ public struct DetailClassView: View {
         .onAppear {
             viewStore.send(.onAppear)
         }
+        .gLoading(isPresent: viewStore.$isLoading)
         .gAlert(self.store.scope(state: \.detailClassAlertState, action: \.detailClassAlertAction)) {
             DetailClassAlertView(viewStore: viewStore)
         }
@@ -155,6 +156,16 @@ private struct DetailClassAlertView: View {
     
     fileprivate var body: some View {
         switch viewStore.detailClassAlertCase {
+        case .fetchClassDetailFailure:
+            GAlert(
+                type: .includeIcon,
+                title: "에러",
+                contents: "정보 불러오기를 실패했습니다.",
+                defaultButtonTitle: "확인",
+                defaultButtonAction: {
+                    viewStore.send(.detailClassAlertAction(.dismiss))
+                }
+            )
         case .delete:
             GAlert(
                 type: .includeIcon,

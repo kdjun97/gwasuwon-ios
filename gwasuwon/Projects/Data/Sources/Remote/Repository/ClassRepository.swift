@@ -29,9 +29,19 @@ public struct ClassRepository: ClassRepositoryProtocol {
         }
     }
     
-    public func getDetailClass() async -> Result<ClassInformation, NetworkError> {
-        // TODO: Implement this api call
-        return .failure(.badRequest)
+    public func getDetailClass(id: String) async -> Result<ClassDetail, NetworkError> {
+        let responseData = await apiService.callApiService(
+            httpMethod: .GET,
+            endPoint: ClassEndPoint.classDetail(id).url
+        )
+        let entityDataResult = ResultMapper<ClassDetailResponse>().toMap(responseData)
+        
+        switch entityDataResult {
+        case let .success(response):
+            return .success(ClassMapper.toClassDetail(response: response))
+        case let .failure(errorCase):
+            return .failure(errorCase)
+        }
     }
     
     public func postCreateClass(

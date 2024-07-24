@@ -10,7 +10,7 @@ import DI
 
 public struct ClassUseCase {
     public let getClassList: () async -> Result<ClassInformation, NetworkError>
-    public let getDetailClass: (_ id: String) async -> Result<ClassInformation, NetworkError>
+    public let getDetailClass: (_ id: String) async -> Result<ClassDetail, NetworkError>
     public let postCreateClass: (
         _ studentName: String,
         _ grade: String,
@@ -29,12 +29,11 @@ extension ClassUseCase: DependencyKey {
         let repository: ClassRepositoryProtocol = DIContainer.shared.resolve()
         return ClassUseCase(
             getClassList: {
-                 await repository.getClassList()
+                await repository.getClassList()
             },
             getDetailClass: { id in
-                // await repository.getDetailClass() -> API Call 아직 미구현
-                return .success(DummyClass.detailClass)
-            }, 
+                await repository.getDetailClass(id: id)
+            },
             postCreateClass: { studentName, grade, memo, subject, sessionDuration, classDays, numberOfSessions, startDate, rescheduleCount in
                 await repository.postCreateClass(studentName, grade, memo, subject, sessionDuration, classDays, numberOfSessions, startDate, rescheduleCount)
             }

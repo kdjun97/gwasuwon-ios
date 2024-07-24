@@ -26,4 +26,20 @@ class ClassMapper {
             }
         )
     }
+    
+    static func toClassDetail(response: ClassDetailResponse) -> ClassDetail {
+        return ClassDetail(
+            id: response.id,
+            studentName: response.studentName,
+            rescheduleCount: response.rescheduleCount,
+            hasStudent: response.hasStudent,
+            schedules: response.schedules.map {
+                ClassSchedule(
+                    id: $0.id,
+                    date: $0.date,
+                    status: ClassScheduleStatus(rawValue: $0.status) ?? .scheduled
+                )
+            }
+        )
+    }
 }
