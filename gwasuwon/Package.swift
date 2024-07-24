@@ -23,8 +23,8 @@ import PackageDescription
 let package = Package(
     name: "GwasuwonPackage",
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", exact: "1.8.0"),
-        .package(url: "https://github.com/pointfreeco/swift-issue-reporting", exact: "1.1.2"),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.8.0"),
+        .package(url: "https://github.com/pointfreeco/swift-issue-reporting", from: "1.1.2"),
         .package(url: "https://github.com/johnpatrickmorgan/TCACoordinators.git", exact: "0.8.0"),
         .package(url: "https://github.com/johnpatrickmorgan/FlowStacks.git", exact: "0.4.0"),
         .package(url: "https://github.com/Swinject/Swinject.git", exact: "2.9.1"),
