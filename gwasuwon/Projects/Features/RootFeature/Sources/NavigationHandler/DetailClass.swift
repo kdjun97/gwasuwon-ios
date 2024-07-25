@@ -13,8 +13,8 @@ extension RootCoordinator {
         switch action {
         case .navigateToBack:
             state.routes.goBack()
-        case .inviteStudentButtonTapped:
-            state.routes.push(.qrGenerator(.init()))
+        case let .navigateToQRGeneration(classId):
+            state.routes.push(.qrGenerator(.init(classId: classId)))
         default:
             break
         }

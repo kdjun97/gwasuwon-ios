@@ -35,7 +35,7 @@ private struct QRGenerationBodyView: View {
     fileprivate var body: some View {
         ZStack {
             GQRCodeGenerator(
-                qrData: viewStore.classId,
+                qrData: "\(viewStore.classId)",
                 width: 240,
                 height: 240
             )
