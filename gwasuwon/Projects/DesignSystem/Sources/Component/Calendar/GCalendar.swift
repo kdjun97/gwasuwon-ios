@@ -8,19 +8,23 @@
 import Foundation
 import SwiftUI
 import Util
+import Domain
 
 public struct GCalenderView: View {
     @State private var month: Date = Date()
     @State private var clickedCurrentMonthDates: Date?
+    private var schedules: [ClassSchedule]
     private var action: (Date) -> Void
   
     public init(
         month: Date = Date(),
         clickedCurrentMonthDates: Date? = nil,
+        schedules: [ClassSchedule],
         action: @escaping (Date) -> Void
     ) {
         _month = State(initialValue: month)
         _clickedCurrentMonthDates = State(initialValue: clickedCurrentMonthDates)
+        self.schedules = schedules
         self.action = action
     }
   
@@ -86,8 +90,9 @@ public struct GCalenderView: View {
                         let day = Calendar.current.component(.day, from: date)
                         let clicked = clickedCurrentMonthDates == date
                         let isToday = date.formattedString(format: DateFormatConstants.calendarDayDateFormatter) == today.formattedString(format: DateFormatConstants.calendarDayDateFormatter)
-                        
-                        CellView(day: day, clicked: clicked, isToday: isToday)
+                        let calendarStatusType: CalendarStatusType = getCalendarStatusType(date: date, clicked: clicked, isToday: isToday)
+
+                        CellView(day: day, clicked: clicked, isToday: isToday, calendarStatusType: calendarStatusType)
                     } else if let prevMonthDate = Calendar.current.date(
                         byAdding: .day,
                         value: index + lastDayOfMonthBefore,
@@ -95,7 +100,7 @@ public struct GCalenderView: View {
                     ) {
                         let day = Calendar.current.component(.day, from: prevMonthDate)
                         
-                        CellView(day: day, isCurrentMonthDay: false)
+                        CellView(day: day, isCurrentMonthDay: false, calendarStatusType: .notAvailable)
                     }
                 }
                 .onTapGesture {
@@ -108,6 +113,26 @@ public struct GCalenderView: View {
             }
         }
     }
+    
+    private func getCalendarStatusType(date: Date, clicked: Bool, isToday: Bool) -> CalendarStatusType {
+        let formattedDate: String = date.formattedString(format: DateFormatConstants.calendarDayDateFormatter)
+        
+        if let schedule = schedules.first{ item in
+            item.date.toDateFromIntEpochMilliseconds().formattedString(format: DateFormatConstants.calendarDayDateFormatter) == formattedDate
+        } {
+            switch schedule.status {
+            case .canceled: return .canceled
+            case .completed: return .completed
+            case .scheduled: return .scheduled
+            }
+        } else {
+            if (clicked) {
+                return .selected
+            } else {
+                return .notAvailable
+            }
+        }
+    }
 }
 
 // MARK: - 일자 셀 뷰
@@ -116,36 +141,54 @@ private struct CellView: View {
     private var clicked: Bool
     private var isToday: Bool
     private var isCurrentMonthDay: Bool
-    private var textColor: Color {
-        if clicked {
-            return Color.white
-        } else if isCurrentMonthDay {
-            return Color.black
-        } else {
-            return Color.gray
-        }
-    }
+    private var calendarStatusType: CalendarStatusType
     
-    private var backgroundColor: Color {
-        if clicked {
-            return Color.black
-        } else if isToday {
-            return Color.gray
-        } else {
-            return Color.white
-        }
-    }
-  
     fileprivate init(
         day: Int,
         clicked: Bool = false,
         isToday: Bool = false,
-        isCurrentMonthDay: Bool = true
+        isCurrentMonthDay: Bool = true,
+        calendarStatusType: CalendarStatusType
     ) {
         self.day = day
         self.clicked = clicked
         self.isToday = isToday
         self.isCurrentMonthDay = isCurrentMonthDay
+        self.calendarStatusType = calendarStatusType
+    }
+    
+    private var textColor: Color {
+        if (isCurrentMonthDay) {
+            switch calendarStatusType {
+            case .canceled:
+                return .staticWhite
+            case .completed:
+                return .staticWhite
+            case .notAvailable:
+                return .staticBlack
+            case .scheduled:
+                return .primaryNormal
+            case .selected:
+                return .staticBlack
+            }
+        } else {
+            return .labelDisable
+        }
+    }
+    
+    private var backgroundColor: Color {
+        switch calendarStatusType {
+        case .canceled:
+            return .statusNegative
+        case .completed:
+            return .primaryNormal
+        case .notAvailable:
+            return .staticWhite
+        case .scheduled:
+            return .staticWhite
+        case .selected:
+            return .fillStrong
+        }
     }
   
     fileprivate var body: some View {
@@ -153,9 +196,25 @@ private struct CellView: View {
             RoundedRectangle(cornerRadius: 4)
             .fill(backgroundColor)
             .overlay(
-                GText(String(day), fontStyle: .Caption_2_R, color: textColor)
-            ).frame(width: 36, height: 36)
-            Spacer().frame(height: 20)
+                GText(String(day), fontStyle: clicked ? .Caption_2_B : .Caption_2_R, color: textColor)
+            )
+            .frame(width: 36, height: 36)
+            .modifier(GCalendarCellStrokeModifier(calendarStatusType: calendarStatusType))
+            Spacer().frame(height: 20) // TODO: fix spacer
+        }
+    }
+}
+
+private struct GCalendarCellStrokeModifier: ViewModifier {
+    let calendarStatusType: CalendarStatusType
+    
+    fileprivate func body(content: Content) -> some View {
+        if (calendarStatusType == .scheduled) {
+            content
+                .overlay(RoundedRectangle(cornerRadius: 4)
+                    .stroke(GColor.primaryNormal.swiftUIColor, lineWidth: 1.0))
+        } else {
+            content
         }
     }
 }
@@ -277,4 +336,12 @@ private extension GCalenderView {
         }
         return month
     }
+}
+
+private enum CalendarStatusType {
+    case canceled
+    case completed
+    case scheduled
+    case selected
+    case notAvailable
 }
