@@ -23,6 +23,7 @@ public struct RootScreen {
         case addClassDone(AddClassDoneFeature.State)
         case detailClass(DetailClassFeature.State)
         case qrCode(QRFeature.State)
+        case qrGenerator(QRGenerationFeature.State)
     }
 
     public enum Action {
@@ -36,6 +37,7 @@ public struct RootScreen {
         case addClassDone(AddClassDoneFeature.Action)
         case detailClass(DetailClassFeature.Action)
         case qrCode(QRFeature.Action)
+        case qrGenerator(QRGenerationFeature.Action)
     }
 
     public init() {}
@@ -69,6 +71,9 @@ public struct RootScreen {
         }
         Scope(state: \.qrCode, action: \.qrCode) {
             QRFeature()
+        }
+        Scope(state: \.qrGenerator, action: \.qrGenerator) {
+            QRGenerationFeature()
         }
     }
 }
