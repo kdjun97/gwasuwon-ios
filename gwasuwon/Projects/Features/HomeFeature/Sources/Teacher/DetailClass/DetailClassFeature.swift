@@ -44,6 +44,7 @@ public struct DetailClassFeature {
         case fetchClassDetailFailure(NetworkError)
         case inviteStudentButtonTapped
         case setSelectedDate(Date)
+        case navigateToQRGeneration(Int)
     }
 
     public var body: some ReducerOf<DetailClassFeature> {
@@ -82,6 +83,8 @@ public struct DetailClassFeature {
                 state.isLoading = false
                 return .send(.showAlert(.fetchClassDetailFailure))
             case .inviteStudentButtonTapped:
+                return .send(.navigateToQRGeneration(state.classId))
+            case let .navigateToQRGeneration(Int):
                 break
             case let .setSelectedDate(date):
                 state.selectedDate = date
