@@ -22,6 +22,7 @@ public struct ClassUseCase {
         _ startDate: Int,
         _ rescheduleCount: Int
     ) async -> Result<Int, NetworkError>
+    public let postJoinClass: (_ classId: String) async -> Result<Int, NetworkError>
 }
 
 extension ClassUseCase: DependencyKey {
@@ -36,6 +37,9 @@ extension ClassUseCase: DependencyKey {
             },
             postCreateClass: { studentName, grade, memo, subject, sessionDuration, classDays, numberOfSessions, startDate, rescheduleCount in
                 await repository.postCreateClass(studentName, grade, memo, subject, sessionDuration, classDays, numberOfSessions, startDate, rescheduleCount)
+            },
+            postJoinClass: { classId in
+                await repository.postJoinClass(classId: classId)
             }
         )
     }()
