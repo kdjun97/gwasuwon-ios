@@ -9,4 +9,5 @@ public struct DateFormatConstants {
     public static let defaultFormat = "yyyy-MM-dd"
     public static let calendarHeaderFormat = "M월"
     public static let calendarDayDateFormatter = "MMMM yyyy dd"
+    public static let classDetailSelectedDateFormat = "M월 d일(E)"
 }

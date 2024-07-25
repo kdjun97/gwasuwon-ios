@@ -9,9 +9,9 @@ import Foundation
 
 extension Date {
     public func formattedString(format: String) -> String {
-        let dateFormmater = DateFormatter()
-        dateFormmater.dateFormat = format
-        let dateFormat = dateFormmater.string(from: self)
+        let dateFormmatter = DateFormatter()
+        dateFormmatter.dateFormat = format
+        let dateFormat = dateFormmatter.string(from: self)
         return dateFormat
     }
     
@@ -20,5 +20,13 @@ extension Date {
         let epochMilliseconds = Int(timeInterval * 1000)
         
         return epochMilliseconds
+    }
+    
+    public func formattedStringWithLocale(format: String, locale: String = "ko_KR") -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: locale)
+        dateFormatter.dateFormat = format
+        let dateFormat = dateFormatter.string(from: self)
+        return dateFormat
     }
 }

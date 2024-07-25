@@ -26,6 +26,8 @@ public struct DetailClassFeature {
         
         var classId: Int
         var classDetail: ClassDetail? = nil
+        
+        var selectedDate: Date = .now
     }
 
     public enum Action: BindableAction, Equatable {
@@ -41,6 +43,7 @@ public struct DetailClassFeature {
         case alertDeleteButtonTapped
         case fetchClassDetailFailure(NetworkError)
         case inviteStudentButtonTapped
+        case setSelectedDate(Date)
     }
 
     public var body: some ReducerOf<DetailClassFeature> {
@@ -80,6 +83,8 @@ public struct DetailClassFeature {
                 return .send(.showAlert(.fetchClassDetailFailure))
             case .inviteStudentButtonTapped:
                 break
+            case let .setSelectedDate(date):
+                state.selectedDate = date
             }
             return .none
         }
