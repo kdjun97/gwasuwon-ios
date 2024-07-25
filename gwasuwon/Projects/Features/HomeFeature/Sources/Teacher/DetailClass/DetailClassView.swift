@@ -111,6 +111,7 @@ private struct GCalendar: View {
                 GCalenderView(schedules: classDetail.schedules) { newValue in
                     print("DONGJUN -> \(newValue.formattedString(format: DateFormatConstants.defaultFormat)) 선택함")
                     // TODO: Implement logic
+                    viewStore.send(.setSelectedDate(newValue))
                 }
             }.greedyWidth()
         }
@@ -135,14 +136,14 @@ private struct CalendarInfoView: View {
     }
     
     fileprivate var body: some View {
-        VStack(spacing: 8) {
+        VStack(alignment: .leading ,spacing: 8) {
             GText(
-                "7월 3일(수)",
+                viewStore.selectedDate.formattedStringWithLocale(format: DateFormatConstants.classDetailSelectedDateFormat),
                 fontStyle: .Body_1_Normal_B,
                 color: .labelNormal
             )
             GText(
-                "수업 진행 예정",
+                getClassScheduleText(),
                 fontStyle: .Label_1_Normal_B,
                 color: .labelNeutral
             )
@@ -152,6 +153,20 @@ private struct CalendarInfoView: View {
         .greedyWidth(.leading)
         .background(Color.backgroundRegularAlternative)
         .cornerRadius(8)
+    }
+    
+    private func getClassScheduleText() -> String {
+        guard let classDetail = viewStore.classDetail else {
+            return "수업 없음"
+        }
+        if let schedule = classDetail.schedules.first(where: { $0.date.toDateFromIntEpochMilliseconds().formattedString(format: DateFormatConstants.defaultFormat) == viewStore.selectedDate.formattedString(format: DateFormatConstants.defaultFormat) }) {
+            switch schedule.status {
+            case .canceled: return "수업 미룸!"
+            case .completed: return "수업 완료~"
+            case .scheduled: return "수업 진행 예정"
+            }
+        }
+        return "수업 없음"
     }
 }
 
