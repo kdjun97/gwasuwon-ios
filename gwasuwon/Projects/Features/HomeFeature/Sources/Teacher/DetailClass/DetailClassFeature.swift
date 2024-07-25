@@ -9,6 +9,7 @@ import ComposableArchitecture
 import BaseFeature
 import Domain
 import Foundation
+import Util
 
 @Reducer
 public struct DetailClassFeature {
@@ -62,6 +63,8 @@ public struct DetailClassFeature {
             case let .setClassDetail(classDetail):
                 state.isLoading = false
                 state.classDetail = classDetail
+                print("DONGJUN")
+                print(state.classDetail.map{ $0.schedules.map { $0.date.toDateFromIntEpochMilliseconds().formattedString(format: DateFormatConstants.defaultFormat) } })
             case .navigateToBack:
                 break
             case .classMenuInformationButtonTapped:

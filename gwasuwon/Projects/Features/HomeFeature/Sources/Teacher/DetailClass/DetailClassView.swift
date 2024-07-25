@@ -9,6 +9,7 @@ import SwiftUI
 import DesignSystem
 import ComposableArchitecture
 import BaseFeature
+import Util
 
 public struct DetailClassView: View {
     let store: StoreOf<DetailClassFeature>
@@ -101,11 +102,14 @@ private struct GCalendar: View {
     }
     
     fileprivate var body: some View {
-        VStack {
-            GCalenderView() { newValue in
-                // TODO: Implement logic
-            }
-        }.greedyWidth()
+        if let classDetail = viewStore.classDetail {
+            VStack {
+                GCalenderView(schedules: classDetail.schedules) { newValue in
+                    print("DONGJUN -> \(newValue.formattedString(format: DateFormatConstants.defaultFormat)) 선택함")
+                    // TODO: Implement logic
+                }
+            }.greedyWidth()
+        }
     }
 }
 
