@@ -46,6 +46,8 @@ public struct RootCoordinator {
                 detailClassNavigationHandler(detailClassAction, state: &state)
             case let .routeAction(id, action: .qrCode(qrAction)):
                 return qrCodeNavigationHandler(qrAction, state: &state, id: id)
+            case let .routeAction(_, action: .qrGenerator(qrGenerationAction)):
+                qrGenerationNavigationHandler(qrGenerationAction, state: &state)
             default:
                 break
             }

@@ -48,11 +48,15 @@ private struct DetailClassBodyView: View {
                 CalendarInfoView(viewStore: viewStore).hPadding(16)
             }
             Spacer()
-            GButton(
-                title: "학생 초대 QR",
-                style: .enabled,
-                buttonAction: {}
-            ).hPadding(16)
+            if let hasStudent = viewStore.classDetail?.hasStudent {
+                if !hasStudent {
+                    GButton(
+                        title: "학생 초대 QR",
+                        style: .enabled,
+                        buttonAction: { viewStore.send(.inviteStudentButtonTapped) }
+                    ).hPadding(16)
+                }
+            }
         }
     }
 }

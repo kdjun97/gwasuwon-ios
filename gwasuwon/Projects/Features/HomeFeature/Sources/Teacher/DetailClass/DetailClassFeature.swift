@@ -40,6 +40,7 @@ public struct DetailClassFeature {
         case classMenuDeleteButtonTapped
         case alertDeleteButtonTapped
         case fetchClassDetailFailure(NetworkError)
+        case inviteStudentButtonTapped
     }
 
     public var body: some ReducerOf<DetailClassFeature> {
@@ -77,6 +78,8 @@ public struct DetailClassFeature {
             case let .fetchClassDetailFailure(error):
                 state.isLoading = false
                 return .send(.showAlert(.fetchClassDetailFailure))
+            case .inviteStudentButtonTapped:
+                break
             }
             return .none
         }
