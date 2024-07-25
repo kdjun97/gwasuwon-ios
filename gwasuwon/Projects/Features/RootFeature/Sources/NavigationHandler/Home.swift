@@ -37,6 +37,9 @@ extension RootCoordinator {
         switch action {
         case .qrScanButtonTapped:
             state.routes.push(.qrCode(.init()))
+        case let .navigateToStudentDetail(id):
+            // TODO: Implement Navigation to StudentHome
+            break
         default:
             break
         }

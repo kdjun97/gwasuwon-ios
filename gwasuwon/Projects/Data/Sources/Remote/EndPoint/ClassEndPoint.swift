@@ -10,6 +10,7 @@ import Foundation
 enum ClassEndPoint {
     case classList
     case classDetail(String)
+    case classJoin
     
     var url: String {
         switch self {
@@ -17,6 +18,8 @@ enum ClassEndPoint {
             "/api/v1/classes"
         case let .classDetail(id):
             "/api/v1/classes/\(id)"
+        case .classJoin:
+            "/api/v1/classes/join"
         }
     }
 }

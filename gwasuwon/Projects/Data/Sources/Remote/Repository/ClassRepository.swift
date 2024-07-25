@@ -81,4 +81,20 @@ public struct ClassRepository: ClassRepositoryProtocol {
             return .failure(errorCase)
         }
     }
+    
+    public func postJoinClass(classId: String) async -> Result<Int, NetworkError> {
+        let responseData = await apiService.callApiService(
+            httpMethod: .POST,
+            endPoint: ClassEndPoint.classJoin.url,
+            body: ClassJoinRequest(classId: Int(classId) ?? -1)
+        )
+        let entityDataResult = ResultMapper<ClassJoinResponse>().toMap(responseData)
+        
+        switch entityDataResult {
+        case let .success(response):
+            return .success(response.id)
+        case let .failure(errorCase):
+            return .failure(errorCase)
+        }
+    }
 }

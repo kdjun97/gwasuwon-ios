@@ -9,6 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 import DesignSystem
 import QRScanner
+import BaseFeature
 
 struct StudentView: View {
     let store: StoreOf<StudentFeature>
@@ -27,6 +28,10 @@ struct StudentView: View {
         }
         .onReceive(permissionManager.$isCameraPermissionGranted) { isGranted in
             viewStore.send(.setCameraPermissionIsGranted(isGranted))
+        }
+        .gLoading(isPresent: viewStore.$isLoading)
+        .gAlert(self.store.scope(state: \.alertState, action: \.alertAction)) {
+            AlertView(viewStore: viewStore)
         }
     }
 }
@@ -95,7 +100,7 @@ private struct StudentBodyView: View {
                 title: "캘린더로 이동",
                 style: .enabled,
                 buttonAction: {
-                    viewStore.send(.navigateToStudentDetail)
+                    viewStore.send(.moveToCalendarButtonTapped)
                 }
             ).hPadding(16)
         } else {
@@ -106,6 +111,30 @@ private struct StudentBodyView: View {
                     viewStore.send(.qrScanButtonTapped)
                 }
             ).hPadding(16)
+        }
+    }
+}
+
+private struct AlertView: View {
+    private let viewStore: ViewStoreOf<StudentFeature>
+    
+    fileprivate init(viewStore: ViewStoreOf<StudentFeature>) {
+        self.viewStore = viewStore
+    }
+    
+    fileprivate var body: some View {
+        switch viewStore.alertCase {
+        case .none: EmptyView()
+        case .failure:
+            GAlert(
+                type: .includeIcon,
+                title: "에러",
+                contents: "알 수 없는 에러",
+                defaultButtonTitle: "확인",
+                defaultButtonAction: {
+                    viewStore.send(.alertAction(.dismiss))
+                }
+            )
         }
     }
 }
