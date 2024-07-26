@@ -44,6 +44,23 @@ public struct ClassRepository: ClassRepositoryProtocol {
         }
     }
     
+    public func getDetailClass() async -> Result<ClassDetail, NetworkError> {
+        let classId: String = KeyChainStorage.read(key: KeyStorageKeys.CLASS_ID) ?? ""
+
+        let responseData = await apiService.callApiService(
+            httpMethod: .GET,
+            endPoint: ClassEndPoint.classDetail(classId).url
+        )
+        let entityDataResult = ResultMapper<ClassDetailResponse>().toMap(responseData)
+        
+        switch entityDataResult {
+        case let .success(response):
+            return .success(ClassMapper.toClassDetail(response: response))
+        case let .failure(errorCase):
+            return .failure(errorCase)
+        }
+    }
+    
     public func postCreateClass(
         _ studentName: String,
         _ grade: String,
@@ -92,6 +109,7 @@ public struct ClassRepository: ClassRepositoryProtocol {
         
         switch entityDataResult {
         case let .success(response):
+            KeyChainStorage.save(key: KeyStorageKeys.CLASS_ID, data: classId)
             return .success(response.id)
         case let .failure(errorCase):
             return .failure(errorCase)

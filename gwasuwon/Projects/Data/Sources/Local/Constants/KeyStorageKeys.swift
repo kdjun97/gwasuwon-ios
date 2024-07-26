@@ -8,4 +8,5 @@
 struct KeyStorageKeys {
     static let ACCESS_TOKEN = "ACCESS_TOKEN"
     static let REFRESH_TOKEN = "REFRESH_TOKEN"
+    static let CLASS_ID = "CLASS_ID"
 }
