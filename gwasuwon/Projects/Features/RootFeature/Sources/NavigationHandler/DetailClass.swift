@@ -15,6 +15,8 @@ extension RootCoordinator {
             state.routes.goBack()
         case let .navigateToQRGeneration(classId):
             state.routes.push(.qrGenerator(.init(classId: classId)))
+        case let .navigateToClassEdit(classId):
+            state.routes.push(.editClass(.init(classId: classId)))
         default:
             break
         }

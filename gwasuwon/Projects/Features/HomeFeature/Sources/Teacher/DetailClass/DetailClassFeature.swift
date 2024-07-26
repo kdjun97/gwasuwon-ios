@@ -45,6 +45,7 @@ public struct DetailClassFeature {
         case inviteStudentButtonTapped
         case setSelectedDate(Date)
         case navigateToQRGeneration(Int)
+        case navigateToClassEdit(Int)
     }
 
     public var body: some ReducerOf<DetailClassFeature> {
@@ -73,7 +74,7 @@ public struct DetailClassFeature {
             case .navigateToBack:
                 break
             case .classMenuInformationButtonTapped:
-                break
+                return .send(.navigateToClassEdit(state.classId))
             case .classMenuDeleteButtonTapped:
                 return .send(.showAlert(.delete))
             case .alertDeleteButtonTapped:
@@ -88,6 +89,8 @@ public struct DetailClassFeature {
                 break
             case let .setSelectedDate(date):
                 state.selectedDate = date
+            case let .navigateToClassEdit(id):
+                break
             }
             return .none
         }

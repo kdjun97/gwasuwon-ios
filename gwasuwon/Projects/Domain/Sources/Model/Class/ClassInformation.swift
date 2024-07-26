@@ -158,4 +158,12 @@ public enum RescheduleCountType: String, CaseIterable {
         case .two: "2회"
         }
     }
+    
+    static public func toRescheduleCountType(code: String) -> RescheduleCountType {
+        switch code {
+        case "1회": return .one
+        case "2회": return .two
+        default: return .none
+        }
+    }
 }
