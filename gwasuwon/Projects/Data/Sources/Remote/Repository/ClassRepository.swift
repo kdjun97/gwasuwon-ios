@@ -154,4 +154,19 @@ public struct ClassRepository: ClassRepositoryProtocol {
             return .failure(errorCase)
         }
     }
+    
+    public func deleteClass(_ classId: String) async -> Result<Bool, NetworkError> {
+        let responseData = await apiService.callApiService(
+            httpMethod: .DELETE,
+            endPoint: ClassEndPoint.classDetail(classId).url
+        )
+        let entityDataResult = ResultMapper<ClassDeleteResponse>().toMap(responseData)
+        
+        switch entityDataResult {
+        case let .success(response):
+            return .success(true)
+        case let .failure(errorCase):
+            return .failure(errorCase)
+        }
+    }
 }

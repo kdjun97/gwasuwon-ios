@@ -108,7 +108,7 @@ private struct GCalendar: View {
     fileprivate var body: some View {
         if let classDetail = viewStore.classDetail {
             VStack {
-                GCalenderView(schedules: classDetail.schedules) { newValue in
+                GCalenderView(schedules: classDetail.schedules.map { GCalendarSchedule(id: $0.id, date: $0.date, status: GCalendarScheduleStatus(rawValue: $0.status.rawValue) ?? .canceled) }) { newValue in
                     print("DONGJUN -> \(newValue.formattedString(format: DateFormatConstants.defaultFormat)) 선택함")
                     // TODO: Implement logic
                     viewStore.send(.setSelectedDate(newValue))
@@ -205,6 +205,16 @@ private struct DetailClassAlertView: View {
             )
         case .none:
             ZStack {}
+        case .failure:
+            GAlert(
+                type: .includeIcon,
+                title: "오류",
+                contents: "알 수 없는 오류",
+                defaultButtonTitle: "확인",
+                defaultButtonAction: {
+                    viewStore.send(.detailClassAlertAction(.dismiss))
+                }
+            )
         }
     }
 }

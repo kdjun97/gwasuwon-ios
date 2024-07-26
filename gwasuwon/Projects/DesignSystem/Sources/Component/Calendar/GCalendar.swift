@@ -8,18 +8,17 @@
 import Foundation
 import SwiftUI
 import Util
-import Domain
 
 public struct GCalenderView: View {
     @State private var month: Date = Date()
     @State private var clickedCurrentMonthDates: Date?
-    private var schedules: [ClassSchedule]
+    private var schedules: [GCalendarSchedule]
     private var action: (Date) -> Void
   
     public init(
         month: Date = Date(),
         clickedCurrentMonthDates: Date? = nil,
-        schedules: [ClassSchedule],
+        schedules: [GCalendarSchedule],
         action: @escaping (Date) -> Void
     ) {
         _month = State(initialValue: month)
@@ -344,4 +343,26 @@ private enum CalendarStatusType {
     case scheduled
     case selected
     case notAvailable
+}
+
+public struct GCalendarSchedule {
+    public let id: Int
+    public let date: Int
+    public let status: GCalendarScheduleStatus
+    
+    public init(
+        id: Int,
+        date: Int,
+        status: GCalendarScheduleStatus
+    ) {
+        self.id = id
+        self.date = date
+        self.status = status
+    }
+}
+
+public enum GCalendarScheduleStatus: String {
+    case scheduled = "SCHEDULED"
+    case completed = "COMPLETED"
+    case canceled = "CANCELED"
 }
