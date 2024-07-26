@@ -159,10 +159,10 @@ private struct CalendarInfoView: View {
         guard let classDetail = viewStore.classDetail else {
             return "수업 없음"
         }
-        if let schedule = classDetail.schedules.first(where: { $0.date.toDateFromIntEpochMilliseconds().formattedString(format: DateFormatConstants.defaultFormat) == viewStore.selectedDate.formattedString(format: DateFormatConstants.defaultFormat) }) {
+        if let schedule = classDetail.schedules.first(where: { $0.date.toDateFromIntEpochMilliseconds().formattedString() == viewStore.selectedDate.formattedString() }) {
             switch schedule.status {
-            case .canceled: return "수업 미룸!"
-            case .completed: return "수업 완료~"
+            case .canceled: return "수업을 미뤘어요"
+            case .completed: return "수업 완료"
             case .scheduled: return "수업 진행 예정"
             }
         }

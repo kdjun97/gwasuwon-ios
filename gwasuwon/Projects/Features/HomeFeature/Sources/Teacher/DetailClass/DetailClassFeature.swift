@@ -69,7 +69,7 @@ public struct DetailClassFeature {
                 state.isLoading = false
                 state.classDetail = classDetail
                 print("DONGJUN")
-                print(state.classDetail.map{ $0.schedules.map { $0.date.toDateFromIntEpochMilliseconds().formattedString(format: DateFormatConstants.defaultFormat) } })
+                print(state.classDetail.map{ $0.schedules.map { $0.date.toDateFromIntEpochMilliseconds().formattedString() } })
             case .navigateToBack:
                 break
             case .classMenuInformationButtonTapped:
