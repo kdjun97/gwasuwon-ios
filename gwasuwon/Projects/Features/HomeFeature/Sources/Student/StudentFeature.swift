@@ -74,6 +74,7 @@ public struct StudentFeature {
                 state.isLoading = false
                 state.classDetail = classDetail
                 state.classVisibleType = .hasSchedule
+                return .send(.studentHomeAction(.setClassDetail(classDetail)))
             case let .fetchClassDetailFailure(error):
                 state.isLoading = false
                 state.classVisibleType = .noSchedule

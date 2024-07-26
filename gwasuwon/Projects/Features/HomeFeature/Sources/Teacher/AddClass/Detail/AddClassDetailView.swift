@@ -246,7 +246,7 @@ private struct ClassStartDayView: View {
                         GText(
                             !viewStore.isSelectedClassStartDate
                             ? "2024-06-05"
-                            : viewStore.selectedClassStartDate.formattedString(format: DateFormatConstants.defaultFormat),
+                            : viewStore.selectedClassStartDate.formattedString(),
                             fontStyle: .Body_1_Normal_R,
                             color: !viewStore.isSelectedClassStartDate
                             ? .labelAssistive
