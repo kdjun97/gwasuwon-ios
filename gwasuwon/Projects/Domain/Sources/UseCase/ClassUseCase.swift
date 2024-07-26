@@ -23,6 +23,7 @@ public struct ClassUseCase {
         _ rescheduleCount: Int
     ) async -> Result<Int, NetworkError>
     public let postJoinClass: (_ classId: String) async -> Result<Int, NetworkError>
+    public let getDetailClassForStudent: () async -> Result<ClassDetail, NetworkError>
 }
 
 extension ClassUseCase: DependencyKey {
@@ -40,6 +41,9 @@ extension ClassUseCase: DependencyKey {
             },
             postJoinClass: { classId in
                 await repository.postJoinClass(classId: classId)
+            },
+            getDetailClassForStudent: {
+                await repository.getDetailClass()
             }
         )
     }()

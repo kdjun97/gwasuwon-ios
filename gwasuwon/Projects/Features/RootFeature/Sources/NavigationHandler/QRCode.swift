@@ -3,7 +3,6 @@
 //  RootFeature
 //
 //  Created by 김동준 on 7/17/24
-//  Copyright © 2024 QCells. All rights reserved.
 //
 
 import ComposableArchitecture
@@ -14,7 +13,7 @@ extension RootCoordinator {
         switch action {
         case let .navigateToBackWithQRData(qrData):
             state.routes.goBack()
-            return .send(.routeAction(id-1, action: .home(.studentAction(.setQRResult(qrData)))))
+            return .send(.routeAction(id-1, action: .home(.studentAction(.studentNoScheduleAction(.setQRResult(qrData))))))
         case .navigateToBack:
             state.routes.goBack()
         default:
