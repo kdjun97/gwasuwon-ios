@@ -115,4 +115,43 @@ public struct ClassRepository: ClassRepositoryProtocol {
             return .failure(errorCase)
         }
     }
+    
+    public func putDetailClass(
+        _ classId: String,
+        _ studentName: String,
+        _ grade: String,
+        _ memo: String,
+        _ subject: SubjectType,
+        _ sessionDuration: SessionDurationType,
+        _ classDays: [String],
+        _ numberOfSessions: Int,
+        _ startDate: Int,
+        _ rescheduleCount: Int
+    ) async -> Result<Bool, NetworkError> {
+        let classEditRequest = ClassEditRequest (
+            studentName: studentName,
+            grade: grade,
+            memo: memo,
+            subject: subject.rawValue,
+            sessionDuration: sessionDuration.rawValue,
+            classDays: classDays,
+            numberOfSessions: numberOfSessions,
+            startDate: startDate,
+            rescheduleCount: rescheduleCount
+        )
+        
+        let responseData = await apiService.callApiService(
+            httpMethod: .PUT,
+            endPoint: ClassEndPoint.classDetail(classId).url,
+            body: classEditRequest
+        )
+        let entityDataResult = ResultMapper<ClassEditResponse>().toMap(responseData)
+        
+        switch entityDataResult {
+        case let .success(response):
+            return .success(true)
+        case let .failure(errorCase):
+            return .failure(errorCase)
+        }
+    }
 }

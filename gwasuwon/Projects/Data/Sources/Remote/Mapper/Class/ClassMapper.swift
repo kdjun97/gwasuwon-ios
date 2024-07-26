@@ -31,7 +31,14 @@ class ClassMapper {
         return ClassDetail(
             id: response.id,
             studentName: response.studentName,
-            rescheduleCount: response.rescheduleCount,
+            grade: response.grade,
+            memo: response.memo,
+            subject: SubjectType(rawValue: response.subject) ?? .none,
+            sessionDuration: SessionDurationType(rawValue: response.sessionDuration) ?? .none,
+            classDays: response.classDays.map { ClassDayType(rawValue: $0) ?? .mon },
+            numberOfSessions: response.numberOfSessions,
+            startDate: response.startDate,
+            rescheduleCount: RescheduleCountType(rawValue: String(response.rescheduleCount)) ?? .none,
             hasStudent: response.hasStudent,
             schedules: response.schedules.map {
                 ClassSchedule(

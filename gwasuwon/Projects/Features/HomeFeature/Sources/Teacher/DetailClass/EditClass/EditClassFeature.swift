@@ -1,37 +1,39 @@
 //
-//  AddClassDetailFeature.swift
+//  EditClassFeature.swift
 //  HomeFeature
 //
-//  Created by 김동준 on 7/13/24
+//  Created by 김동준 on 7/26/24
 //
 
 import ComposableArchitecture
 import Domain
-import Foundation
 import BaseFeature
+import Foundation
 
 @Reducer
-public struct AddClassDetailFeature {
+public struct EditClassFeature {
     public init() {}
-    
     @Dependency(\.classUseCase) var classUseCase
 
     public struct State: Equatable {
-        public init(
-            studentName: String,
-            grade: String,
-            memo: String
-        ) {
-            self.studentName = studentName
-            self.grade = grade
-            self.memo = memo
+        public init(classId: Int) {
+            self.classId = classId
         }
         
-        var studentName: String
-        var grade: String
-        var memo: String
+        public enum AlertCase {
+            case none
+            case failure
+        }
+        
+        var classId: Int
         
         @BindingState var isLoading = false
+        @BindingState var alertState: AlertFeature.State = .init()
+        var alertCase: AlertCase = .none
+        
+        @BindingState var studentName: String = ""
+        @BindingState var grade: String = ""
+        @BindingState var memo: String = ""
         
         @BindingState var isSubjectExpanded: Bool = false
         @BindingState var selectedSubject: SubjectType = .none
@@ -58,54 +60,87 @@ public struct AddClassDetailFeature {
         var addClassDetailAlertCase: AddClassDetailAlertCase = .none
         var isShowClassDelayInfo: Bool = false
         
-        var isCreateClassButtonEnabled: Bool {
-            selectedSubject != .none
+        var isSaveButtonEnabled: Bool {
+            !(studentName.isEmpty) 
+            && !(grade.isEmpty)
+            && !(memo.isEmpty) 
+            && selectedSubject != .none
             && selectedSessionDurationType != .none
             && classDayList.filter { $0.isSelected }.count != 0
             && !numberOfSessions.isEmpty
             && isSelectedClassStartDate
             && selectedRescheduleCount != .none
         }
+        
+        var isEditButtonVisible: Bool = true
     }
 
     public enum Action: BindableAction, Equatable {
         case onAppear
         case navigateToBack
         case binding(BindingAction<State>)
+        case saveButtonTapped
+        case alertAction(AlertFeature.Action)
         case selectSubject(String)
         case selectSessionDuration(String)
         case selectClassDay(Int)
         case setClassStartDayToggle
         case selectClassDelayCount(String)
-        case showClassDelayInfo
-        case addClassDetailAlertAction(AlertFeature.Action)
-        case showAlert(AddClassDetailAlertCase)
-        case createClassButtonTapped
-        case navigateToAddClassDone(Int)
-        case createClassSuccess(Int)
-        case createClassFailure(NetworkError)
+        case setClassInformation(ClassDetail)
+        case fetchClassDetailFailure(NetworkError)
+        case showAlert(State.AlertCase)
+        case editButtonTapped
+        case editClassSuccess
+        case editClassFailure(NetworkError)
     }
 
-    public var body: some ReducerOf<AddClassDetailFeature> {
+    public var body: some ReducerOf<EditClassFeature> {
         BindingReducer()
         Reduce { state, action in
             switch action {
             case .onAppear:
+                state.isLoading = true
+                return .run { [classId = state.classId] send in
+                    await send(getDetailClass(classId: classId))
+                }
+            case let .setClassInformation(classDetail):
+                state.isLoading = false
+                state.studentName = classDetail.studentName
+                state.grade = classDetail.grade
+                state.memo = classDetail.memo
+                state.selectedSubject = classDetail.subject
+                state.selectedSessionDurationType = classDetail.sessionDuration
+                state.classDayList = state.classDayList.map {
+                    if (classDetail.classDays.contains($0.classDay)) {
+                        ClassProgressDay(classDay: $0.classDay, isSelected: true)
+                    } else {
+                        $0
+                    }
+                }
+                state.numberOfSessions = String(classDetail.numberOfSessions)
+                state.selectedClassStartDate = Int(classDetail.startDate).toDateFromIntEpochMilliseconds()
+                state.isSelectedClassStartDate = true
+                print("DONG -> \(Int(classDetail.startDate).toDateFromIntEpochMilliseconds())")
+                state.selectedRescheduleCount = classDetail.rescheduleCount
+                
+            case let .fetchClassDetailFailure(error):
+                return .send(.showAlert(.failure))
+            case let .showAlert(alertCase):
+                state.isLoading = false
+                state.alertCase = alertCase
+                return .send(.alertAction(.present))
+            case .alertAction:
                 break
             case .navigateToBack:
                 break
             case .binding(\.$selectedClassStartDate):
+                print("DONGJUN -> \(state.selectedClassStartDate)")
                 if (!state.isSelectedClassStartDate) {
                     state.isSelectedClassStartDate = true
                 }
                 state.isClassStartDateExpanded = false
             case .binding:
                 break
-            case .addClassDetailAlertAction:
-                break
-            case let .showAlert(alertCase):
-                state.addClassDetailAlertCase = alertCase
-                return .send(.addClassDetailAlertAction(.present))
             case let .selectSubject(value):
                 state.selectedSubject = SubjectType.toSubjectType(code: value)
             case let .selectSessionDuration(value):
@@ -115,12 +150,11 @@ public struct AddClassDetailFeature {
             case .setClassStartDayToggle:
                 state.isClassStartDateExpanded.toggle()
             case let .selectClassDelayCount(value):
-                state.selectedRescheduleCount = RescheduleCountType(rawValue: value) ?? .none
-            case .showClassDelayInfo:
-                return .send(.showAlert(.delayCountInfo))
-            case .createClassButtonTapped:
+                state.selectedRescheduleCount = RescheduleCountType.toRescheduleCountType(code: value)
+            case .saveButtonTapped:
                 state.isLoading = true
                 return .run { [
+                    classId = String(state.classId),
                     studentName = state.studentName,
                     grade = state.grade,
                     memo = state.memo,
@@ -131,33 +165,39 @@ public struct AddClassDetailFeature {
                     startDate = state.selectedClassStartDate.toEpochMilliseconds(),
                     rescheduleCount = Int(state.selectedRescheduleCount.rawValue) ?? 0
                 ] send in
-                    await send(createClass(studentName, grade, memo, subject, sessionDuration, classDays, numberOfSessions, startDate, rescheduleCount))
+                    await send(editClassInfo(classId, studentName, grade, memo, subject, sessionDuration, classDays, numberOfSessions, startDate, rescheduleCount))
                 }
-            case let .navigateToAddClassDone(id):
-                break
-            case let .createClassSuccess(id):
+            case .editButtonTapped:
+                state.isEditButtonVisible = false
+            case .editClassSuccess:
                 state.isLoading = false
-                return .send(.navigateToAddClassDone(id))
-            case let .createClassFailure(error):
+                return .send(.navigateToBack)
+            case .editClassFailure:
                 state.isLoading = false
-                return .send(.showAlert(.createClassFailure))
+                return .send(.showAlert(.failure))
             }
             return .none
         }
-        Scope(state: \.addClassDetailAlertState, action: \.addClassDetailAlertAction, child: {
+        Scope(state: \.alertState, action: \.alertAction, child: {
             AlertFeature()
         })
     }
 }
 
-public enum AddClassDetailAlertCase {
-    case none
-    case delayCountInfo
-    case createClassFailure
-}
-
-extension AddClassDetailFeature {
-    private func createClass(
+extension EditClassFeature {
+    private func getDetailClass(classId: Int) async -> Action {
+        let response = await classUseCase.getDetailClass("\(classId)")
+        
+        switch response {
+        case let .success(classDetail):
+            return .setClassInformation(classDetail)
+        case let .failure(error):
+            return .fetchClassDetailFailure(error)
+        }
+    }
+    
+    private func editClassInfo(
+        _ classId: String,
         _ studentName: String,
         _ grade: String,
         _ memo: String,
@@ -168,12 +208,12 @@ extension AddClassDetailFeature {
         _ startDate: Int,
         _ rescheduleCount: Int
     ) async -> Action {
-        let response = await classUseCase.postCreateClass(studentName, grade, memo, subject, sessionDuration, classDays, numberOfSessions, startDate, rescheduleCount)
+        let response = await classUseCase.putDetailClass(classId, studentName, grade, memo, subject, sessionDuration, classDays, numberOfSessions, startDate, rescheduleCount)
         switch response {
-        case let .success(id):
-            return .createClassSuccess(id)
+        case .success:
+            return .editClassSuccess
         case let .failure(error):
-            return .createClassFailure(error)
+            return .editClassFailure(error)
         }
     }
 }
