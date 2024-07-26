@@ -90,6 +90,8 @@ public struct EditClassFeature {
         case fetchClassDetailFailure(NetworkError)
         case showAlert(State.AlertCase)
         case editButtonTapped
+        case editClassSuccess
+        case editClassFailure(NetworkError)
     }
 
     public var body: some ReducerOf<EditClassFeature> {
@@ -150,9 +152,29 @@ public struct EditClassFeature {
             case let .selectClassDelayCount(value):
                 state.selectedRescheduleCount = RescheduleCountType.toRescheduleCountType(code: value)
             case .saveButtonTapped:
-                break
+                state.isLoading = true
+                return .run { [
+                    classId = String(state.classId),
+                    studentName = state.studentName,
+                    grade = state.grade,
+                    memo = state.memo,
+                    subject = state.selectedSubject,
+                    sessionDuration = state.selectedSessionDurationType,
+                    classDays = state.classDayList.filter{ $0.isSelected }.map{ $0.classDay.rawValue },
+                    numberOfSessions = Int(state.numberOfSessions) ?? 0,
+                    startDate = state.selectedClassStartDate.toEpochMilliseconds(),
+                    rescheduleCount = Int(state.selectedRescheduleCount.rawValue) ?? 0
+                ] send in
+                    await send(editClassInfo(classId, studentName, grade, memo, subject, sessionDuration, classDays, numberOfSessions, startDate, rescheduleCount))
+                }
             case .editButtonTapped:
                 state.isEditButtonVisible = false
+            case .editClassSuccess:
+                state.isLoading = false
+                return .send(.navigateToBack)
+            case .editClassFailure:
+                state.isLoading = false
+                return .send(.showAlert(.failure))
             }
             return .none
         }
@@ -171,6 +193,27 @@ extension EditClassFeature {
             return .setClassInformation(classDetail)
         case let .failure(error):
             return .fetchClassDetailFailure(error)
+        }
+    }
+    
+    private func editClassInfo(
+        _ classId: String,
+        _ studentName: String,
+        _ grade: String,
+        _ memo: String,
+        _ subject: SubjectType,
+        _ sessionDuration: SessionDurationType,
+        _ classDays: [String],
+        _ numberOfSessions: Int,
+        _ startDate: Int,
+        _ rescheduleCount: Int
+    ) async -> Action {
+        let response = await classUseCase.putDetailClass(classId, studentName, grade, memo, subject, sessionDuration, classDays, numberOfSessions, startDate, rescheduleCount)
+        switch response {
+        case .success:
+            return .editClassSuccess
+        case let .failure(error):
+            return .editClassFailure(error)
         }
     }
 }

@@ -21,4 +21,16 @@ public protocol ClassRepositoryProtocol {
         _ rescheduleCount: Int
     ) async -> Result<Int, NetworkError>
     func postJoinClass(classId: String) async -> Result<Int, NetworkError>
+    func putDetailClass(
+        _ classId: String,
+        _ studentName: String,
+        _ grade: String,
+        _ memo: String,
+        _ subject: SubjectType,
+        _ sessionDuration: SessionDurationType,
+        _ classDays: [String],
+        _ numberOfSessions: Int,
+        _ startDate: Int,
+        _ rescheduleCount: Int
+    ) async -> Result<Bool, NetworkError>
 }
