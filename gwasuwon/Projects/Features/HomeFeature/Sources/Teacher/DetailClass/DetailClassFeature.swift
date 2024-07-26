@@ -46,6 +46,8 @@ public struct DetailClassFeature {
         case setSelectedDate(Date)
         case navigateToQRGeneration(Int)
         case navigateToClassEdit(Int)
+        case deleteClassSuccess
+        case deleteClassFailure
     }
 
     public var body: some ReducerOf<DetailClassFeature> {
@@ -78,8 +80,10 @@ public struct DetailClassFeature {
             case .classMenuDeleteButtonTapped:
                 return .send(.showAlert(.delete))
             case .alertDeleteButtonTapped:
-                // TODO: Implement class delete logic
-                return .send(.detailClassAlertAction(.dismiss))
+                state.isLoading = true
+                return .run { [classId = state.classId] send in
+                    await send(deleteClass(classId: classId))
+                }
             case let .fetchClassDetailFailure(error):
                 state.isLoading = false
                 return .send(.showAlert(.fetchClassDetailFailure))
@@ -91,6 +95,15 @@ public struct DetailClassFeature {
                 state.selectedDate = date
             case let .navigateToClassEdit(id):
                 break
+            case .deleteClassSuccess:
+                state.isLoading = false
+                return .concatenate ([
+                    .send(.detailClassAlertAction(.dismiss)),
+                    .send(.navigateToBack)
+                ])
+            case .deleteClassFailure:
+                state.isLoading = false
+                return .send(.detailClassAlertAction(.dismiss))
             }
             return .none
         }
@@ -111,10 +124,22 @@ extension DetailClassFeature {
             return .fetchClassDetailFailure(error)
         }
     }
+    
+    private func deleteClass(classId: Int) async -> Action {
+        let response = await classUseCase.deleteClass("\(classId)")
+        
+        switch response {
+        case let .success(classDetail):
+            return .deleteClassSuccess
+        case let .failure(error):
+            return .deleteClassFailure
+        }
+    }
 }
 
 public enum DetailClassAlertCase {
     case none
     case delete
     case fetchClassDetailFailure
+    case failure
 }

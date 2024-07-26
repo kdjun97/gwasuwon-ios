@@ -74,7 +74,7 @@ private struct GCalendar: View {
     fileprivate var body: some View {
         if let classDetail = viewStore.classDetail {
             VStack {
-                GCalenderView(schedules: classDetail.schedules) { newValue in
+                GCalenderView(schedules: classDetail.schedules.map { GCalendarSchedule(id: $0.id, date: $0.date, status: GCalendarScheduleStatus(rawValue: $0.status.rawValue) ?? .canceled ) }) { newValue in
                     viewStore.send(.setSelectedDate(newValue))
                 }
             }.greedyWidth()
