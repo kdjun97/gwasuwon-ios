@@ -11,6 +11,7 @@ enum ClassEndPoint {
     case classList
     case classDetail(String)
     case classJoin
+    case classAttendance
     
     var url: String {
         switch self {
@@ -20,6 +21,8 @@ enum ClassEndPoint {
             "/api/v1/classes/\(id)"
         case .classJoin:
             "/api/v1/classes/join"
+        case .classAttendance:
+            "/api/v1/schedules/attendance"
         }
     }
 }

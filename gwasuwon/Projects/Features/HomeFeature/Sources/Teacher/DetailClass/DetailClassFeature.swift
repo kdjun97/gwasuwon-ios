@@ -44,10 +44,11 @@ public struct DetailClassFeature {
         case fetchClassDetailFailure(NetworkError)
         case inviteStudentButtonTapped
         case setSelectedDate(Date)
-        case navigateToQRGeneration(Int)
+        case navigateToQRGeneration(Int, Bool)
         case navigateToClassEdit(Int)
         case deleteClassSuccess
         case deleteClassFailure
+        case authenticationQRButtonTapped
     }
 
     public var body: some ReducerOf<DetailClassFeature> {
@@ -88,8 +89,8 @@ public struct DetailClassFeature {
                 state.isLoading = false
                 return .send(.showAlert(.fetchClassDetailFailure))
             case .inviteStudentButtonTapped:
-                return .send(.navigateToQRGeneration(state.classId))
-            case let .navigateToQRGeneration(Int):
+                return .send(.navigateToQRGeneration(state.classId, true))
+            case let .navigateToQRGeneration(id):
                 break
             case let .setSelectedDate(date):
                 state.selectedDate = date
@@ -104,6 +105,8 @@ public struct DetailClassFeature {
             case .deleteClassFailure:
                 state.isLoading = false
                 return .send(.detailClassAlertAction(.dismiss))
+            case .authenticationQRButtonTapped:
+                return .send(.navigateToQRGeneration(state.classId, false))
             }
             return .none
         }

@@ -55,6 +55,8 @@ private struct DetailClassBodyView: View {
                         style: .enabled,
                         buttonAction: { viewStore.send(.inviteStudentButtonTapped) }
                     ).hPadding(16)
+                } else {
+                    ClassAuthenticationQRButton(viewStore: viewStore)
                 }
             }
         }
@@ -167,6 +169,38 @@ private struct CalendarInfoView: View {
             }
         }
         return "수업 없음"
+    }
+}
+
+private struct ClassAuthenticationQRButton: View {
+    @ObservedObject var viewStore: ViewStoreOf<DetailClassFeature>
+    
+    fileprivate init(viewStore: ViewStoreOf<DetailClassFeature>) {
+        self.viewStore = viewStore
+    }
+    
+    private var isSelectedDateEqualsToday: Bool {
+        viewStore.selectedDate.formattedString() == Date.now.formattedString()
+    }
+    
+    private var hasSchedule: Bool {
+        if let schedule = viewStore.classDetail?.schedules.first(where: {
+            $0.date.toDateFromIntEpochMilliseconds().formattedString() == viewStore.selectedDate.formattedString()
+        }) {
+            return (schedule.status == .scheduled)
+        } else {
+            return false
+        }
+    }
+    
+    fileprivate var body: some View {
+        if (hasSchedule && isSelectedDateEqualsToday) {
+            GButton(
+                title: "수업 인증 QR",
+                style: .enabled,
+                buttonAction: { viewStore.send(.authenticationQRButtonTapped) }
+            ).hPadding(16)
+        }
     }
 }
 

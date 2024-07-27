@@ -11,9 +11,13 @@ import HomeFeature
 extension RootCoordinator {
     func qrCodeNavigationHandler(_ action: QRFeature.Action, state: inout RootCoordinator.State, id: Int) -> Effect<Action> {
         switch action {
-        case let .navigateToBackWithQRData(qrData):
+        case let .navigateToBackWithQRData(qrData, isInvite):
             state.routes.goBack()
-            return .send(.routeAction(id-1, action: .home(.studentAction(.studentNoScheduleAction(.setQRResult(qrData))))))
+            if isInvite {
+                return .send(.routeAction(id-1, action: .home(.studentAction(.studentNoScheduleAction(.setQRResult(qrData))))))
+            } else {
+                return .send(.routeAction(id-1, action: .home(.studentAction(.studentHomeAction(.setQRResult(qrData))))))
+            }
         case .navigateToBack:
             state.routes.goBack()
         default:

@@ -37,6 +37,7 @@ public struct ClassUseCase {
         _ rescheduleCount: Int
     ) async -> Result<Bool, NetworkError>
     public let deleteClass: (_ classId: String) async -> Result<Bool, NetworkError>
+    public let postAttendance: (_ classId: String) async -> Result<Bool, NetworkError>
 }
 
 extension ClassUseCase: DependencyKey {
@@ -63,6 +64,9 @@ extension ClassUseCase: DependencyKey {
             },
             deleteClass: { classId in
                 await repository.deleteClass(classId)
+            },
+            postAttendance: { classId in
+                await repository.postAttendance(classId)
             }
         )
     }()

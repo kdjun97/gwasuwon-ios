@@ -160,7 +160,7 @@ private struct QRScanButton: View {
             GButton(
                 title: "QR 인식하기",
                 style: .enabled,
-                buttonAction: { viewStore.send(.qrScanButtonTapped) }
+                buttonAction: { viewStore.send(.qrScanButtonTapped(false)) }
             ).hPadding(16)
         }
     }
@@ -177,10 +177,20 @@ private struct AlertView: View {
         switch viewStore.alertCase {
         case .none:
             ZStack {}
+        case .attendanceFailure:
+            GAlert(
+                type: .includeIcon,
+                title: "출석 체크 실패",
+                contents: "출석 체크에 실패했습니다\nQR을 다시 인식해주세요",
+                defaultButtonTitle: "확인",
+                defaultButtonAction: {
+                    viewStore.send(.alertAction(.dismiss))
+                }
+            )
         case .failure:
             GAlert(
                 type: .includeIcon,
-                title: "에러",
+                title: "오류",
                 contents: "알 수 없는 오류",
                 defaultButtonTitle: "확인",
                 defaultButtonAction: {

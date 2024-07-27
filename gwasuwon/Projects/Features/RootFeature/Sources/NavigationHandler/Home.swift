@@ -46,10 +46,9 @@ extension RootCoordinator {
     
     func studentNoScheduleNavigationHandler(_ action: StudentNoScheduleFeature.Action, state: inout RootCoordinator.State) {
         switch action {
-        case .qrScanButtonTapped:
-            state.routes.push(.qrCode(.init()))
+        case let .qrScanButtonTapped(isInvite):
+            state.routes.push(.qrCode(.init(isInvite: isInvite)))
         case let .navigateToStudentDetail(id):
-            // TODO: Implement Navigation to StudentHome
             break
         default:
             break
@@ -57,6 +56,11 @@ extension RootCoordinator {
     }
     
     func studentHomeNavigationHandler(_ action: StudentHomeFeature.Action, state: inout RootCoordinator.State) {
-        
+        switch action {
+        case let .qrScanButtonTapped(isInvite):
+            state.routes.push(.qrCode(.init(isInvite: isInvite)))
+        default:
+            break
+        }
     }
 }
