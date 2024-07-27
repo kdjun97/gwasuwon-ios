@@ -48,6 +48,7 @@ public struct DetailClassFeature {
         case navigateToClassEdit(Int)
         case deleteClassSuccess
         case deleteClassFailure
+        case authenticationQRButtonTapped
     }
 
     public var body: some ReducerOf<DetailClassFeature> {
@@ -104,6 +105,8 @@ public struct DetailClassFeature {
             case .deleteClassFailure:
                 state.isLoading = false
                 return .send(.detailClassAlertAction(.dismiss))
+            case .authenticationQRButtonTapped:
+                break
             }
             return .none
         }
