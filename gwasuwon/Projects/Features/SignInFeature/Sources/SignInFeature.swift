@@ -22,6 +22,7 @@ public struct SignInFeature: Reducer {
         public enum AlertCase {
             case none
             case failure
+            case appleNotice
         }
         
         @BindingState var alertState: AlertFeature.State = .init()
@@ -62,7 +63,7 @@ public struct SignInFeature: Reducer {
                     await send(signInWithKakao())
                 }
             case .appleButtonTapped:
-                return .send(.navigateToHome)
+                return .send(.showAlert(.appleNotice))
             case .navigateToHome, .navigateToSignUp:
                 break
             case let .successToGetKakaoAccessToken(thirdPartyAccessToken):
