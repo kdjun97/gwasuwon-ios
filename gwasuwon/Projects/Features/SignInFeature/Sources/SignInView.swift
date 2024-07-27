@@ -8,6 +8,7 @@
 import SwiftUI
 import ComposableArchitecture
 import DesignSystem
+import BaseFeature
 
 public struct SignInView: View {
     let store: StoreOf<SignInFeature>
@@ -24,6 +25,9 @@ public struct SignInView: View {
             viewStore.send(.onAppear)
         }
         .gLoading(isPresent: viewStore.$isLoading)
+        .gAlert(self.store.scope(state: \.alertState, action: SignInFeature.Action.alertAction)) {
+            AlertView(viewStore: viewStore)
+        }
     }
 }
 
@@ -85,6 +89,31 @@ private struct SocialLoginButtonView: View {
                 leadingIcon: GImage.icApple.swiftUIImage,
                 buttonAction: {
                     viewStore.send(.appleButtonTapped)
+                }
+            )
+        }
+    }
+}
+
+private struct AlertView: View {
+    @ObservedObject var viewStore: ViewStoreOf<SignInFeature>
+    
+    fileprivate init(viewStore: ViewStoreOf<SignInFeature>) {
+        self.viewStore = viewStore
+    }
+    
+    fileprivate var body: some View {
+        switch viewStore.alertCase {
+        case .none:
+            ZStack {}
+        case .failure:
+            GAlert(
+                type: .includeIcon,
+                title: "로그인 실패",
+                contents: "아이디, 비밀번호를 확인해주세요",
+                defaultButtonTitle: "확인",
+                defaultButtonAction: {
+                    viewStore.send(.alertAction(.dismiss))
                 }
             )
         }
