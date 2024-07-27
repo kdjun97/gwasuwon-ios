@@ -21,8 +21,7 @@ public struct AccountRepository: AccountRepositoryProtocol {
             body: SignInRequest(accessToken: thirdPartyAccessToken)
         )
         let entityDataResult = ResultMapper<SignInResponse>().toMap(responseData)
-//        KeyChainStorage.delete(key: KeyStorageKeys.CLASS_ID)
-//        
+        
         switch entityDataResult {
         case let .success(response):
             KeyChainStorage.save(key: KeyStorageKeys.ACCESS_TOKEN, data: response.accessToken)

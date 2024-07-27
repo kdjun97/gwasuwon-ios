@@ -44,7 +44,6 @@ public struct QRFeature {
                     }
                 }
             case let .navigateToBackWithQRData(data, isInvite):
-                print("DONGJUN -> \(data) / \(isInvite)")
                 break
             case .navigateToBack:
                 break
