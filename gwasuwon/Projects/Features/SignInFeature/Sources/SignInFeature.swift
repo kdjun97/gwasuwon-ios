@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Domain
+import BaseFeature
 
 public struct SignInFeature: Reducer {
     @Dependency(\.socialUseCase) var socialUseCase
@@ -17,9 +18,17 @@ public struct SignInFeature: Reducer {
     public struct State: Equatable {
         public init() {}
         @BindingState var isLoading = false
+        
+        public enum AlertCase {
+            case none
+            case failure
+        }
+        
+        @BindingState var alertState: AlertFeature.State = .init()
+        var alertCase: AlertCase = .none
     }
 
-    public enum Action: BindableAction {
+    public enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
         case onAppear
         case kakaoButtonTapped
@@ -30,6 +39,8 @@ public struct SignInFeature: Reducer {
         case failureToGetKakaoAccessToken(NetworkError)
         case signInSuccess(SignInResult)
         case signInError(NetworkError)
+        case alertAction(AlertFeature.Action)
+        case showAlert(State.AlertCase)
     }
 
     public var body: some ReducerOf<SignInFeature> {
@@ -38,6 +49,11 @@ public struct SignInFeature: Reducer {
             switch action {
             case .onAppear:
                 break
+            case .alertAction:
+                break
+            case let .showAlert(alertCase):
+                state.alertCase = alertCase
+                return .send(.alertAction(.present))
             case .binding:
                 break
             case .kakaoButtonTapped:
@@ -55,6 +71,7 @@ public struct SignInFeature: Reducer {
                 }
             case let .failureToGetKakaoAccessToken(error):
                 state.isLoading = false
+                return .send(.showAlert(.failure))
             case let .signInSuccess(signInResult):
                 state.isLoading = false
                 if (signInResult.status == SignInStatus.needSignUp.rawValue) {
@@ -65,9 +82,13 @@ public struct SignInFeature: Reducer {
                 }
             case let .signInError(error):
                 state.isLoading = false
+                return .send(.showAlert(.failure))
             }
             return .none
         }
+        Scope(state: \.alertState, action: /SignInFeature.Action.alertAction, child: {
+            AlertFeature()
+        })
     }
     
     private enum SignInStatus: String {
