@@ -116,6 +116,16 @@ private struct AlertView: View {
                     viewStore.send(.alertAction(.dismiss))
                 }
             )
+        case .appleNotice:
+            GAlert(
+                type: .includeIcon,
+                title: "알림",
+                contents: "애플 로그인은 아직 미구현 상태입니다.",
+                defaultButtonTitle: "확인",
+                defaultButtonAction: {
+                    viewStore.send(.alertAction(.dismiss))
+                }
+            )
         }
     }
 }
