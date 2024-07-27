@@ -36,7 +36,7 @@ public struct StudentNoScheduleFeature {
         case binding(BindingAction<State>)
         case alertAction(AlertFeature.Action)
         case showAlert(State.AlertCase)
-        case qrScanButtonTapped
+        case qrScanButtonTapped(Bool)
         case setCameraPermissionIsGranted(Bool)
         case setQRResult(String)
         case inviteClassDone
@@ -51,7 +51,7 @@ public struct StudentNoScheduleFeature {
         BindingReducer()
         Reduce { state, action in
             switch action {
-            case .qrScanButtonTapped:
+            case let .qrScanButtonTapped(isInvite):
                 break
             case .alertAction:
                 break

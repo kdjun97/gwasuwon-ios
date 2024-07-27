@@ -169,4 +169,20 @@ public struct ClassRepository: ClassRepositoryProtocol {
             return .failure(errorCase)
         }
     }
+    
+    public func postAttendance(_ classId: String) async -> Result<Bool, NetworkError> {
+        let responseData = await apiService.callApiService(
+            httpMethod: .POST,
+            endPoint: ClassEndPoint.classAttendance.url,
+            body: ClassAttendanceRequest(classId: Int(classId) ?? 0)
+        )
+        let entityDataResult = ResultMapper<String>().toMap(responseData)
+        
+        switch entityDataResult {
+        case let .success(response):
+            return .success(true)
+        case let .failure(errorCase):
+            return .failure(errorCase)
+        }
+    }
 }

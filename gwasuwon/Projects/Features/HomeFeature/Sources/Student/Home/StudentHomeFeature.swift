@@ -13,6 +13,7 @@ import Foundation
 @Reducer
 public struct StudentHomeFeature {
     public init() {}
+    @Dependency(\.classUseCase) var classUseCase
 
     public struct State: Equatable {
         public init() {}
@@ -20,6 +21,7 @@ public struct StudentHomeFeature {
         public enum AlertCase {
             case none
             case failure
+            case attendanceFailure
         }
         
         @BindingState var isLoading = false
@@ -28,6 +30,8 @@ public struct StudentHomeFeature {
         
         var classDetail: ClassDetail? = nil
         var selectedDate: Date = .now
+        
+        var qrResult: String = ""
     }
 
     public enum Action: BindableAction, Equatable {
@@ -37,7 +41,11 @@ public struct StudentHomeFeature {
         case showAlert(State.AlertCase)
         case setClassDetail(ClassDetail)
         case setSelectedDate(Date)
-        case qrScanButtonTapped
+        case qrScanButtonTapped(Bool)
+        case setQRResult(String)
+        case successAttendanceClass(String)
+        case failureAttendanceClass
+        case fetchDetailClassFailure(NetworkError)
     }
 
     public var body: some ReducerOf<StudentHomeFeature> {
@@ -54,13 +62,54 @@ public struct StudentHomeFeature {
                 state.alertCase = alertCase
                 return .send(.alertAction(.present))
             case let .setClassDetail(classDetail):
+                state.isLoading = false
                 state.classDetail = classDetail
             case let .setSelectedDate(date):
                 state.selectedDate = date
-            case .qrScanButtonTapped:
+            case let .qrScanButtonTapped(isInvite):
                 break
+            case let .setQRResult(data):
+                state.qrResult = data
+                state.isLoading = true
+                return .run { [classId = state.qrResult] send in
+                    await send(attendanceClass(classId: classId))
+                }
+            case let .successAttendanceClass(classId):
+                return .run { send in
+                    await send(getDetailClass(classId: classId))
+                }
+            case .failureAttendanceClass:
+                state.isLoading = false
+                return .send(.showAlert(.attendanceFailure))
+            case .fetchDetailClassFailure:
+                state.isLoading = false
+                return .send(.showAlert(.failure))
             }
             return .none
+        }
+    }
+}
+
+extension StudentHomeFeature {
+    private func attendanceClass(classId: String) async -> Action {
+        let response = await classUseCase.postAttendance("\(classId)")
+        
+        switch response {
+        case .success:
+            return .successAttendanceClass(classId)
+        case .failure:
+            return .failureAttendanceClass
+        }
+    }
+    
+    private func getDetailClass(classId: String) async -> Action {
+        let response = await classUseCase.getDetailClass(classId)
+        
+        switch response {
+        case let .success(classDetail):
+            return .setClassDetail(classDetail)
+        case let .failure(error):
+            return .fetchDetailClassFailure(error)
         }
     }
 }

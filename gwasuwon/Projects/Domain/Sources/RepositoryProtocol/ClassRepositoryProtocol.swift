@@ -34,4 +34,5 @@ public protocol ClassRepositoryProtocol {
         _ rescheduleCount: Int
     ) async -> Result<Bool, NetworkError>
     func deleteClass(_ classId: String) async -> Result<Bool, NetworkError>
+    func postAttendance(_ classId: String) async -> Result<Bool, NetworkError>
 }

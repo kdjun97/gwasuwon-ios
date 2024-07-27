@@ -108,7 +108,7 @@ private struct StudentNoScheduleBodyView: View {
                 title: "QR 인식하기",
                 style: viewStore.isCameraPermissionGranted ? .enabled : .disabled,
                 buttonAction: {
-                    viewStore.send(.qrScanButtonTapped)
+                    viewStore.send(.qrScanButtonTapped(true))
                 }
             ).hPadding(16)
         }
