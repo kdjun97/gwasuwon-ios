@@ -13,11 +13,13 @@ public struct QRGenerationFeature {
     public init() {}
 
     public struct State: Equatable {
-        public init(classId: Int) {
+        public init(classId: Int, isInvite: Bool) {
             self.classId = classId
+            self.isInvite = isInvite
         }
         
         var classId: Int
+        let isInvite: Bool
     }
 
     public enum Action {
