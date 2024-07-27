@@ -49,6 +49,7 @@ extension RootCoordinator {
         case let .qrScanButtonTapped(isInvite):
             state.routes.push(.qrCode(.init(isInvite: isInvite)))
         case let .navigateToStudentDetail(id):
+            state.routes = [.root(.home(.init()), embedInNavigationView: true)]
             break
         default:
             break

@@ -96,7 +96,6 @@ public struct StudentNoScheduleFeature {
 extension StudentNoScheduleFeature {
     private func joinClass(classId: String) async -> Action {
         let response = await classUseCase.postJoinClass("\(classId)")
-        
         switch response {
         case let .success(id):
             return .successJoinClass(id)
