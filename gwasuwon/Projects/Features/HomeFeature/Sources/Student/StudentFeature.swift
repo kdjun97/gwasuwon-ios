@@ -37,6 +37,7 @@ public struct StudentFeature {
         var classId: Int = 0
         var classDetail: ClassDetail? = nil
         var classVisibleType: ClassVisibleType = .none
+        var isInit: Bool = true
     }
 
     public enum Action: BindableAction, Equatable {
@@ -66,16 +67,20 @@ public struct StudentFeature {
             case .binding:
                 break
             case .onAppear:
-                state.isLoading = true
-                return .run { send in
-                    await send(getDetailClass())
+                if (state.isInit) {
+                    state.isLoading = true
+                    return .run { send in
+                        await send(getDetailClass())
+                    }
                 }
             case let .setClassDetail(classDetail):
+                state.isInit = false
                 state.isLoading = false
                 state.classDetail = classDetail
                 state.classVisibleType = .hasSchedule
                 return .send(.studentHomeAction(.setClassDetail(classDetail)))
             case let .fetchClassDetailFailure(error):
+                state.isInit = false
                 state.isLoading = false
                 state.classVisibleType = .noSchedule
                 return .send(.showAlert(.failure))

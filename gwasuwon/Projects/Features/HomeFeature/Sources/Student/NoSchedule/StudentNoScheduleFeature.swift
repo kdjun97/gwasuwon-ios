@@ -64,6 +64,7 @@ public struct StudentNoScheduleFeature {
                 state.isCameraPermissionGranted = value
             case let .setQRResult(data):
                 state.qrResult = data
+                print("DONGJUN -> state.qrResult : [\(state.qrResult)]")
                 state.isLoading = true
                 return .run { [classId = state.qrResult] send in
                     await send(joinClass(classId: classId))
@@ -96,7 +97,7 @@ public struct StudentNoScheduleFeature {
 extension StudentNoScheduleFeature {
     private func joinClass(classId: String) async -> Action {
         let response = await classUseCase.postJoinClass("\(classId)")
-        
+        print("DONGJUN -> Join 하기 전 classId : [\(classId)]")
         switch response {
         case let .success(id):
             return .successJoinClass(id)

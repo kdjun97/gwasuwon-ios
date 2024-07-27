@@ -176,7 +176,7 @@ public struct ClassRepository: ClassRepositoryProtocol {
             endPoint: ClassEndPoint.classAttendance.url,
             body: ClassAttendanceRequest(classId: Int(classId) ?? 0)
         )
-        let entityDataResult = ResultMapper<String>().toMap(responseData)
+        let entityDataResult = ResultMapper<ClassAttendanceResponse>().toMap(responseData)
         
         switch entityDataResult {
         case let .success(response):

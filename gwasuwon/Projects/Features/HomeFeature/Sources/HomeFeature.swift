@@ -30,6 +30,8 @@ public struct HomeFeature {
         Reduce { _, action in
             switch action {
             case .onAppear:
+                print("\(UserManager.shared.role)")
+                print("\(UserManager.shared.id)")
                 break
             case .teacherAction:
                 break
