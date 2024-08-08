@@ -3,6 +3,8 @@
 **[Project Description]**  
 Class management services used by tutors  
 
+---  
+
 ### Development Environment
 
 Minimum Deployments: iOS `16.0`  
@@ -13,15 +15,25 @@ git Version: `2.39.3 (Apple Git-145)`
 
 ---  
 
+### External Dependency  
+
+- [TCA 1.8.0 >=](https://github.com/pointfreeco/swift-composable-architecture)  
+- [TCACoordinators 0.8.0](https://github.com/johnpatrickmorgan/TCACoordinators)  
+- [FlowStacks 0.4.0](https://github.com/johnpatrickmorgan/FlowStacks)  
+- [Swinject 2.9.1](https://github.com/Swinject/Swinject)  
+- [kakao-ios-sdk 2.20.0 >=](https://github.com/kakao/kakao-ios-sdk)  
+
+---  
+
 ### Architecture  
 
 **Modular Architecture** + **Clean Architecture** + **TCA**  
 
+
+### Tuist Graph  
+
+![Tuist Graph](/gwasuwon/graph.png)  
+
 ---  
 
-### External Dependency  
-
-- [TCA 1.5.0](https://github.com/pointfreeco/swift-composable-architecture)  
-- [TCACoordinators 0.8.0](https://github.com/johnpatrickmorgan/TCACoordinators)  
-- [FlowStacks 0.4.0](https://github.com/johnpatrickmorgan/FlowStacks)  
-- [Swinject 2.9.1](https://github.com/Swinject/Swinject)  
+### App Images  
