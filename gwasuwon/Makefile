@@ -21,7 +21,10 @@ generate:
 
 module:
 	@if [[ $(name) =~ Feature ]]; then \
-		tuist scaffold Feature --name $(name); \
+		tuist scaffold Feature --name $(name) --feature $(feature); \
 	else \
 		tuist scaffold Module --name $(name); \
 	fi
+
+util:
+	tuist scaffold Util --name $(name)

@@ -23,6 +23,10 @@ import PackageDescription
 let package = Package(
     name: "GwasuwonPackage",
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.5.0")
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.8.0"),
+        .package(url: "https://github.com/johnpatrickmorgan/TCACoordinators.git", exact: "0.8.0"),
+        .package(url: "https://github.com/johnpatrickmorgan/FlowStacks.git", exact: "0.4.0"),
+        .package(url: "https://github.com/Swinject/Swinject.git", exact: "2.9.1"),
+        .package(url: "https://github.com/kakao/kakao-ios-sdk.git", from: "2.20.0"),
     ]
 )

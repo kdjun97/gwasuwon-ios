@@ -7,6 +7,9 @@
 
 import Foundation
 import UIKit
+import DI
+import SwiftUI
+import DesignSystem
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -14,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        Font.registerFont()
+        DIContainer.shared.register()
         return true
     }
 
