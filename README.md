@@ -1,7 +1,8 @@
 # Gwasuwon iOS
 
 **[Project Description]**  
-Class management services used by tutors  
+과수원 : 과외 수업을 원하는 학생들  
+과외 선생님과 학생을 매칭 및 모니터링 서비스 제공 앱.  
 
 ---  
 
@@ -25,22 +26,95 @@ git Version: `2.39.3 (Apple Git-145)`
 
 ---  
 
-### Clean Architecture + TCA
+### Skill Stack
+
+Skill: TCA + Tuist + SwiftUI  
+Architecture: Clean Architecture + Modular Architecture  
+
+`기술 스택 선정 이유`  
+
+1. `단방향 패턴`  
+
+TCA를 사용한 것은 MVVM 패턴보단 `단방향 패턴`인 MVI를 사용하고 싶었고, TCA가 MVI와 유사했기 때문에 사용함.  
+TCA는 action 하나 하나를 다 컨트롤할 수 있어 side effect까지 다 핸들링할 수 있는 장점이 있었음.  
+
+2. `SwiftUI + MVI`  
+
+SwiftUI는 `@State`, `@StateObject` 등 View에서 상태 관리 및 데이터 바인딩으로 View를 새로 그려주는 작업이 쉬워졌다.  
+View에서 자체적으로 데이터 바인딩을 수행해주는 녀석들이 있어 View가 참조할 State 데이터 관리가 되므로 MVVM의 ViewModel 패턴이 필요없게 된다. (물론 business logic 분리는 view로부터 분리하긴 해야함)  
+따라서, MVVM보단 MVI 패턴과 유사한 TCA가 적합하다 생각했다.  
+
+3. `Tuist`  
+
+많은 사람들과 협업할 때, Tuist로 프로젝트 관리를 하면 되게 큰 이점이 됨을 회사에서 느꼈다.  
+또한, 모듈화를 하기 위해서도 Tuist를 사용하여 관리하면 매우 편하다는 것을 알게 되어, Tuist를 더 공부해보고자 사용함.  
+
+4. `Trendy`  
+
+최신 기술들을 왕창 써보며 최신 트렌드를 따라가보고 싶었음.  
+
+5. `AtoZ 개발`  
+
+구조 설계부터 앱 개발까지 협업 + 개발을 프로젝트 처음부터 끝까지 전담해보고 싶었음.  
+
+---  
+
+### TCA
 
 `TCA(The Composable Architecture)`  
 
 ![tca-architecture](/gwasuwon/tca_architecture.png)  
 
 - `View`
+    - UI 처리 담당.
+    - ViewStore의 State가 변경됨을 감지하고 UI 업데이트에 관여.  
 - `Action`
+    - 하나의 액션에 대한 정의.
+    - MVI Pattern의 Intent와 같음.
+    - TCA에서 Action은 하나의 action에 대해 하나의 행동을 정의해줌.
 - `Reducer`
+    - Action을 전달받고 해당 action에 대한 일을 수행함.
+    - 주로 State변경이 일어나고, UI 업데이트를 위한 로직이 여기서 수행됨.
+    - API 요청과 같은 action들 또한 이 곳에서 처리.
 - `State`
+    - 상태를 나타냄. 보통 UI를 그릴 때 관련된 데이터 혹은 UI에서 감지해야 할 변수들로 초기화.
 - `Effect`
+    - Reducer의 return값.
+    - 어떠한 action을 수행했을 때의 기대하는 효과.
+    - Side Effect도 여기 포함될 수 있다고 생각
+        - TCA에서는 모든 Side Effect역시 다 Action으로 정의하여 핸들링을 할 수 있음.
 - `Dependency`
+    - 외부 시스템과 상호 작용하는 유형과 기능.
+
+---  
+
+### Clean Architecture
+
+- `책임 분리`  
+각 layer들의 책임을 분리하고 유지보수를 용이하게 가져가기 위해 도입.  
+각 layer는 각 layer의 행동에만 집중. 나머지는 몰라도 됨.  
+- `확장성 증가`  
+프로토콜을 나누며 새로운 기능이나 요구사항이 추가될 때, 기존 코드를 최소한으로 수정하며 쉽게 확장할 수 있게 함.  
+- `의존성 관리`  
+DI(Dependnency Injection)으로 모듈 간 의존성 관리 용이  
+- `장기적인 코드 퀄리티`  
+코드 규모가 커져도 대응이 쉽게 됨.  
 
 ---  
 
 ### Modularization With Tuist
+
+- `빌드 시간 단축`  
+모듈화를 해놓으면 코드 수정이 일어났을 경우, 변경된 모듈만 다시 빌드하면 되므로 빌드 시간이 단축됨.  
+- `코드 재사용성 증가`  
+QR Scan과 같이 기능 단위로 모듈을 분리하면 공통 기능을 다양한 프로젝트에서 재사용 가능.  
+- `유지보수 용이`  
+각 모듈에 대해 독립적 개발 가능  
+모듈 경계를 명확히 나누었기 때문에, 코드 리뷰나 테스트, 수정 등이 쉬워지고 책임이 구분됨.  
+- `테스트 용이`
+각 모듈을 독립적으로 테스트할 수 있어 테스트에 용이.  
+- `각 모듈간의 의존성 관리`
+각 모듈간 의존성을 가시적으로 명확히 관리할 수 있음.  
 
 `Tuist Graph`  
 
