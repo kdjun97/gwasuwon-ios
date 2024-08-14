@@ -49,6 +49,7 @@ public struct StudentFeature {
         case studentNoScheduleAction(StudentNoScheduleFeature.Action)
         case studentHomeAction(StudentHomeFeature.Action)
         case fetchClassDetailFailure(NetworkError)
+        case onAppearFromInviteDonePage
     }
 
     public var body: some ReducerOf<StudentFeature> {
@@ -73,6 +74,12 @@ public struct StudentFeature {
                         await send(getDetailClass())
                     }
                 }
+            case .onAppearFromInviteDonePage:
+                state.classVisibleType = .hasSchedule
+                state.isLoading = true
+                return .run { send in
+                    await send(getDetailClass())
+                }
             case let .setClassDetail(classDetail):
                 state.isInit = false
                 state.isLoading = false
@@ -83,7 +90,7 @@ public struct StudentFeature {
                 state.isInit = false
                 state.isLoading = false
                 state.classVisibleType = .noSchedule
-                return .send(.showAlert(.failure))
+                return .none
             }
             return .none
         }
