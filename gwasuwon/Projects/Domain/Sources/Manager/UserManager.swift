@@ -8,19 +8,11 @@
 public class UserManager {
     public static let shared = UserManager()
     
-    init(
-        id: Int = -1,
-        email: String = "-",
-        role: String = "-"
-    ) {
-        self.id = id
-        self.email = email
-        self.role = role
-    }
+    private init() {}
     
-    public var id: Int
-    public var email: String
-    public var role: String
+    public var id: Int = -1
+    public var email: String = "-"
+    public var role: String = "-"
     
     public func setUserInfo(id: Int, email: String, role: String) {
         self.id = id
