@@ -167,7 +167,14 @@ QR Scanner와 같이 기능 단위로 모듈을 분리하면 공통 기능을 �
 
 |**`로그인 메인`**|**`선생님 홈`**|**`학생 홈`**|**`수업 추가하기`**|**`수업 추가하기`**|
 |-------|-------|-------|-------|-------|
-|<img src="https://github.com/prography-team8/gwasuwon-ios/blob/master/gwasuwon/images/login-main.jpeg?raw=true" width="143" height="300">|<img src="https://github.com/prography-team8/gwasuwon-ios/blob/master/gwasuwon/images/teacher-home.jpeg?raw=true" width="143" height="300">|<img src="https://github.com/prography-team8/gwasuwon-ios/blob/master/gwasuwon/images/teacher-home.jpeg?raw=true" width="143" height="300">| <img src="https://github.com/prography-team8/gwasuwon-ios/blob/master/gwasuwon/images/class-add1.jpeg?raw=true" width="143" height="300">|<img src = "https://github.com/prography-team8/gwasuwon-ios/blob/master/gwasuwon/images/class-add2.jpeg?raw=true" width="143" height="300" >|
+|<img src="https://github.com/prography-team8/gwasuwon-ios/blob/master/gwasuwon/images/login-main.jpeg?raw=true" width="143" height="300">|<img src="https://github.com/prography-team8/gwasuwon-ios/blob/master/gwasuwon/images/teacher-home.jpeg?raw=true" width="143" height="300">|<img src="https://github.com/prography-team8/gwasuwon-ios/blob/master/gwasuwon/images/student-home.jpeg?raw=true" width="143" height="300">| <img src="https://github.com/prography-team8/gwasuwon-ios/blob/master/gwasuwon/images/class-add1.jpeg?raw=true" width="143" height="300">|<img src = "https://github.com/prography-team8/gwasuwon-ios/blob/master/gwasuwon/images/class-add2.jpeg?raw=true" width="143" height="300" >|
+|-------|-------|-------|-------|-------|  
+|**`수업 생성 완료`**|**`수업 목록`**|**`수업 정보 보기`**|**`수업 정보 수정`**|**`수업 정보 삭제`**|  
+|-------|-------|-------|-------|-------|  
+|<img src="https://github.com/prography-team8/gwasuwon-ios/blob/master/gwasuwon/images/class-create-done.jpeg?raw=true" width="143" height="300">|<img src="https://github.com/prography-team8/gwasuwon-ios/blob/master/gwasuwon/images/class-list.jpeg?raw=true" width="143" height="300">|<img src="https://github.com/prography-team8/gwasuwon-ios/blob/master/gwasuwon/images/class-detail.jpeg?raw=true" width="143" height="300">| <img src="https://github.com/prography-team8/gwasuwon-ios/blob/master/gwasuwon/images/class-edit.jpeg?raw=true" width="143" height="300">|<img src = "https://github.com/prography-team8/gwasuwon-ios/blob/master/gwasuwon/images/class-delete.jpeg?raw=true" width="143" height="300" >|
+|-------|-------|-------|-------|-------|  
+|**`수업 초대 QR`**|**`선생님 출석체크(QR)`**|**`학생 출석체크(QR)`**|**`-`**|**`-`**|
+|-------|-------|-------|-------|-------|
 
 ---  
 
