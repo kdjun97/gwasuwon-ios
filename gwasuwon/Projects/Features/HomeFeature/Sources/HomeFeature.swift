@@ -33,8 +33,8 @@ public struct HomeFeature {
                 break
             case .teacherAction:
                 break
-            case .studentAction:
-                break
+            case let .studentAction(studentAction):
+                return studentActionHandler(studentAction)
             }
             return .none
         }
@@ -44,5 +44,27 @@ public struct HomeFeature {
         Scope(state: \.studentState, action: /Action.studentAction, child: {
             StudentFeature()
         })
+    }
+}
+
+extension HomeFeature {
+    private func studentActionHandler(_ studentAction: StudentFeature.Action) -> Effect<Action> {
+        switch studentAction {
+        case let .studentNoScheduleAction(noScheduleAction):
+            return studentNoScheduleActionHandler(noScheduleAction)
+        default:
+            break
+        }
+        return .none
+    }
+    
+    private func studentNoScheduleActionHandler(_ noScheduleAction: StudentNoScheduleFeature.Action) -> Effect<Action> {
+        switch noScheduleAction {
+        case let .navigateToStudentDetail(classId):
+            return .send(.studentAction(.onAppearFromInviteDonePage))
+        default:
+            break
+        }
+        return .none
     }
 }
